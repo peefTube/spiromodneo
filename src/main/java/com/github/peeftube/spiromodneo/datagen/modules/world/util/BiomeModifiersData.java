@@ -8,7 +8,7 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 
 public class BiomeModifiersData
 {
-    public static void bootstrap(final BootstrapContext<Registry<BiomeModifier>> context)
+    public static void bootstrap(final BootstrapContext<BiomeModifier> context)
     {
     }
 }

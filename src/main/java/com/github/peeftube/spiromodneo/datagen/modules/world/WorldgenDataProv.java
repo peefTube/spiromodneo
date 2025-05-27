@@ -19,7 +19,7 @@ public class WorldgenDataProv extends DatapackBuiltinEntriesProvider
             .add(Registries.PLACED_FEATURE, PlacedFeaturesData::bootstrap)
             .add(Registries.NOISE_SETTINGS, NoiseSettingsData::bootstrap)
             .add(Registries.DIMENSION_TYPE, DimSettingsData::bootstrap)
-            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS.registryKey(), BiomeModifiersData::bootstrap);
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, BiomeModifiersData::bootstrap);
 
     public WorldgenDataProv(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Set<String> modIds)
     { super(output, registries, worldgenRSB, modIds); }
