@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo;
 
 import com.github.peeftube.spiromodneo.core.init.InitializeBlockRenderTypes;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -35,6 +36,8 @@ public class SpiroMod
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public SpiroMod(IEventBus modEventBus, ModContainer modContainer)
     {
+        Registrar.init();
+
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 

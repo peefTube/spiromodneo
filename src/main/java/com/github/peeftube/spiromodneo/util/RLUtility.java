@@ -10,4 +10,7 @@ public class RLUtility
 
     public static ResourceLocation makeRL(String path)
     { return makeRL(SpiroMod.MOD_ID, path); }
+
+    public static ResourceLocation invokeRL(String path)
+    { return ResourceLocation.parse(path); }
 }

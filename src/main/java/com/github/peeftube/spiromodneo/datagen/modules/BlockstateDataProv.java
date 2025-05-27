@@ -6,6 +6,7 @@ import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -119,13 +120,13 @@ public class BlockstateDataProv extends BlockStateProvider
     {
         String p = "block/overlays/"; String s = "_overlay";
         String n = (usingNetherVariant ? "nether_" : "");
-        return RLUtility.makeRL(SpiroMod.MOD_ID, p + n + material + s);
+        return RLUtility.makeRL(p + n + material + s);
     }
 
-    private ResourceLocation getBottomTex(ResourceLocation block) { return RLUtility.makeRL(block.toString() + "_bottom"); }
-    private ResourceLocation getTopTex(ResourceLocation block) { return RLUtility.makeRL(block.toString() + "_top"); }
-    private ResourceLocation getFrontTex(ResourceLocation block) { return RLUtility.makeRL(block.toString() + "_front"); }
-    private ResourceLocation getSideTex(ResourceLocation block) { return RLUtility.makeRL(block.toString() + "_side"); }
+    private ResourceLocation getBottomTex(ResourceLocation block) { return RLUtility.invokeRL(block.toString() + "_bottom"); }
+    private ResourceLocation getTopTex(ResourceLocation block) { return RLUtility.invokeRL(block.toString() + "_top"); }
+    private ResourceLocation getFrontTex(ResourceLocation block) { return RLUtility.invokeRL(block.toString() + "_front"); }
+    private ResourceLocation getSideTex(ResourceLocation block) { return RLUtility.invokeRL(block.toString() + "_side"); }
 
     protected BlockModelBuilder modularOreBuilder(Block block, ResourceLocation baseTex, ResourceLocation oreTex)
     { return modularOreBuilder(block, baseTex, oreTex, 0); }

@@ -1,5 +1,6 @@
 package com.github.peeftube.spiromodneo.datagen.modules.world;
 
+import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.datagen.modules.world.util.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -18,8 +19,11 @@ public class WorldgenDataProv extends DatapackBuiltinEntriesProvider
             .add(Registries.PLACED_FEATURE, PlacedFeaturesData::bootstrap)
             .add(Registries.NOISE_SETTINGS, NoiseSettingsData::bootstrap)
             .add(Registries.DIMENSION_TYPE, DimSettingsData::bootstrap)
-            .add(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, BiomeModifiersData::bootstrap);
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS.registryKey(), BiomeModifiersData::bootstrap);
 
     public WorldgenDataProv(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Set<String> modIds)
     { super(output, registries, worldgenRSB, modIds); }
+
+    @Override
+    public String getName() { return "World Generation"; }
 }
