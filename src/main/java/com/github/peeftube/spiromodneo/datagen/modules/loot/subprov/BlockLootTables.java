@@ -1,6 +1,8 @@
 package com.github.peeftube.spiromodneo.datagen.modules.loot.subprov;
 
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
@@ -11,6 +13,7 @@ import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -29,6 +32,8 @@ import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Map;
@@ -42,8 +47,29 @@ public class BlockLootTables extends BlockLootSubProvider
     @Override
     protected void generate()
     {
+        // Simple drop-self tables
+        for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalTables(metal); }
+
         // Ore tables
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreTables(ore); }
+    }
+
+    protected void metalTables(MetalCollection set)
+    {
+        boolean ignoreIngotBlocks = false; // For ignoring default ingot and metallic block combinations
+
+        MetalMaterial material = set.getMat();
+
+        if (material == MetalMaterial.IRON || material == MetalMaterial.GOLD || material == MetalMaterial.COPPER
+                || material == MetalMaterial.NETHERITE )
+        { ignoreIngotBlocks = true; }
+
+        if (!ignoreIngotBlocks)
+        {
+            // Make this code easier to read, PLEASE..
+            Block self = set.ingotData().getMetal().getBlock().get();
+            dropSelf(self);
+        }
     }
 
     protected void oreTables(OreCollection set)

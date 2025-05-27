@@ -3,9 +3,7 @@ package com.github.peeftube.spiromodneo.core.init;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.MaterialStrengthMod;
 import com.github.peeftube.spiromodneo.core.init.creative.CTProcessor;
-import com.github.peeftube.spiromodneo.core.init.registry.data.BlockToughnessLevel;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.MinMax;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -48,8 +46,6 @@ public class Registrar
         ITEMS.register(bus);
         FEATURES.register(bus);
         CREATIVE_MODE_TABS.register(bus);
-
-        MaterialStrengthMod.fire();
     }
 
     public static final BlockBehaviour.Properties STONE_BASED_ORE     =
@@ -83,6 +79,8 @@ public class Registrar
     public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
     { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
 
+    public static final MetalCollection LEAD_METAL = MetalCollection.registerCollection(MetalMaterial.LEAD);
+
     public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL);
     public static final OreCollection IRON_ORES = OreCollection.registerCollection(OreMaterial.IRON);
     public static final OreCollection COPPER_ORES = OreCollection.registerCollection(OreMaterial.COPPER,
@@ -96,13 +94,17 @@ public class Registrar
     public static final OreCollection EMERALD_ORES = OreCollection.registerCollection(OreMaterial.EMERALD);
     public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ,
             new MinMax(2, 5));
+    public static final OreCollection RUBY_ORES = OreCollection.registerCollection(OreMaterial.RUBY);
+
+    public static final OreCollection LEAD_ORES = OreCollection.registerCollection(OreMaterial.LEAD,
+            new MinMax(1, 3));
 
     // Language key for creative tabs
     public static final String TAB_TITLE_KEY_FORMULAIC = "itemGroup." + SpiroMod.MOD_ID;
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MINERALS_TAB = CREATIVE_MODE_TABS.register("minerals_tab",
             () -> CreativeModeTab.builder().title(Component.translatable(TAB_TITLE_KEY_FORMULAIC + ".minerals_tab"))
-                                 .withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> DIAMOND_ORES.getRawOre().getRawItem().get().getDefaultInstance())
+                                 .withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> RUBY_ORES.getRawOre().getRawItem().get().getDefaultInstance())
                                  .displayItems((parameters, output) -> { output.acceptAll(CTProcessor.precacheMineralsTab()); })
                                  .build());
 }

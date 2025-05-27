@@ -1,10 +1,13 @@
 package com.github.peeftube.spiromodneo.core.init.registry.data;
 
+import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.util.SpiroTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.function.Supplier;
 
@@ -19,7 +22,11 @@ public enum OreMaterial
     REDSTONE("redstone", true, BlockTags.REDSTONE_ORES, null),
     EMERALD("emerald", true, BlockTags.EMERALD_ORES, null),
     DIAMOND("diamond", true, BlockTags.DIAMOND_ORES, null),
-    QUARTZ("quartz", true, null, null);
+    QUARTZ("quartz", true, null, null),
+
+    // Modded.
+    RUBY("ruby", true, null, null),
+    LEAD("lead", false, null, Registrar.LEAD_METAL.ingotData().getIngot());
 
     private final String name;
 

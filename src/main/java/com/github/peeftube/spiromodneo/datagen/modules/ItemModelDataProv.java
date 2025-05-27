@@ -1,9 +1,12 @@
 package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodneo.util.RLUtility;
+import com.github.peeftube.spiromodneo.util.metal.MetalUtilities;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,7 +36,31 @@ public class ItemModelDataProv extends ItemModelProvider
 
         // ============================================================================================================
         // Block items
+        for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
+    }
+
+    protected void metalSetDesign(MetalCollection set)
+    {
+        boolean ignoreIngotBlocks = false; // For ignoring default ingot and metallic block combinations
+
+        MetalMaterial material = set.getMat();
+
+        if (material == MetalMaterial.IRON || material == MetalMaterial.GOLD || material == MetalMaterial.COPPER
+                || material == MetalMaterial.NETHERITE )
+        { ignoreIngotBlocks = true; }
+
+        if (!ignoreIngotBlocks)
+        {
+            // This set does not exist already. Vanilla metals are very thorough on this front.
+            // Make this code easier to read, PLEASE..
+            Supplier<Item> i = set.ingotData().getIngot();
+            Supplier<Item> b = set.ingotData().getMetal().getItem();
+
+            // This part is extremely easy, fortunately.
+            blockParser((DeferredItem<Item>) b);
+            itemParser((DeferredItem<Item>) i);
+        }
     }
 
     // Ore BlockItem handler subroutine
@@ -105,14 +132,14 @@ public class ItemModelDataProv extends ItemModelProvider
             {
                 // Handheld item.
                 return withExistingParent(item.getId().getPath(),
-                        RLUtility.makeRL("item/handheld")).texture("layer0",
+                        RLUtility.invokeRL("minecraft:item/handheld")).texture("layer0",
                         RLUtility.makeRL("item/" + imageName));
             }
             default ->
             {
                 // Assume basic type.
                 return withExistingParent(item.getId().getPath(),
-                        RLUtility.makeRL("item/generated")).texture("layer0",
+                        RLUtility.invokeRL("minecraft:item/generated")).texture("layer0",
                         RLUtility.makeRL("item/" + imageName));
             }
         }

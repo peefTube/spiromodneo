@@ -1,6 +1,8 @@
 package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodneo.util.RLUtility;
@@ -10,14 +12,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class BlockstateDataProv extends BlockStateProvider
 {
@@ -27,7 +32,31 @@ public class BlockstateDataProv extends BlockStateProvider
     @Override
     protected void registerStatesAndModels()
     {
+        for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
+    }
+
+    protected void metalSetDesign(MetalCollection set)
+    {
+        boolean ignoreIngotBlocks = false; // For ignoring default ingot and metallic block combinations
+
+        MetalMaterial material = set.getMat();
+
+        if (material == MetalMaterial.IRON || material == MetalMaterial.GOLD || material == MetalMaterial.COPPER
+                || material == MetalMaterial.NETHERITE )
+        { ignoreIngotBlocks = true; }
+
+        if (!ignoreIngotBlocks)
+        {
+            // Make this code easier to read, PLEASE..
+            Block b = set.ingotData().getMetal().getBlock().get();
+            ResourceLocation r = blockTexture(b);
+
+            // This part is extremely easy, fortunately.
+            // Initialize this metal block and add it to the model set.
+            BlockModelBuilder metal = packedOreBlockBuilder(b, r);
+            getVariantBuilder(b).partialState().setModels(new ConfiguredModel(metal));
+        }
     }
 
     protected void oreSetDesign(OreCollection set)

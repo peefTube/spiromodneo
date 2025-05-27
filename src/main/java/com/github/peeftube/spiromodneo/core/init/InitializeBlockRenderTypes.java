@@ -26,6 +26,8 @@ public class InitializeBlockRenderTypes
         oreSettings(Registrar.EMERALD_ORES);
         oreSettings(Registrar.DIAMOND_ORES);
         oreSettings(Registrar.QUARTZ_ORES);
+        oreSettings(Registrar.RUBY_ORES);
+        oreSettings(Registrar.LEAD_ORES);
     }
 
     protected static void oreSettings(OreCollection set)

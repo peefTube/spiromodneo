@@ -9,12 +9,16 @@ import com.github.peeftube.spiromodneo.datagen.modules.recipe.RecipeDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.BlockTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.ItemTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.world.WorldgenDataProv;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 
 import java.util.Set;
 
