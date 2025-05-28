@@ -19,6 +19,8 @@ public class SpiroTags
 
     public static class Items
     {
+        public static TagKey<Item> STRING_LIKE = tag("string_like");
+
         public static TagKey<Item> tag(String name) { return ItemTags.create(RLUtility.makeRL(name)); }
         public static TagKey<Item> forgeTag(String name) { return ItemTags.create(RLUtility.makeRL("forge", name)); }
     }

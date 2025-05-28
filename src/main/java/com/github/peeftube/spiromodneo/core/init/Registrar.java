@@ -71,6 +71,8 @@ public class Registrar
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
+    public static final DeferredItem<Item> SINEW = ITEMS.registerSimpleItem("sinew");
+
     // Based on Nyfaria's code:
     // https://shorturl.at/bktNR
     public static <B extends Block> DeferredBlock<B> regBlock(String name, Supplier<B> block)

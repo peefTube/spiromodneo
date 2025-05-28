@@ -4,6 +4,7 @@ import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.datagen.modules.BlockstateDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.ItemModelDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.lang.EN_USLangDataProv;
+import com.github.peeftube.spiromodneo.datagen.modules.loot.LootModDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.loot.LootTableDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.recipe.RecipeDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.BlockTagDataProv;
@@ -41,8 +42,8 @@ public class DataGeneration
         generator.addProvider(true, new RecipeDataProv(output, event.getLookupProvider()));
         generator.addProvider(true, new BlockstateDataProv(output, existingFileHelper));
         generator.addProvider(true, new ItemModelDataProv(output, existingFileHelper));
-        // generator.addProvider(true, new SMLootModProv(output));
         generator.addProvider(true, new LootTableDataProv(output, event.getLookupProvider()));
+        generator.addProvider(true, new LootModDataProv(output, event.getLookupProvider()));
 
         // Language providers.
         generator.addProvider(true, new EN_USLangDataProv(output, "en_us"));

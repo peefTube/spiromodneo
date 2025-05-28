@@ -34,6 +34,9 @@ public class EN_USLangDataProv extends LanguageProvider
         // Override name of "Nether Quartz", call it "Quartz" instead.
         add(Items.QUARTZ, "Quartz");
 
+        // Other / Loose
+        add(Registrar.SINEW.get(), "Animal Sinew");
+
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
     }

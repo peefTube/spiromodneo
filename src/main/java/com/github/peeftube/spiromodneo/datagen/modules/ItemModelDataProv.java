@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
@@ -32,7 +33,7 @@ public class ItemModelDataProv extends ItemModelProvider
     {
         // ============================================================================================================
         // Normal items
-
+        itemParser(Registrar.SINEW);
 
         // ============================================================================================================
         // Block items

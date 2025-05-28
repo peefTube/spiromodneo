@@ -10,8 +10,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
@@ -35,6 +37,9 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         // NOTE: The ore-to-ingot conversion mentioned is not block-to-ingot smelting, but item-to-ingot, which will
         //       need to be handled later when new non-gems are added
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSmeltingHandler(ore, output); }
+
+        // Additional / Other / Loose
+        stringLikeHandler(output);
     }
 
     private void metalCraftingHandler(MetalCollection set, RecipeOutput consumer)
@@ -96,5 +101,70 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                                   .unlockedBy("has_" + mat + "_ore", has(rawOre))
                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_ore_from_packed_ore"));
         }
+    }
+
+    private void stringLikeHandler(RecipeOutput consumer)
+    {
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, Items.BOW)
+                           .pattern(" /S")
+                           .pattern("/ S")
+                           .pattern(" /S")
+                           .define('/', Items.STICK)
+                           .define('S', SpiroTags.Items.STRING_LIKE)
+                           .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_wooden_bow_crafting"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.BUNDLE)
+                           .pattern("S")
+                           .pattern("L")
+                           .define('S', SpiroTags.Items.STRING_LIKE)
+                           .define('L', Items.LEATHER)
+                           .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_bundle_crafting"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, Items.CROSSBOW)
+                           .pattern("/I/")
+                           .pattern("SXS")
+                           .pattern(" / ")
+                           .define('/', Items.STICK)
+                           .define('X', Items.TRIPWIRE_HOOK)
+                           .define('I', Items.IRON_INGOT)
+                           .define('S', SpiroTags.Items.STRING_LIKE)
+                           .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_crossbow_crafting"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.FISHING_ROD)
+                           .pattern("  /")
+                           .pattern(" /S")
+                           .pattern("/ S")
+                           .define('/', Items.STICK)
+                           .define('S', SpiroTags.Items.STRING_LIKE)
+                           .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_fishing_rod_crafting"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.LEAD, 2)
+                           .pattern("SS ")
+                           .pattern("SS ")
+                           .pattern("  S")
+                           .define('S', SpiroTags.Items.STRING_LIKE)
+                           .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_lead_crafting"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.LOOM)
+                           .pattern("SS")
+                           .pattern("XX")
+                           .define('X', Ingredient.of(ItemTags.PLANKS))
+                           .define('S', SpiroTags.Items.STRING_LIKE)
+                           .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_loom_crafting"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Items.SCAFFOLDING, 6)
+                           .pattern("XSX")
+                           .pattern("X X")
+                           .pattern("X X")
+                           .define('X', Items.BAMBOO)
+                           .define('S', SpiroTags.Items.STRING_LIKE)
+                           .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_scaffold_crafting"));
     }
 }
