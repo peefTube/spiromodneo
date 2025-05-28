@@ -79,6 +79,7 @@ public class Registrar
     public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
     { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
 
+    // Metal collections need to go first since some ore collections will reference their contents
     public static final MetalCollection LEAD_METAL = MetalCollection.registerCollection(MetalMaterial.LEAD);
 
     public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL);

@@ -2,6 +2,8 @@ package com.github.peeftube.spiromodneo.datagen.modules.lang;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
+import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
@@ -23,6 +25,9 @@ public class EN_USLangDataProv extends LanguageProvider
     @Override
     protected void addTranslations()
     {
+        // Metals
+        for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalParser(metal); }
+
         // Ores
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreParser(ore); }
 
@@ -31,6 +36,34 @@ public class EN_USLangDataProv extends LanguageProvider
 
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
+    }
+
+    // Metal set handler
+    protected void metalParser(MetalCollection set)
+    {
+        boolean ignoreIngotBlocks = false; // For ignoring default ingot and metallic block combinations
+
+        MetalMaterial material = set.getMat();
+
+        if (material == MetalMaterial.IRON || material == MetalMaterial.GOLD || material == MetalMaterial.COPPER
+                || material == MetalMaterial.NETHERITE )
+        { ignoreIngotBlocks = true; }
+
+        if (!ignoreIngotBlocks)
+        {
+            // Make this code easier to read, PLEASE..
+            Block b = set.ingotData().getMetal().getBlock().get();
+            Item i  = set.ingotData().getIngot().get();
+            String mat = material.get();
+
+            // Readable block String:
+            String blockOf = "Block of ";
+            add(b, blockOf + mat.substring(0, 1).toUpperCase() + mat.substring(1));
+
+            // Readable item String:
+            String readableMat = mat.substring(0, 1).toUpperCase() + mat.substring(1) + " Ingot";
+            add(i, readableMat);
+        }
     }
 
     // Ore set handler
@@ -78,13 +111,12 @@ public class EN_USLangDataProv extends LanguageProvider
             String mat = material.get();
 
             // Readable block String:
-            String rawMineral = material.isGem() ? "" : "Raw ";
+            String rawMineral       = material.isGem() ? "" : "Raw ";
             String readableBlockMat = "Block of " + mat.substring(0, 1).toUpperCase() + mat.substring(1);
             add(b, rawMineral + readableBlockMat);
 
             // Readable item String:
-            String readableMat = mat.substring(0, 1).toUpperCase() + mat.substring(1) +
-                    (material.isGem() ? "" : " Chunk");
+            String readableMat = rawMineral + mat.substring(0, 1).toUpperCase() + mat.substring(1) ;
             add(i, readableMat);
         }
     }

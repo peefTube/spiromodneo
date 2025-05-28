@@ -77,6 +77,7 @@ public record OreCollection(OreMaterial material, Map<BaseStone, OreCoupling> bu
 
         OreCollection collection = new OreCollection(material, mappings, OreUtilities.determineRawOre(material, li),
                 tags, oreDrops);
+
         ORE_COLLECTIONS.add(collection); return collection;
     }
 
