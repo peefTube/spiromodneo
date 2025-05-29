@@ -1,21 +1,25 @@
 package com.github.peeftube.spiromodneo.util.equipment;
 
 import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.registries.DeferredItem;
 
-public record ToolSet(Item sword, Item shovel, Item hoe, Item axe, Item pickaxe)
+import java.util.function.Supplier;
+
+public record ToolSet(Supplier<? extends Item> sword, Supplier<? extends Item> shovel, Supplier<? extends Item> hoe,
+                      Supplier<? extends Item> axe, Supplier<? extends Item> pickaxe)
 {
-    public Item getSword()
+    public Supplier<? extends Item> getSword()
     { return sword; }
 
-    public Item getShovel()
+    public Supplier<? extends Item> getShovel()
     { return shovel; }
 
-    public Item getHoe()
+    public Supplier<? extends Item> getHoe()
     { return hoe; }
 
-    public Item getAxe()
+    public Supplier<? extends Item> getAxe()
     { return axe; }
 
-    public Item getPickaxe()
+    public Supplier<? extends Item> getPickaxe()
     { return pickaxe; }
 }

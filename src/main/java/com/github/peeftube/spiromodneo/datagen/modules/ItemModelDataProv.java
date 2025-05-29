@@ -2,11 +2,11 @@ package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
+import com.github.peeftube.spiromodneo.util.DataCheckResult;
 import com.github.peeftube.spiromodneo.util.RLUtility;
+import com.github.peeftube.spiromodneo.util.equipment.ArmorSet;
+import com.github.peeftube.spiromodneo.util.equipment.ToolSet;
 import com.github.peeftube.spiromodneo.util.metal.MetalUtilities;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
@@ -34,11 +34,48 @@ public class ItemModelDataProv extends ItemModelProvider
         // ============================================================================================================
         // Normal items
         itemParser(Registrar.SINEW);
+        for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS) { equipmentSetDesign(equip); }
 
         // ============================================================================================================
         // Block items
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
+    }
+
+    protected void equipmentSetDesign(EquipmentCollection set)
+    {
+        DataCheckResult toolCheck = set.checkIfNullThenPass(set.bulkData().getTools());
+        DataCheckResult armorCheck = set.checkIfNullThenPass(set.bulkData().getArmor());
+        DataCheckResult horseCheck = set.checkIfNullThenPass(set.bulkData().getHorseArmor());
+
+        ToolSet tools;
+        ArmorSet armor;
+        DeferredItem<Item> horseArmor;
+
+        if (toolCheck.getResult())
+        {
+            tools = set.bulkData().getTools();
+            itemParser((DeferredItem<Item>) tools.getSword(), 1);
+            itemParser((DeferredItem<Item>) tools.getShovel(), 1);
+            itemParser((DeferredItem<Item>) tools.getHoe(), 1);
+            itemParser((DeferredItem<Item>) tools.getAxe(), 1);
+            itemParser((DeferredItem<Item>) tools.getPickaxe(), 1);
+        }
+
+        if (armorCheck.getResult())
+        {
+            armor = set.bulkData().getArmor();
+            itemParser((DeferredItem<Item>) armor.getHelmet());
+            itemParser((DeferredItem<Item>) armor.getChestplate());
+            itemParser((DeferredItem<Item>) armor.getLeggings());
+            itemParser((DeferredItem<Item>) armor.getBoots());
+        }
+
+        if (horseCheck.getResult())
+        {
+            horseArmor = (DeferredItem<Item>) set.bulkData().getHorseArmor();
+            itemParser((DeferredItem<Item>) horseArmor);
+        }
     }
 
     protected void metalSetDesign(MetalCollection set)

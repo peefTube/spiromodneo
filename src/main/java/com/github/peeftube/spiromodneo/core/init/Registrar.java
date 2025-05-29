@@ -5,23 +5,31 @@ import com.github.peeftube.spiromodneo.core.MaterialStrengthMod;
 import com.github.peeftube.spiromodneo.core.init.creative.CTProcessor;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.MinMax;
+import com.github.peeftube.spiromodneo.util.SpiroTags;
+import com.github.peeftube.spiromodneo.util.equipment.ArmorSet;
+import com.github.peeftube.spiromodneo.util.equipment.CustomArmorMaterial;
+import com.github.peeftube.spiromodneo.util.equipment.EquipmentData;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.lang.reflect.Field;
 import java.util.function.Supplier;
 
 public class Registrar
@@ -44,6 +52,7 @@ public class Registrar
         IEventBus bus = ModLoadingContext.get().getActiveContainer().getEventBus();
         BLOCKS.register(bus);
         ITEMS.register(bus);
+        ARMOR_MATERIALS.register(bus);
         FEATURES.register(bus);
         CREATIVE_MODE_TABS.register(bus);
     }
@@ -65,9 +74,11 @@ public class Registrar
     public static final BlockBehaviour.Properties RAW_ORE =
             BlockBehaviour.Properties.of().strength(BlockToughnessLevel.NORMAL.get()).sound(SoundType.METAL);
 
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
-    public static final DeferredRegister.Items            ITEMS              = DeferredRegister.createItems(SpiroMod.MOD_ID);
-    public static final DeferredRegister<Feature<?>>      FEATURES           = DeferredRegister.create(BuiltInRegistries.FEATURE, SpiroMod.MOD_ID);
+    public static final DeferredRegister.Blocks BLOCKS          = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
+    public static final DeferredRegister.Items  ITEMS           = DeferredRegister.createItems(SpiroMod.MOD_ID);
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS =
+            DeferredRegister.create(Registries.ARMOR_MATERIAL, SpiroMod.MOD_ID);
+    public static final DeferredRegister<Feature<?>> FEATURES   = DeferredRegister.create(BuiltInRegistries.FEATURE, SpiroMod.MOD_ID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
@@ -81,8 +92,37 @@ public class Registrar
     public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
     { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
 
-    // Metal collections need to go first since some ore collections will reference their contents
+    // Metal collections need to go first since some data sets will reference their contents
     public static final MetalCollection LEAD_METAL = MetalCollection.registerCollection(MetalMaterial.LEAD);
+
+    // Custom tiers and armor materials go here; each of these should correspond to an equipment collection
+    /** Tool tier for copper. TODO: Add appropriate tag */
+    public static final SimpleTier T_COPPER = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_COPPER,
+            320, 5.2F, 1.5F, 8, () -> Ingredient.of(Items.COPPER_INGOT));
+    /** Armor Material for copper. */
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> A_COPPER = CustomArmorMaterial.register("copper",
+            new int[]{7, 2, 5, 3, 1}, SoundEvents.ARMOR_EQUIP_GOLD, 8, 0.0F, 0.5F,
+            () -> Items.COPPER_INGOT);
+    /** Tool tier for lead. TODO: Add appropriate tag */
+    public static final SimpleTier T_LEAD = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_LEAD,
+            320, 5.2F, 1.5F, 8,
+            () -> Ingredient.of(getIngotFromMetal(LEAD_METAL)));
+    /** Armor Material for lead. */
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> A_LEAD = CustomArmorMaterial.register("lead",
+            new int[]{7, 2, 5, 3, 1}, SoundEvents.ARMOR_EQUIP_IRON, 2, 1.0F, 2.5F,
+            () -> getIngotFromMetal(LEAD_METAL));
+
+    // Unfortunately, I can't do the equipment collection parsing by organizing it with its respective
+    // tier and armor material, because this breaks everything (has something to do with the material
+    // enum being unable to get the tier, super strange behavior).
+    // If there were a better way to deal with this problem I'd take it in a heartbeat, but my knowledge
+    // of Java so far tells me this is the best I've got. Oh well :P
+    /** Copper equipment collection. */
+    public static final EquipmentCollection COPPER_EQUIPMENT =
+            EquipmentCollection.registerCollection(EquipmentMaterial.COPPER);
+    /** Lead equipment collection. */
+    public static final EquipmentCollection LEAD_EQUIPMENT =
+            EquipmentCollection.registerCollection(EquipmentMaterial.LEAD);
 
     public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL);
     public static final OreCollection IRON_ORES = OreCollection.registerCollection(OreMaterial.IRON);
@@ -110,4 +150,7 @@ public class Registrar
                                  .withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> RUBY_ORES.getRawOre().getRawItem().get().getDefaultInstance())
                                  .displayItems((parameters, output) -> { output.acceptAll(CTProcessor.precacheMineralsTab()); })
                                  .build());
+
+    public static final Item getIngotFromMetal(MetalCollection metal)
+    { return metal.ingotData().getIngot().get(); }
 }

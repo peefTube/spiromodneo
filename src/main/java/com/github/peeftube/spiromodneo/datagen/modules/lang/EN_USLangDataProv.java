@@ -2,10 +2,7 @@ package com.github.peeftube.spiromodneo.datagen.modules.lang;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import net.minecraft.data.PackOutput;
@@ -31,6 +28,9 @@ public class EN_USLangDataProv extends LanguageProvider
         // Ores
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreParser(ore); }
 
+        // Equipment
+        for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS) { equipParser(equip); }
+
         // Override name of "Nether Quartz", call it "Quartz" instead.
         add(Items.QUARTZ, "Quartz");
 
@@ -39,6 +39,44 @@ public class EN_USLangDataProv extends LanguageProvider
 
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
+    }
+
+    protected void equipParser(EquipmentCollection set)
+    {
+        boolean isStock = false;
+
+        EquipmentMaterial material = set.getMat();
+
+        if (material == EquipmentMaterial.CHAIN || material == EquipmentMaterial.WOOD ||
+                material == EquipmentMaterial.STONE || material == EquipmentMaterial.IRON ||
+                material == EquipmentMaterial.LEATHER || material == EquipmentMaterial.GOLD ||
+                material == EquipmentMaterial.DIAMOND || material == EquipmentMaterial.NETHERITE )
+        { isStock = true; }
+
+        if (!isStock)
+        {
+            String mat = material.getName().substring(0, 1).toUpperCase() + material.getName().substring(1);
+
+            if (set.checkIfNullThenPass(set.bulkData().getTools()).getResult())
+            {
+                add(set.bulkData().getTools().getSword().get(), mat + " Sword");
+                add(set.bulkData().getTools().getShovel().get(), mat + " Shovel");
+                add(set.bulkData().getTools().getHoe().get(), mat + " Hoe");
+                add(set.bulkData().getTools().getAxe().get(), mat + " Axe");
+                add(set.bulkData().getTools().getPickaxe().get(), mat + " Pickaxe");
+            }
+
+            if (set.checkIfNullThenPass(set.bulkData().getArmor()).getResult())
+            {
+                add(set.bulkData().getArmor().getHelmet().get(), mat + " Helmet");
+                add(set.bulkData().getArmor().getChestplate().get(), mat + " Chestplate");
+                add(set.bulkData().getArmor().getLeggings().get(), mat + " Leggings");
+                add(set.bulkData().getArmor().getBoots().get(), mat + " Boots");
+            }
+
+            if (set.checkIfNullThenPass(set.bulkData().getHorseArmor()).getResult())
+            { add(set.bulkData().getHorseArmor().get(), mat + " Horse Armor"); }
+        }
     }
 
     // Metal set handler

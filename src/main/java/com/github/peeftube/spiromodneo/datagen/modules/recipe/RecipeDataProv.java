@@ -2,10 +2,13 @@ package com.github.peeftube.spiromodneo.datagen.modules.recipe;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.registry.data.EquipmentCollection;
+import com.github.peeftube.spiromodneo.core.init.registry.data.EquipmentMaterial;
 import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
+import com.github.peeftube.spiromodneo.util.equipment.EquipmentData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -30,6 +33,10 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
     @Override
     protected void buildRecipes(RecipeOutput output)
     {
+        // Equipment crafting handler
+        for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS)
+        { equipmentCraftingHandler(equip, output); }
+
         // Metal crafting handler
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalCraftingHandler(metal, output); }
 
@@ -40,6 +47,104 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
 
         // Additional / Other / Loose
         stringLikeHandler(output);
+    }
+
+    private void equipmentCraftingHandler(EquipmentCollection set, RecipeOutput consumer)
+    {
+        boolean isStock = false;
+
+        EquipmentMaterial material = set.getMat();
+
+        if (material == EquipmentMaterial.CHAIN || material == EquipmentMaterial.WOOD ||
+                material == EquipmentMaterial.STONE || material == EquipmentMaterial.IRON ||
+                material == EquipmentMaterial.LEATHER || material == EquipmentMaterial.GOLD ||
+                material == EquipmentMaterial.DIAMOND || material == EquipmentMaterial.NETHERITE )
+        { isStock = true; }
+
+        if (!isStock)
+        {
+            String mat = material.getName();
+            EquipmentData bulkData = set.bulkData();
+
+            if (set.checkIfNullThenPass(bulkData.getTools()).getResult())
+            {
+                ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, bulkData.getTools().getSword().get())
+                                   .pattern("  I")
+                                   .pattern(" I ")
+                                   .pattern("/  ")
+                                   .define('/', Items.STICK)
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_sword_crafting"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, bulkData.getTools().getShovel().get())
+                                   .pattern("I")
+                                   .pattern("/")
+                                   .pattern("/")
+                                   .define('/', Items.STICK)
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_shovel_crafting"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, bulkData.getTools().getHoe().get())
+                                   .pattern("II")
+                                   .pattern(" /")
+                                   .pattern(" /")
+                                   .define('/', Items.STICK)
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_hoe_crafting"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, bulkData.getTools().getAxe().get())
+                                   .pattern("II")
+                                   .pattern("I/")
+                                   .pattern(" /")
+                                   .define('/', Items.STICK)
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_axe_crafting"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, bulkData.getTools().getPickaxe().get())
+                                   .pattern("III")
+                                   .pattern(" / ")
+                                   .pattern(" / ")
+                                   .define('/', Items.STICK)
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_pickaxe_crafting"));
+            }
+
+            if (set.checkIfNullThenPass(bulkData.getArmor()).getResult())
+            {
+                ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, bulkData.getArmor().getHelmet().get())
+                                   .pattern("III")
+                                   .pattern("I I")
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_helmet_crafting"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, bulkData.getArmor().getChestplate().get())
+                                   .pattern("I I")
+                                   .pattern("III")
+                                   .pattern("III")
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_chestplate_crafting"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, bulkData.getArmor().getLeggings().get())
+                                   .pattern("III")
+                                   .pattern("I I")
+                                   .pattern("I I")
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_leggings_crafting"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, bulkData.getArmor().getBoots().get())
+                                   .pattern("I I")
+                                   .pattern("I I")
+                                   .define('I', Ingredient.of(material.getAssociatedTag()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_boots_crafting"));
+            }
+
+            if (set.checkIfNullThenPass(bulkData.getHorseArmor()).getResult())
+            {
+                // This is potentially a special case, so I'm holding off on putting anything here for now
+            }
+        }
     }
 
     private void metalCraftingHandler(MetalCollection set, RecipeOutput consumer)
@@ -148,7 +253,7 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                            .pattern("  S")
                            .define('S', SpiroTags.Items.STRING_LIKE)
                            .unlockedBy("has_string_like", has(SpiroTags.Items.STRING_LIKE))
-                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_lead_crafting"));
+                           .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_leash_crafting")); // leash instead of lead to avoid confusion
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.LOOM)
                            .pattern("SS")

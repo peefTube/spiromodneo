@@ -8,10 +8,12 @@ import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,10 +30,38 @@ public class ItemTagDataProv extends ItemTagsProvider
         // Ores
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreTags(ore); }
 
-        // Others / Loose
-        tag(SpiroTags.Items.STRING_LIKE)
+        // Crafting Materials
+        tag(SpiroTags.Items.STRING_LIKE) // Loose materials should go first
                 .add(Items.STRING)
                 .add(Registrar.SINEW.get());
+
+        generalCraftingTags();
+
+        // Others / Loose
+    }
+
+    private void generalCraftingTags()
+    {
+        tag(SpiroTags.Items.LEATHER_MATERIAL)
+                .add(Items.LEATHER);
+        tag(SpiroTags.Items.WOOD_MATERIAL)
+                .addTag(ItemTags.PLANKS);
+        tag(SpiroTags.Items.STONE_MATERIAL)
+                .addTag(ItemTags.STONE_CRAFTING_MATERIALS);
+        tag(SpiroTags.Items.COPPER_MATERIAL)
+                .add(Items.COPPER_INGOT);
+        tag(SpiroTags.Items.CHAINMAIL_MATERIAL)
+                .add(Items.CHAIN);
+        tag(SpiroTags.Items.IRON_MATERIAL)
+                .add(Items.IRON_INGOT);
+        tag(SpiroTags.Items.LEAD_MATERIAL)
+                .add(Registrar.getIngotFromMetal(Registrar.LEAD_METAL));
+        tag(SpiroTags.Items.GOLD_MATERIAL)
+                .add(Items.GOLD_INGOT);
+        tag(SpiroTags.Items.DIAMOND_MATERIAL)
+                .add(Items.DIAMOND);
+        tag(SpiroTags.Items.NETHERITE_MATERIAL)
+                .add(Items.NETHERITE_INGOT);
     }
 
     private void oreTags(OreCollection set)

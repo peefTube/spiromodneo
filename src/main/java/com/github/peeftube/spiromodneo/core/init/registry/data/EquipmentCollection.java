@@ -17,4 +17,7 @@ public record EquipmentCollection(EquipmentMaterial material, EquipmentData bulk
                 EquipmentUtilities.generateEquipmentData(material));
         EQUIP_COLLECTIONS.add(collection); return collection;
     }
+
+    public EquipmentMaterial getMat()
+    { return material; }
 }
