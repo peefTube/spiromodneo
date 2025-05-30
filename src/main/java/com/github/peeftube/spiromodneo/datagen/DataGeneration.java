@@ -49,6 +49,6 @@ public class DataGeneration
         generator.addProvider(true, new EN_USLangDataProv(output, "en_us"));
 
         generator.addProvider(true, new WorldgenDataProv(output,
-                event.getLookupProvider(), Set.of(SpiroMod.MOD_ID)));
+                event.getLookupProvider(), Set.of(SpiroMod.MOD_ID, "minecraft")));
     }
 }

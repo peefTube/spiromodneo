@@ -11,13 +11,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class ConfigFeaturesData
 {
     private static      HolderGetter<Block>                  blocks;
 
-    public static final ResourceKey<ConfiguredFeature<? ,?>> OVERRIDE_STOCK = registerKey("sm_override_stock_biome_blocks");
+    /** This is to be considered deprecated until further notice; there has to be a better way of setting
+     * default stone types per biome... */
+    @Deprecated
+    public static final ResourceKey<ConfiguredFeature<? ,?>> OVERRIDE_STOCK = registerKey("spiro_override_stock");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context)
     {
