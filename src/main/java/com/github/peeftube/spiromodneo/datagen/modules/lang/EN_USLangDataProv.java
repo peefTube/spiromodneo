@@ -118,7 +118,7 @@ public class EN_USLangDataProv extends LanguageProvider
 
         // Prepare set data.
         OreMaterial                 material = set.getMat();
-        Map<BaseStone, OreCoupling> bulkData = set.getBulkData();
+        Map<StoneMaterial, OreCoupling> bulkData = set.getBulkData();
 
         if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
                 || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
@@ -128,10 +128,10 @@ public class EN_USLangDataProv extends LanguageProvider
         if (material == OreMaterial.GOLD || material == OreMaterial.QUARTZ)
         { ignoreNether = true; }
 
-        for (BaseStone s : BaseStone.values())
+        for (StoneMaterial s : StoneMaterial.values())
         {
-            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
-                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
+            if (((s == StoneMaterial.STONE || s == StoneMaterial.DEEPSLATE) && ignoreStone)
+                    || ((s == StoneMaterial.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a material which already uses this combination...
 
             // Make this code easier to read, PLEASE..
@@ -140,7 +140,7 @@ public class EN_USLangDataProv extends LanguageProvider
 
             // Generate a translation string and then add it to the translation set.
             String readableMat = mat.substring(0, 1).toUpperCase() + mat.substring(1) + " Ore";
-            add(b, generateOreBlockString(s, readableMat));
+            add(b, generateOreBlockString(s.getOreBase(), readableMat));
         }
 
         // Raw block and item; assume not vanilla.

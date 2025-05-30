@@ -1,10 +1,7 @@
 package com.github.peeftube.spiromodneo.datagen.modules.loot.subprov;
 
 import com.github.peeftube.spiromodneo.core.init.Registrar;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import net.minecraft.core.HolderLookup;
@@ -67,8 +64,8 @@ public class BlockLootTables extends BlockLootSubProvider
         //       code should ignore the raw ore blocks.
 
         // Prepare set data.
-        OreMaterial                 material = set.getMat();
-        Map<BaseStone, OreCoupling> bulkData = set.getBulkData();
+        OreMaterial                     material = set.getMat();
+        Map<StoneMaterial, OreCoupling> bulkData = set.getBulkData();
 
         if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
                 || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
@@ -78,10 +75,10 @@ public class BlockLootTables extends BlockLootSubProvider
         if (material == OreMaterial.GOLD || material == OreMaterial.QUARTZ)
         { ignoreNether = true; }
 
-        for (BaseStone s : bulkData.keySet())
+        for (StoneMaterial s : bulkData.keySet())
         {
-            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
-                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
+            if (((s == StoneMaterial.STONE || s == StoneMaterial.DEEPSLATE) && ignoreStone)
+                    || ((s == StoneMaterial.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a material which already uses this combination,
                           // you'll want to use loot modifiers instead in this case.
 
@@ -90,7 +87,7 @@ public class BlockLootTables extends BlockLootSubProvider
             Item oreToDrop = set.getRawOre().getRawItem().get();
             NumberProvider oreToDropAmounts = set.getDropCount();
 
-            add(self, oreTable01(self, s.getAssociatedBlock().get(), oreToDrop, oreToDropAmounts));
+            add(self, oreTable01(self, s.getOreBase().getAssociatedBlock().get(), oreToDrop, oreToDropAmounts));
         }
 
         // For block of this ore, assuming that it doesn't exist in vanilla already.

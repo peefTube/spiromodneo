@@ -3,6 +3,7 @@ package com.github.peeftube.spiromodneo.core.init;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.StoneMaterial;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -38,8 +39,8 @@ public class InitializeBlockRenderTypes
         // DO NOT include packed ore blocks in this unless you want a headache.
 
         // Prepare set data.
-        OreMaterial                 material = set.getMat();
-        Map<BaseStone, OreCoupling> bulkData = set.getBulkData();
+        OreMaterial                     material = set.getMat();
+        Map<StoneMaterial, OreCoupling> bulkData = set.getBulkData();
 
         if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
                 || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
@@ -49,10 +50,10 @@ public class InitializeBlockRenderTypes
         if (material == OreMaterial.GOLD || material == OreMaterial.QUARTZ)
         { ignoreNether = true; }
 
-        for (BaseStone s : BaseStone.values())
+        for (StoneMaterial s : StoneMaterial.values())
         {
-            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
-                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
+            if (((s == StoneMaterial.STONE || s == StoneMaterial.DEEPSLATE) && ignoreStone)
+                    || ((s == StoneMaterial.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a material which already uses this combination...
 
             // Make this code easier to read, PLEASE..

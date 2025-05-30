@@ -1,10 +1,7 @@
 package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalMaterial;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
@@ -68,8 +65,8 @@ public class BlockstateDataProv extends BlockStateProvider
         //       code should ignore the raw ore blocks.
 
         // Prepare set data.
-        OreMaterial                 material = set.getMat();
-        Map<BaseStone, OreCoupling> bulkData = set.getBulkData();
+        OreMaterial                     material = set.getMat();
+        Map<StoneMaterial, OreCoupling> bulkData = set.getBulkData();
 
         if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
                 || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
@@ -81,18 +78,18 @@ public class BlockstateDataProv extends BlockStateProvider
 
         ResourceLocation mat = oreOverlayHelper(material.get());
 
-        for (BaseStone s : BaseStone.values())
+        for (StoneMaterial s : StoneMaterial.values())
         {
-            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
-                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
+            if (((s == StoneMaterial.STONE || s == StoneMaterial.DEEPSLATE) && ignoreStone)
+                    || ((s == StoneMaterial.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a material which already uses this combination...
 
             // Make this code easier to read, PLEASE..
             Block b = bulkData.get(s).block().get();
-            ResourceLocation r = blockTexture(s.getAssociatedBlock().get());
+            ResourceLocation r = blockTexture(s.getOreBase().getAssociatedBlock().get());
 
             // Quick sanity check for smooth sandstone and related
-            switch(s)
+            switch(s.getOreBase())
             {
                 case SMS -> r = getTopTex(blockTexture(Blocks.SANDSTONE));
                 case SMRS -> r = getTopTex(blockTexture(Blocks.RED_SANDSTONE));

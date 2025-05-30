@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public record OreCollection(OreMaterial material, Map<BaseStone, OreCoupling> bulkData,
+public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling> bulkData,
                             RawCoupling rawOreCoupling, OreTagCoupling oreTags,
                             NumberProvider oreDropData) implements OreUtilities
 {
@@ -40,9 +40,9 @@ public record OreCollection(OreMaterial material, Map<BaseStone, OreCoupling> bu
         int li = lightEmissionLevel;
 
         // Set up the map.
-        Map<BaseStone, OreCoupling> mappings = new HashMap<>();
+        Map<StoneMaterial, OreCoupling> mappings = new HashMap<>();
 
-        for(BaseStone s : BaseStone.values())
+        for(StoneMaterial s : StoneMaterial.values())
         {
             switch(s)
             {
@@ -51,8 +51,8 @@ public record OreCollection(OreMaterial material, Map<BaseStone, OreCoupling> bu
                     switch(material)
                     {
                         case COAL, IRON, COPPER, GOLD, LAPIS, REDSTONE, EMERALD, DIAMOND ->
-                        { mappings.put(s, findPreset(s, material)); }
-                        default -> { mappings.put(s, createNew(s, oreName, li)); }
+                        { mappings.put(s, findPreset(s.getOreBase(), material)); }
+                        default -> { mappings.put(s, createNew(s.getOreBase(), oreName, li)); }
                     }
                 }
                 case NETHERRACK ->
@@ -60,11 +60,11 @@ public record OreCollection(OreMaterial material, Map<BaseStone, OreCoupling> bu
                     switch(material)
                     {
                         case GOLD, QUARTZ ->
-                        { mappings.put(s, findPreset(s, material)); }
-                        default -> { mappings.put(s, createNew(s, oreName, li)); }
+                        { mappings.put(s, findPreset(s.getOreBase(), material)); }
+                        default -> { mappings.put(s, createNew(s.getOreBase(), oreName, li)); }
                     }
                 }
-                default -> { mappings.put(s, createNew(s, oreName, li)); }
+                default -> { mappings.put(s, createNew(s.getOreBase(), oreName, li)); }
             }
         }
         String tagkey = "spiro_" + material.get() + "_ore";
@@ -111,7 +111,7 @@ public record OreCollection(OreMaterial material, Map<BaseStone, OreCoupling> bu
     public OreMaterial getMat()
     { return this.material; }
 
-    public Map<BaseStone, OreCoupling> getBulkData()
+    public Map<StoneMaterial, OreCoupling> getBulkData()
     { return bulkData; }
 
     public RawCoupling getRawOre()

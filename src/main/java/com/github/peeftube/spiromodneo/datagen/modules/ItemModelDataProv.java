@@ -113,7 +113,7 @@ public class ItemModelDataProv extends ItemModelProvider
 
         // Prepare set data.
         OreMaterial                 material = set.getMat();
-        Map<BaseStone, OreCoupling> bulkData = set.getBulkData();
+        Map<StoneMaterial, OreCoupling> bulkData = set.getBulkData();
 
         if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
                 || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
@@ -123,10 +123,10 @@ public class ItemModelDataProv extends ItemModelProvider
         if (material == OreMaterial.GOLD || material == OreMaterial.QUARTZ)
         { ignoreNether = true; }
 
-        for (BaseStone s : BaseStone.values())
+        for (StoneMaterial s : StoneMaterial.values())
         {
-            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
-                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
+            if (((s == StoneMaterial.STONE || s == StoneMaterial.DEEPSLATE) && ignoreStone)
+                    || ((s == StoneMaterial.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a combination which already has a BlockItem
 
             // Make this code easier to read, PLEASE..
