@@ -167,7 +167,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_ANDESITE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.ANDESITE)),
                 OreConfiguration.target(TargetRules.BLOCK_GRANITE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.GRANITE)),
                 OreConfiguration.target(TargetRules.BLOCK_DIORITE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.DIORITE)),
-                OreConfiguration.target(TargetRules.BLOCK_CALCITE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.CALCITE)),
+                OreConfiguration.target(TargetRules.BLOCK_CALCITE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, Blocks.NETHER_QUARTZ_ORE.defaultBlockState()),

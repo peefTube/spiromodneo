@@ -7,6 +7,7 @@ import com.github.peeftube.spiromodneo.datagen.modules.lang.EN_USLangDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.loot.LootModDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.loot.LootTableDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.recipe.RecipeDataProv;
+import com.github.peeftube.spiromodneo.datagen.modules.tags.BiomeTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.BlockTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.ItemTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.world.WorldgenDataProv;
@@ -37,7 +38,7 @@ public class DataGeneration
         generator.addProvider(true, bTags);
         generator.addProvider(true, new ItemTagDataProv(output, event.getLookupProvider(),
                 bTags.contentsGetter(), existingFileHelper));
-        // generator.addProvider(true, new SMBiomeTagProv(output, event.getLookupProvider(), existingFileHelper));
+        generator.addProvider(true, new BiomeTagDataProv(output, event.getLookupProvider(), existingFileHelper));
 
         generator.addProvider(true, new RecipeDataProv(output, event.getLookupProvider()));
         generator.addProvider(true, new BlockstateDataProv(output, existingFileHelper));
