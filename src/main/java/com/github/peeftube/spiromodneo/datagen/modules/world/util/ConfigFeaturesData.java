@@ -18,8 +18,8 @@ public class ConfigFeaturesData
 {
     private static      HolderGetter<Block>                  blocks;
 
-    /** This is to be considered deprecated until further notice; there has to be a better way of setting
-     * default stone types per biome... */
+    /** This is an ancient holdout from a less efficient method of determining per-biome stone types.
+     * Good riddance. */
     @Deprecated
     public static final ResourceKey<ConfiguredFeature<? ,?>> OVERRIDE_STOCK = registerKey("spiro_override_stock");
 

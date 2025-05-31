@@ -16,6 +16,10 @@ public class SpiroTags
         public static TagKey<Block> NEEDS_COPPER_TOOL = tag("needs_copper_tool");
         public static TagKey<Block> NEEDS_LEAD_TOOL = tag("needs_lead_tool");
 
+        public static TagKey<Block> SANDSTONE_ORE_REPLACEABLES = tag("sandstone_ore_replaceables");
+        public static TagKey<Block> RED_SANDSTONE_ORE_REPLACEABLES = tag("red_sandstone_ore_replaceables");
+        public static TagKey<Block> BASALT_ORE_REPLACEABLES = tag("basalt_ore_replaceables");
+
         public static TagKey<Block> tag(String name) { return BlockTags.create(RLUtility.makeRL(name)); }
         public static TagKey<Block> forgeTag(String name) { return BlockTags.create(RLUtility.makeRL("forge", name)); }
     }
