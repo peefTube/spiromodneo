@@ -227,9 +227,10 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.RUBY_ORES, StoneMaterial.RED_SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_TERRACOTTA, rDBS(Registrar.RUBY_ORES, StoneMaterial.CALCITE))
         ));
-
-        /** Returns the default block state. */
-        private static BlockState rDBS(OreCollection oreType, StoneMaterial baseStone)
-        { return oreType.getBulkData().get(baseStone).getBlock().get().defaultBlockState(); }
     }
+
+    /** Returns the default block state. */
+    private static BlockState rDBS(OreCollection oreType, StoneMaterial baseStone)
+    { return oreType.getBulkData().get(baseStone).getBlock().get().defaultBlockState(); }
 }
+

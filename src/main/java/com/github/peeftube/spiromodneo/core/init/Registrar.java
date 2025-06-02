@@ -82,6 +82,8 @@ public class Registrar
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
+    // Features go above all else!!!
+
     public static final DeferredItem<Item> SINEW = ITEMS.registerSimpleItem("sinew");
 
     // Based on Nyfaria's code:
@@ -101,7 +103,7 @@ public class Registrar
             320, 5.2F, 1.5F, 8, () -> Ingredient.of(Items.COPPER_INGOT));
     /** Armor Material for copper. */
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> A_COPPER = CustomArmorMaterial.register("copper",
-            new int[]{7, 2, 5, 3, 1}, SoundEvents.ARMOR_EQUIP_GOLD, 8, 0.0F, 0.5F,
+            new int[]{1, 2, 3, 1, 4}, SoundEvents.ARMOR_EQUIP_GOLD, 8, 0.0F, 0.5F,
             () -> Items.COPPER_INGOT);
     /** Tool tier for lead. TODO: Add appropriate tag */
     public static final SimpleTier T_LEAD = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_LEAD,
@@ -109,7 +111,7 @@ public class Registrar
             () -> Ingredient.of(getIngotFromMetal(LEAD_METAL)));
     /** Armor Material for lead. */
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> A_LEAD = CustomArmorMaterial.register("lead",
-            new int[]{7, 2, 5, 3, 1}, SoundEvents.ARMOR_EQUIP_IRON, 2, 1.0F, 2.5F,
+            new int[]{2, 5, 3, 1, 7}, SoundEvents.ARMOR_EQUIP_IRON, 2, 1.0F, 2.5F,
             () -> getIngotFromMetal(LEAD_METAL));
 
     // Unfortunately, I can't do the equipment collection parsing by organizing it with its respective

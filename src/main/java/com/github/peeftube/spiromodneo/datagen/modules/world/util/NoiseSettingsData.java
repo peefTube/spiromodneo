@@ -1,16 +1,18 @@
 package com.github.peeftube.spiromodneo.datagen.modules.world.util;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
-import com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers.NoiseDataOverrides;
+import com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers.NoiseRouterOverrides;
+import com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers.RuleSourceOverrides;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.levelgen.NoiseRouterData;
 import net.minecraft.world.level.levelgen.NoiseSettings;
 
-public class NoiseSettingsData implements NoiseDataOverrides
+public class NoiseSettingsData implements RuleSourceOverrides, NoiseRouterOverrides
 {
     /** This is the vanilla overworld generation; this is designed to allow players to return to vanilla generation. */
     public static final ResourceKey<NoiseGeneratorSettings> UNSPOILED = registerNGSKey("unspoiled");
@@ -26,10 +28,11 @@ public class NoiseSettingsData implements NoiseDataOverrides
 
         context.register(OVERWORLD_NEO, new NoiseGeneratorSettings(
                 new NoiseSettings(-384, 1024, 1, 2),
-                overworld.defaultBlock(), overworld.defaultFluid(), overworld.noiseRouter(),
-                NoiseDataOverrides.overrideOverworld(true, false, true, 640),
+                overworld.defaultBlock(), overworld.defaultFluid(),
+                NoiseRouterOverrides.overrideOverworld(context.lookup(Registries.DENSITY_FUNCTION), context.lookup(Registries.NOISE), false, false),
+                RuleSourceOverrides.overrideOverworld(true, false, true, 640),
                 overworld.spawnTarget(), overworld.seaLevel(),
-                false, true, false, false));
+                false, true, true, false));
     }
 
     private static ResourceKey<NoiseGeneratorSettings> registerNGSKey(String name)

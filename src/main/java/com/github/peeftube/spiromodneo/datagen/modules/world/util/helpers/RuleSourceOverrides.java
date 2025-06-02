@@ -1,5 +1,6 @@
 package com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers;
 
+import com.github.peeftube.spiromodneo.SpiroMod;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -8,7 +9,7 @@ import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 
-public interface NoiseDataOverrides
+public interface RuleSourceOverrides
 {
     /** Copied from SurfaceRuleData.java */
     SurfaceRules.RuleSource AIR = makeStateRule(Blocks.AIR);
