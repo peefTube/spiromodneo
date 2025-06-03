@@ -37,6 +37,7 @@ public class ItemModelDataProv extends ItemModelProvider
         itemParser(Registrar.CAST_IRON_MIXTURE);
         itemParser(Registrar.CAST_IRON);
         itemParser(Registrar.STEEL_MIXTURE);
+        itemParser(Registrar.WEAK_STEEL_MIXTURE);
         itemParser(Registrar.CRUSHED_CARBON);
         for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS) { equipmentSetDesign(equip); }
 

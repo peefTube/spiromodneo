@@ -33,6 +33,8 @@ public class SpiroTags
     {
         public static TagKey<Item> STRING_LIKE = tag("string_like");
 
+        public static TagKey<Item> STEEL_MIXTURES = tag("steel_mixtures");
+
         public static TagKey<Item> LEATHER_MATERIAL = tag("mat_leather");
         public static TagKey<Item> WOOD_MATERIAL = tag("mat_wooden");
         public static TagKey<Item> STONE_MATERIAL = tag("mat_stone");

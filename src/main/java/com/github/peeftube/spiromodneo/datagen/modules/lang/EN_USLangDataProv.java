@@ -40,6 +40,7 @@ public class EN_USLangDataProv extends LanguageProvider
         add(Registrar.CAST_IRON_MIXTURE.get(), "Cast Iron Mixture");
         add(Registrar.CAST_IRON.get(), "Cast Iron Ingot");
         add(Registrar.STEEL_MIXTURE.get(), "Steel Mixture");
+        add(Registrar.WEAK_STEEL_MIXTURE.get(), "Steel Mixture CI");
         add(Registrar.CRUSHED_CARBON.get(), "Carbon Dust");
 
         // Creative tabs

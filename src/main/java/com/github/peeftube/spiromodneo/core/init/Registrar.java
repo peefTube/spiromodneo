@@ -102,6 +102,9 @@ public class Registrar
      * steel mixture, offsetting this cost. Steel can be oxygenated to produce regular iron if needed.
      * <p> Steel mixture can also be run through oxygenation as a smelting process to produce extra steel. */
     public static final DeferredItem<Item> STEEL_MIXTURE = ITEMS.registerSimpleItem("steel_mix");
+    /** To differentiate iron-based steel mix from cast iron-based steel mix, the two are separate items.
+     * This allows them to have unique textures while having roughly the same properties in-game. */
+    public static final DeferredItem<Item> WEAK_STEEL_MIXTURE = ITEMS.registerSimpleItem("weak_steel_mix");
     /** Crushed carbon is a coal or charcoal derivative. It can be made from regular coal or charcoal, but
      * when made using normal crafting is expensive to produce, requiring extra carbon sources as well as hard
      * "crusher" items, like bricks or stones, consuming those items in the process. This means steel can be

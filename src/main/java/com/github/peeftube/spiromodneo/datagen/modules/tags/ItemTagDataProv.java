@@ -35,6 +35,10 @@ public class ItemTagDataProv extends ItemTagsProvider
                 .add(Items.STRING)
                 .add(Registrar.SINEW.get());
 
+        tag(SpiroTags.Items.STEEL_MIXTURES)
+                .add(Registrar.STEEL_MIXTURE.get())
+                .add(Registrar.WEAK_STEEL_MIXTURE.get());
+
         generalCraftingTags();
 
         // Others / Loose
@@ -56,6 +60,8 @@ public class ItemTagDataProv extends ItemTagsProvider
                 .add(Items.IRON_INGOT);
         tag(SpiroTags.Items.LEAD_MATERIAL)
                 .add(Registrar.getIngotFromMetal(Registrar.LEAD_METAL));
+        tag(SpiroTags.Items.STEEL_MATERIAL)
+                .add(Registrar.getIngotFromMetal(Registrar.STEEL_METAL));
         tag(SpiroTags.Items.GOLD_MATERIAL)
                 .add(Items.GOLD_INGOT);
         tag(SpiroTags.Items.DIAMOND_MATERIAL)

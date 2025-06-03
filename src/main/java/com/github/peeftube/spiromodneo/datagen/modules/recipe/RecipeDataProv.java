@@ -68,7 +68,7 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                               .unlockedBy("has_carbon", has(Registrar.CRUSHED_CARBON))
                               .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_better_steel_mixing"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Registrar.STEEL_MIXTURE, 7)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Registrar.WEAK_STEEL_MIXTURE, 7)
                               .requires(Ingredient.of(Registrar.CRUSHED_CARBON))
                               .requires(Ingredient.of(Registrar.CAST_IRON), 6)
                               .unlockedBy("has_cast_iron", has(Registrar.CAST_IRON))
@@ -90,9 +90,9 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 .unlockedBy("has_cast_iron_mix", has(Registrar.CAST_IRON_MIXTURE))
                 .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_blast_cast_iron_from_mix"));
 
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(Registrar.STEEL_MIXTURE), RecipeCategory.MISC,
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(SpiroTags.Items.STEEL_MIXTURES), RecipeCategory.MISC,
                 Registrar.STEEL_METAL.ingotData().getIngot().get(), 4.0f, 3200)
-                .unlockedBy("has_steel_mix", has(Registrar.STEEL_MIXTURE))
+                .unlockedBy("has_steel_mix", has(SpiroTags.Items.STEEL_MIXTURES))
                 .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_blast_steel_from_mix"));
     }
 
