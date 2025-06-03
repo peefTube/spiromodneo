@@ -6,7 +6,8 @@ public enum MetalMaterial
     COPPER("copper"),
     GOLD("gold"),
     NETHERITE("netherite"),
-    LEAD("lead");
+    LEAD("lead"),
+    STEEL("steel");
 
     private final String name;
 

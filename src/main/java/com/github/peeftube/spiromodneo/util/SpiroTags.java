@@ -14,10 +14,12 @@ public class SpiroTags
     {
         public static TagKey<Block> INCORRECT_FOR_COPPER = tag("incorrect_for_copper_tool");
         public static TagKey<Block> INCORRECT_FOR_LEAD = tag("incorrect_for_lead_tool");
+        public static TagKey<Block> INCORRECT_FOR_STEEL = tag("incorrect_for_steel_tool");
 
         public static TagKey<Block> NEEDS_COPPER_TOOL = tag("needs_copper_tool");
         public static TagKey<Block> NEEDS_LEAD_TOOL = tag("needs_lead_tool");
         public static TagKey<Block> NEEDS_GOLD_TOOL = tag("needs_gold_tool");
+        public static TagKey<Block> NEEDS_STEEL_TOOL = tag("needs_steel_tool");
 
         public static TagKey<Block> SANDSTONE_ORE_REPLACEABLES = tag("sandstone_ore_replaceables");
         public static TagKey<Block> RED_SANDSTONE_ORE_REPLACEABLES = tag("red_sandstone_ore_replaceables");
@@ -38,6 +40,7 @@ public class SpiroTags
         public static TagKey<Item> COPPER_MATERIAL = tag("mat_copper");
         public static TagKey<Item> IRON_MATERIAL = tag("mat_iron");
         public static TagKey<Item> LEAD_MATERIAL = tag("mat_lead");
+        public static TagKey<Item> STEEL_MATERIAL = tag("mat_steel");
         public static TagKey<Item> GOLD_MATERIAL = tag("mat_golden");
         public static TagKey<Item> DIAMOND_MATERIAL = tag("mat_diamond");
         public static TagKey<Item> NETHERITE_MATERIAL = tag("mat_netherite");

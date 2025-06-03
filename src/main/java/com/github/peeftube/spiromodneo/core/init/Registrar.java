@@ -96,24 +96,34 @@ public class Registrar
 
     // Metal collections need to go first since some data sets will reference their contents
     public static final MetalCollection LEAD_METAL = MetalCollection.registerCollection(MetalMaterial.LEAD);
+    public static final MetalCollection STEEL_METAL = MetalCollection.registerCollection(MetalMaterial.STEEL);
 
     // Custom tiers and armor materials go here; each of these should correspond to an equipment collection
     /** Tool tier for copper. TODO: Add appropriate tag */
     public static final SimpleTier T_COPPER = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_COPPER,
-            320, 5.2F, 1.5F, 8, () -> Ingredient.of(Items.COPPER_INGOT));
+            240, 6.2F, 1.2F, 12, () -> Ingredient.of(Items.COPPER_INGOT));
     /** Armor Material for copper. */
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> A_COPPER = CustomArmorMaterial.register("copper",
-            new int[]{1, 2, 3, 1, 4}, SoundEvents.ARMOR_EQUIP_GOLD, 8, 0.0F, 0.5F,
+            new int[]{1, 3, 2, 1, 4}, SoundEvents.ARMOR_EQUIP_GOLD, 12, 0.0F, 0.0F,
             () -> Items.COPPER_INGOT);
     /** Tool tier for lead. TODO: Add appropriate tag */
     public static final SimpleTier T_LEAD = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_LEAD,
-            320, 5.2F, 1.5F, 8,
+            320, 5.2F, 2.5F, 2,
             () -> Ingredient.of(getIngotFromMetal(LEAD_METAL)));
     /** Armor Material for lead. */
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> A_LEAD = CustomArmorMaterial.register("lead",
             new int[]{2, 5, 3, 1, 7}, SoundEvents.ARMOR_EQUIP_IRON, 2, 1.0F, 2.5F,
             () -> getIngotFromMetal(LEAD_METAL));
+    /** Tool tier for steel. TODO: Add appropriate tag */
+    public static final SimpleTier T_STEEL = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_STEEL,
+            650, 6.2F, 4.5F, 4,
+            () -> Ingredient.of(getIngotFromMetal(STEEL_METAL)));
+    /** Armor Material for steel. */
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> A_STEEL = CustomArmorMaterial.register("steel",
+            new int[]{3, 5, 3, 2, 7}, SoundEvents.ARMOR_EQUIP_IRON, 4, 2.0F, 1.5F,
+            () -> getIngotFromMetal(STEEL_METAL));
 
+    // TODO: Remove this comment, this actually has a good reason
     // Unfortunately, I can't do the equipment collection parsing by organizing it with its respective
     // tier and armor material, because this breaks everything (has something to do with the material
     // enum being unable to get the tier, super strange behavior).
@@ -125,6 +135,9 @@ public class Registrar
     /** Lead equipment collection. */
     public static final EquipmentCollection LEAD_EQUIPMENT =
             EquipmentCollection.registerCollection(EquipmentMaterial.LEAD);
+    /** Steel equipment collection. */
+    public static final EquipmentCollection STEEL_EQUIPMENT =
+            EquipmentCollection.registerCollection(EquipmentMaterial.STEEL);
 
     public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL);
     public static final OreCollection IRON_ORES = OreCollection.registerCollection(OreMaterial.IRON);

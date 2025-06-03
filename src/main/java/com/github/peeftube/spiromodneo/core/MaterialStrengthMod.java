@@ -15,6 +15,12 @@ public class MaterialStrengthMod
     @SubscribeEvent
     public static void modifyDefaultComponents(ModifyDefaultComponentsEvent event)
     {
+        event.modify(Items.IRON_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, 320));
+        event.modify(Items.IRON_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, 320));
+        event.modify(Items.IRON_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, 320));
+        event.modify(Items.IRON_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, 320));
+        event.modify(Items.IRON_SHOVEL, builder -> builder.set(DataComponents.MAX_DAMAGE, 320));
+        
         event.modify(Items.GOLDEN_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, 580));
         event.modify(Items.GOLDEN_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, 580));
         event.modify(Items.GOLDEN_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, 580));

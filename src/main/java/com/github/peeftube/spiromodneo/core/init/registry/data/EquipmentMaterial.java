@@ -17,6 +17,7 @@ public enum EquipmentMaterial
     COPPER("copper", SpiroTags.Items.COPPER_MATERIAL, Registrar.T_COPPER, Registrar.A_COPPER),
     IRON("iron", SpiroTags.Items.IRON_MATERIAL, Tiers.IRON, ArmorMaterials.IRON),
     LEAD("lead", SpiroTags.Items.LEAD_MATERIAL, Registrar.T_LEAD, Registrar.A_LEAD),
+    STEEL("steel", SpiroTags.Items.STEEL_MATERIAL, Registrar.T_STEEL, Registrar.A_STEEL),
     GOLD("golden", SpiroTags.Items.GOLD_MATERIAL, Tiers.GOLD, ArmorMaterials.GOLD),
     DIAMOND("diamond", SpiroTags.Items.DIAMOND_MATERIAL, Tiers.DIAMOND, ArmorMaterials.DIAMOND),
     NETHERITE("netherite", SpiroTags.Items.NETHERITE_MATERIAL, Tiers.NETHERITE, ArmorMaterials.NETHERITE);

@@ -42,15 +42,20 @@ public class BlockTagDataProv extends BlockTagsProvider
         tag(SpiroTags.Blocks.INCORRECT_FOR_COPPER)
                 .addTag(BlockTags.NEEDS_IRON_TOOL)
                 .addTag(SpiroTags.Blocks.NEEDS_GOLD_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_STEEL_TOOL)
                 .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
         tag(SpiroTags.Blocks.INCORRECT_FOR_LEAD)
                 .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL);
         tag(BlockTags.INCORRECT_FOR_IRON_TOOL)
                 .addTag(SpiroTags.Blocks.NEEDS_GOLD_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_STEEL_TOOL)
                 .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
         tag(BlockTags.INCORRECT_FOR_GOLD_TOOL)
                 .remove(BlockTags.NEEDS_IRON_TOOL)
-                .remove(BlockTags.NEEDS_STONE_TOOL);
+                .remove(BlockTags.NEEDS_STONE_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_STEEL_TOOL);
+        tag(SpiroTags.Blocks.INCORRECT_FOR_STEEL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
     }
 
     private void oreTags(OreCollection set)
@@ -70,10 +75,15 @@ public class BlockTagDataProv extends BlockTagsProvider
             {
                 case COPPER, IRON, LEAD, LAPIS -> { tag(BlockTags.NEEDS_STONE_TOOL).add(o); }
                 case GOLD, REDSTONE -> { tag(BlockTags.NEEDS_IRON_TOOL).add(o); }
-                case DIAMOND, RUBY, EMERALD ->
+                case RUBY, EMERALD ->
                 {
                     tag(BlockTags.NEEDS_IRON_TOOL).remove(o);
                     tag(SpiroTags.Blocks.NEEDS_GOLD_TOOL).add(o);
+                }
+                case DIAMOND->
+                {
+                    tag(BlockTags.NEEDS_IRON_TOOL).remove(o);
+                    tag(SpiroTags.Blocks.NEEDS_STEEL_TOOL).add(o);
                 }
             }
         }
@@ -84,10 +94,15 @@ public class BlockTagDataProv extends BlockTagsProvider
         switch(m)
         {
             case LEAD -> { tag(BlockTags.NEEDS_STONE_TOOL).add(b); }
-            case DIAMOND, RUBY ->
+            case RUBY, EMERALD ->
             {
                 tag(BlockTags.NEEDS_IRON_TOOL).remove(b);
                 tag(SpiroTags.Blocks.NEEDS_GOLD_TOOL).add(b);
+            }
+            case DIAMOND ->
+            {
+                tag(BlockTags.NEEDS_IRON_TOOL).remove(b);
+                tag(SpiroTags.Blocks.NEEDS_STEEL_TOOL).add(b);
             }
         }
 
