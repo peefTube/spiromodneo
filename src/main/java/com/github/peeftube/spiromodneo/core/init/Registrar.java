@@ -86,6 +86,29 @@ public class Registrar
 
     public static final DeferredItem<Item> SINEW = ITEMS.registerSimpleItem("sinew");
 
+    // Special steel alloying items
+    /** Cast iron mixture is made using one coal or charcoal item with 4 iron ingot items. It is the only form of steel
+     * precursor which can be made using vanilla techniques.
+     * <p> However, it can produce steel if run through an oxygenated smelting process. */
+    public static final DeferredItem<Item> CAST_IRON_MIXTURE = ITEMS.registerSimpleItem("cast_iron_mix");
+    /** Cast iron is added but has no particular uses, apart from smelting into steel. Iron ore blocks
+     * can in theory be smelted into this but this has not been made a final decision as of writing this documentation.
+     * <p> It can be converted back to regular iron once oxygenation is available to the player.
+     * <p> To further compound upon the matter, cast iron cannot be made into blocks.
+     * <p> TODO: Allow oxygenation. */
+    public static final DeferredItem<Item> CAST_IRON = ITEMS.registerSimpleItem("cast_iron");
+    /** Steel mixture is made using crushed carbon dust with cast iron or regular iron. The cast iron recipe
+     * will require more cast iron, making it more expensive in terms of coal, but produces slightly more
+     * steel mixture, offsetting this cost. Steel can be oxygenated to produce regular iron if needed.
+     * <p> Steel mixture can also be run through oxygenation as a smelting process to produce extra steel. */
+    public static final DeferredItem<Item> STEEL_MIXTURE = ITEMS.registerSimpleItem("steel_mix");
+    /** Crushed carbon is a coal or charcoal derivative. It can be made from regular coal or charcoal, but
+     * when made using normal crafting is expensive to produce, requiring extra carbon sources as well as hard
+     * "crusher" items, like bricks or stones, consuming those items in the process. This means steel can be
+     * produced in the early game but is more of a commodity due to how expensive vanilla processes become
+     * for fuel sources, as well as the time needed to make this happen. */
+    public static final DeferredItem<Item> CRUSHED_CARBON = ITEMS.registerSimpleItem("crushed_carbon");
+
     // Based on Nyfaria's code:
     // https://shorturl.at/bktNR
     public static <B extends Block> DeferredBlock<B> regBlock(String name, Supplier<B> block)

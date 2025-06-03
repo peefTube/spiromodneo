@@ -40,6 +40,9 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         // Metal crafting handler
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalCraftingHandler(metal, output); }
 
+        // Alloying handlers
+        steelAlloyHandler(output);
+
         // Automatic ore smelting handler, this will later handle ore-to-ingot conversions when that's implemented
         // NOTE: The ore-to-ingot conversion mentioned is not block-to-ingot smelting, but item-to-ingot, which will
         //       need to be handled later when new non-gems are added
@@ -47,6 +50,50 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
 
         // Additional / Other / Loose
         stringLikeHandler(output);
+    }
+
+    /** As steel is technically an alloy, but the presence of iron in vanilla MC is so pervasive,
+     * this special handler method is being added to deal with cases like smelting from iron ore, etc. */
+    private void steelAlloyHandler(RecipeOutput consumer)
+    {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Registrar.CAST_IRON_MIXTURE, 4)
+                              .requires(Ingredient.of(ItemTags.COALS))
+                              .requires(Ingredient.of(Items.IRON_INGOT), 4)
+                              .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                              .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_cast_iron_mixing"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Registrar.STEEL_MIXTURE, 4)
+                              .requires(Ingredient.of(Registrar.CRUSHED_CARBON))
+                              .requires(Ingredient.of(Items.IRON_INGOT), 4)
+                              .unlockedBy("has_carbon", has(Registrar.CRUSHED_CARBON))
+                              .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_better_steel_mixing"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Registrar.STEEL_MIXTURE, 7)
+                              .requires(Ingredient.of(Registrar.CRUSHED_CARBON))
+                              .requires(Ingredient.of(Registrar.CAST_IRON), 6)
+                              .unlockedBy("has_cast_iron", has(Registrar.CAST_IRON))
+                              .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_weaker_steel_mixing"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Registrar.CRUSHED_CARBON, 3)
+                              .requires(Ingredient.of(ItemTags.COALS), 2)
+                              .requires(Ingredient.of(Items.BRICK))
+                              .unlockedBy("has_coal", has(ItemTags.COALS))
+                              .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_weak_carbon_crushing"));
+
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Registrar.CAST_IRON_MIXTURE), RecipeCategory.MISC,
+                Registrar.CAST_IRON, 0.5f, 1600)
+                .unlockedBy("has_cast_iron_mix", has(Registrar.CAST_IRON_MIXTURE))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_smelt_cast_iron_from_mix"));
+
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(Registrar.CAST_IRON_MIXTURE), RecipeCategory.MISC,
+                Registrar.CAST_IRON, 1.0f, 800)
+                .unlockedBy("has_cast_iron_mix", has(Registrar.CAST_IRON_MIXTURE))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_blast_cast_iron_from_mix"));
+
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(Registrar.STEEL_MIXTURE), RecipeCategory.MISC,
+                Registrar.STEEL_METAL.ingotData().getIngot().get(), 4.0f, 3200)
+                .unlockedBy("has_steel_mix", has(Registrar.STEEL_MIXTURE))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_blast_steel_from_mix"));
     }
 
     private void equipmentCraftingHandler(EquipmentCollection set, RecipeOutput consumer)
@@ -189,6 +236,14 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(rawOre), RecipeCategory.MISC, output, 1.0f, 200)
               .unlockedBy("has_" + mat + "_ore", has(rawOre))
               .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_smelt_" + mat + "_from_ore"));
+
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(tag), RecipeCategory.MISC, output, 1.0f, 100)
+                .unlockedBy("has_packed_" + mat + "_ore", has(tag))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_blast_" + mat + "_from_ore_block"));
+
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(rawOre), RecipeCategory.MISC, output, 1.0f, 100)
+              .unlockedBy("has_" + mat + "_ore", has(rawOre))
+              .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_blast_" + mat + "_from_ore"));
 
         // Item-to-block crafting (raw ore only) and vice versa; ONLY DO THIS FOR NON-GEMS
         if (!set.material().isGem())

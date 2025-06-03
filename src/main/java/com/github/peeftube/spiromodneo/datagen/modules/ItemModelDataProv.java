@@ -34,6 +34,10 @@ public class ItemModelDataProv extends ItemModelProvider
         // ============================================================================================================
         // Normal items
         itemParser(Registrar.SINEW);
+        itemParser(Registrar.CAST_IRON_MIXTURE);
+        itemParser(Registrar.CAST_IRON);
+        itemParser(Registrar.STEEL_MIXTURE);
+        itemParser(Registrar.CRUSHED_CARBON);
         for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS) { equipmentSetDesign(equip); }
 
         // ============================================================================================================

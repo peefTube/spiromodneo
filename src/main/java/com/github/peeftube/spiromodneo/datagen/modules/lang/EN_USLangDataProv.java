@@ -37,6 +37,11 @@ public class EN_USLangDataProv extends LanguageProvider
         // Other / Loose
         add(Registrar.SINEW.get(), "Animal Sinew");
 
+        add(Registrar.CAST_IRON_MIXTURE.get(), "Cast Iron Mixture");
+        add(Registrar.CAST_IRON.get(), "Cast Iron Ingot");
+        add(Registrar.STEEL_MIXTURE.get(), "Steel Mixture");
+        add(Registrar.CRUSHED_CARBON.get(), "Carbon Dust");
+
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
     }

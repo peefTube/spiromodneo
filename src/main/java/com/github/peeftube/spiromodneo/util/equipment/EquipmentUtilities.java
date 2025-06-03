@@ -50,7 +50,7 @@ public interface EquipmentUtilities
                     () -> Items.NETHERITE_HOE, () -> Items.NETHERITE_AXE, () -> Items.NETHERITE_PICKAXE); }
 
             // Modded cases run through another method.
-            case LEAD, COPPER -> { return createNewToolSet(mat); }
+            case LEAD, COPPER, STEEL -> { return createNewToolSet(mat); }
 
             // Fallback case
             default -> { return null; }
@@ -76,7 +76,7 @@ public interface EquipmentUtilities
                     () -> Items.NETHERITE_LEGGINGS, () -> Items.NETHERITE_BOOTS); }
 
             // Modded cases run through another method.
-            case LEAD, COPPER -> { return createNewArmorSet(mat); }
+            case LEAD, COPPER, STEEL -> { return createNewArmorSet(mat); }
 
             // Fallback case
             default -> { return null; }
