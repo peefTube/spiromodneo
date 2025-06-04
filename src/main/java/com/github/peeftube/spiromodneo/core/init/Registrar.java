@@ -112,6 +112,10 @@ public class Registrar
      * for fuel sources, as well as the time needed to make this happen. */
     public static final DeferredItem<Item> CRUSHED_CARBON = ITEMS.registerSimpleItem("crushed_carbon");
 
+    public static final DeferredBlock<Block> MANUAL_CRUSHER = BLOCKS.register("manual_crusher",
+            () -> new Block(STONE_BASED_ORE));
+    public static final DeferredItem<Item> MANUAL_CRUSHER_ITEM = regSimpleBlockItem(MANUAL_CRUSHER);
+
     // Based on Nyfaria's code:
     // https://shorturl.at/bktNR
     public static <B extends Block> DeferredBlock<B> regBlock(String name, Supplier<B> block)

@@ -43,6 +43,8 @@ public class EN_USLangDataProv extends LanguageProvider
         add(Registrar.WEAK_STEEL_MIXTURE.get(), "Steel Mixture CI");
         add(Registrar.CRUSHED_CARBON.get(), "Carbon Dust");
 
+        add(Registrar.MANUAL_CRUSHER.get(), "Manual Crusher");
+
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
     }

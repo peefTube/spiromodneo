@@ -52,6 +52,20 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         stringLikeHandler(output);
     }
 
+    private void manualCrusherHandler(RecipeOutput consumer)
+    {
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registrar.MANUAL_CRUSHER)
+               .pattern("LPI")
+               .pattern("I I")
+               .pattern("SSS")
+               .define('L', Items.LEVER)
+               .define('P', Items.PISTON)
+               .define('I', Items.IRON_INGOT) // TODO: Replace with iron rod
+               .define('S', Items.SMOOTH_STONE)
+               .unlockedBy("has_iron", has(Items.IRON_INGOT))
+               .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_manual_crusher_crafting"));
+    }
+
     /** As steel is technically an alloy, but the presence of iron in vanilla MC is so pervasive,
      * this special handler method is being added to deal with cases like smelting from iron ore, etc. */
     private void steelAlloyHandler(RecipeOutput consumer)

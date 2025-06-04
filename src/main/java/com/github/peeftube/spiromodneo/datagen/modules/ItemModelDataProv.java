@@ -45,6 +45,7 @@ public class ItemModelDataProv extends ItemModelProvider
         // Block items
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
+        blockParser(Registrar.MANUAL_CRUSHER_ITEM);
     }
 
     protected void equipmentSetDesign(EquipmentCollection set)

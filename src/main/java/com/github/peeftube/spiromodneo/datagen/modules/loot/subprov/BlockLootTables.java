@@ -32,6 +32,7 @@ public class BlockLootTables extends BlockLootSubProvider
     {
         // Simple drop-self tables
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalTables(metal); }
+        dropSelf(Registrar.MANUAL_CRUSHER.get());
 
         // Ore tables
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreTables(ore); }

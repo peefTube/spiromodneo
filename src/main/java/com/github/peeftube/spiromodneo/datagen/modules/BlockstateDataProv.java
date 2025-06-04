@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
@@ -31,6 +32,14 @@ public class BlockstateDataProv extends BlockStateProvider
     {
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
+
+        externalModelAssociation01(Registrar.MANUAL_CRUSHER.get(), "manual_crusher");
+    }
+
+    protected void externalModelAssociation01(Block b, String template)
+    {
+        BlockModelBuilder bm = models().withExistingParent(name(b), RLUtility.makeRL(SpiroMod.MOD_ID, template + "_import"));
+        getVariantBuilder(b).partialState().setModels(new ConfiguredModel(bm));
     }
 
     protected void metalSetDesign(MetalCollection set)
