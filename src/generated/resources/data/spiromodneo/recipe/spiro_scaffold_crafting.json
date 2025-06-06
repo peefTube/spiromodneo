@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": {
+      "tag": "spiromodneo:string_like"
+    },
+    "X": {
+      "item": "minecraft:bamboo"
+    }
+  },
+  "pattern": [
+    "XSX",
+    "X X",
+    "X X"
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:scaffolding"
+  }
+}

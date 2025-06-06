@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_carbon": {
+      "conditions": {
+        "items": [
+          {
+            "items": "spiromodneo:crushed_carbon"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "spiromodneo:spiro_better_steel_mixing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_carbon"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spiromodneo:spiro_better_steel_mixing"
+    ]
+  }
+}

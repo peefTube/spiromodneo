@@ -1,0 +1,9 @@
+{
+  "remove": [
+    "#minecraft:needs_iron_tool",
+    "#minecraft:needs_stone_tool"
+  ],
+  "values": [
+    "#spiromodneo:needs_steel_tool"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "minecraft:coals"
+    },
+    {
+      "tag": "minecraft:coals"
+    },
+    {
+      "item": "minecraft:brick"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "spiromodneo:crushed_carbon"
+  }
+}

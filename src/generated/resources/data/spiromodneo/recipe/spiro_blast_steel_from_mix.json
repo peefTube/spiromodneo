@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 3200,
+  "experience": 4.0,
+  "ingredient": {
+    "tag": "spiromodneo:steel_mixtures"
+  },
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:steel_ingot"
+  }
+}

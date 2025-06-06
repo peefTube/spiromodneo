@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "/": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "tag": "spiromodneo:mat_lead"
+    }
+  },
+  "pattern": [
+    "I",
+    "/",
+    "/"
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:lead_shovel"
+  }
+}

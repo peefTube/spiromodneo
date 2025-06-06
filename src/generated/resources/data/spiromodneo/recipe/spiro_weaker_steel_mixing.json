@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "spiromodneo:crushed_carbon"
+    },
+    {
+      "item": "spiromodneo:cast_iron"
+    },
+    {
+      "item": "spiromodneo:cast_iron"
+    },
+    {
+      "item": "spiromodneo:cast_iron"
+    },
+    {
+      "item": "spiromodneo:cast_iron"
+    },
+    {
+      "item": "spiromodneo:cast_iron"
+    },
+    {
+      "item": "spiromodneo:cast_iron"
+    }
+  ],
+  "result": {
+    "count": 7,
+    "id": "spiromodneo:weak_steel_mix"
+  }
+}

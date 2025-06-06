@@ -1,0 +1,22 @@
+{
+  "entries": [
+    "spiromodneo:pig_drops",
+    "spiromodneo:sheep/white_sheep_drops",
+    "spiromodneo:sheep/light_gray_sheep_drops",
+    "spiromodneo:sheep/gray_sheep_drops",
+    "spiromodneo:sheep/black_sheep_drops",
+    "spiromodneo:sheep/blue_sheep_drops",
+    "spiromodneo:sheep/light_blue_sheep_drops",
+    "spiromodneo:sheep/brown_sheep_drops",
+    "spiromodneo:sheep/red_sheep_drops",
+    "spiromodneo:sheep/pink_sheep_drops",
+    "spiromodneo:sheep/yellow_sheep_drops",
+    "spiromodneo:sheep/orange_sheep_drops",
+    "spiromodneo:sheep/green_sheep_drops",
+    "spiromodneo:sheep/lime_sheep_drops",
+    "spiromodneo:sheep/purple_sheep_drops",
+    "spiromodneo:sheep/magenta_sheep_drops",
+    "spiromodneo:cow_drops"
+  ],
+  "replace": false
+}

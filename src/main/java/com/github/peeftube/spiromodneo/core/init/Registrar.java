@@ -1,24 +1,22 @@
 package com.github.peeftube.spiromodneo.core.init;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
-import com.github.peeftube.spiromodneo.core.MaterialStrengthMod;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.ManualCrusherBlock;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ManualCrusherBlockEntity;
 import com.github.peeftube.spiromodneo.core.init.creative.CTProcessor;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.MinMax;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
-import com.github.peeftube.spiromodneo.util.equipment.ArmorSet;
 import com.github.peeftube.spiromodneo.util.equipment.CustomArmorMaterial;
-import com.github.peeftube.spiromodneo.util.equipment.EquipmentData;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
@@ -29,7 +27,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.lang.reflect.Field;
 import java.util.function.Supplier;
 
 public class Registrar
@@ -52,6 +49,7 @@ public class Registrar
         IEventBus bus = ModLoadingContext.get().getActiveContainer().getEventBus();
         BLOCKS.register(bus);
         ITEMS.register(bus);
+        BLOCK_ENTITIES.register(bus);
         ARMOR_MATERIALS.register(bus);
         FEATURES.register(bus);
         CREATIVE_MODE_TABS.register(bus);
@@ -75,8 +73,10 @@ public class Registrar
             BlockBehaviour.Properties.of().strength(BlockToughnessLevel.NORMAL.get()).sound(SoundType.METAL);
 
     public static final DeferredRegister.Blocks BLOCKS          = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
-    public static final DeferredRegister.Items  ITEMS           = DeferredRegister.createItems(SpiroMod.MOD_ID);
-    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS =
+    public static final DeferredRegister.Items            ITEMS              = DeferredRegister.createItems(SpiroMod.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
+            DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, SpiroMod.MOD_ID);
+    public static final DeferredRegister<ArmorMaterial>   ARMOR_MATERIALS    =
             DeferredRegister.create(Registries.ARMOR_MATERIAL, SpiroMod.MOD_ID);
     public static final DeferredRegister<Feature<?>> FEATURES   = DeferredRegister.create(BuiltInRegistries.FEATURE, SpiroMod.MOD_ID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -113,7 +113,10 @@ public class Registrar
     public static final DeferredItem<Item> CRUSHED_CARBON = ITEMS.registerSimpleItem("crushed_carbon");
 
     public static final DeferredBlock<Block> MANUAL_CRUSHER = BLOCKS.register("manual_crusher",
-            () -> new Block(STONE_BASED_ORE));
+            () -> new ManualCrusherBlock(STONE_BASED_ORE.noOcclusion()));
+    public static final Supplier<BlockEntityType<ManualCrusherBlockEntity>> MANUAL_CRUSHER_ENTITY =
+            BLOCK_ENTITIES.register("manual_crusher_entity", () -> BlockEntityType.Builder.of(
+                    ManualCrusherBlockEntity::new, MANUAL_CRUSHER.get()).build(null));
     public static final DeferredItem<Item> MANUAL_CRUSHER_ITEM = regSimpleBlockItem(MANUAL_CRUSHER);
 
     // Based on Nyfaria's code:

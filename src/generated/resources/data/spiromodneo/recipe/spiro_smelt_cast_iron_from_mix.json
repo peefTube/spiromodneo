@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 1600,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "spiromodneo:cast_iron_mix"
+  },
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:cast_iron"
+  }
+}
