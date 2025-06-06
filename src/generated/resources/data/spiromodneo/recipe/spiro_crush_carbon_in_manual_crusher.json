@@ -1,0 +1,10 @@
+{
+  "type": "spiromodneo:manual_crusher",
+  "ingredient": {
+    "tag": "minecraft:coals"
+  },
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:crushed_carbon"
+  }
+}

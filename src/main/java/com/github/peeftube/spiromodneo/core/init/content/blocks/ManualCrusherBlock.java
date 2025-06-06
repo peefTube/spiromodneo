@@ -38,6 +38,6 @@ public class ManualCrusherBlock extends BaseEntityBlock
     {
         if (level.isClientSide()) { return null; }
         return createTickerHelper(blockEntityType, Registrar.MANUAL_CRUSHER_ENTITY.get(),
-                (xLevel, bPos, state, bEnt) -> bEnt.tick(xLevel, bPos, state));
+                (xLevel, bPos, xState, bEnt) -> bEnt.tick(xLevel, bPos, state));
     }
 }

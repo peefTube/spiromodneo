@@ -2,6 +2,7 @@ package com.github.peeftube.spiromodneo.datagen.modules.recipe;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipeBuilder;
 import com.github.peeftube.spiromodneo.core.init.registry.data.EquipmentCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.EquipmentMaterial;
 import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
@@ -12,14 +13,11 @@ import com.github.peeftube.spiromodneo.util.equipment.EquipmentData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
@@ -50,9 +48,10 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
 
         // Additional / Other / Loose
         stringLikeHandler(output);
+        manualCrusherCraftingHandler(output);
     }
 
-    private void manualCrusherHandler(RecipeOutput consumer)
+    private void manualCrusherCraftingHandler(RecipeOutput consumer)
     {
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registrar.MANUAL_CRUSHER)
                .pattern("LPI")
@@ -64,6 +63,11 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                .define('S', Items.SMOOTH_STONE)
                .unlockedBy("has_iron", has(Items.IRON_INGOT))
                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_manual_crusher_crafting"));
+
+        ManualCrusherRecipeBuilder.crush(Ingredient.of(ItemTags.COALS),
+                RecipeCategory.MISC, Registrar.CRUSHED_CARBON.get(), 2, 1.0f)
+                .unlockedBy("has_coal", has(ItemTags.COALS))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_crush_carbon_in_manual_crusher"));
     }
 
     /** As steel is technically an alloy, but the presence of iron in vanilla MC is so pervasive,

@@ -3,6 +3,7 @@ package com.github.peeftube.spiromodneo.core.init;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.ManualCrusherBlock;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ManualCrusherBlockEntity;
+import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipe;
 import com.github.peeftube.spiromodneo.core.init.creative.CTProcessor;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.MinMax;
@@ -14,6 +15,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -52,6 +55,8 @@ public class Registrar
         BLOCK_ENTITIES.register(bus);
         ARMOR_MATERIALS.register(bus);
         FEATURES.register(bus);
+        RECIPE_SERIALIZERS.register(bus);
+        RECIPE_TYPES.register(bus);
         CREATIVE_MODE_TABS.register(bus);
     }
 
@@ -78,8 +83,13 @@ public class Registrar
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, SpiroMod.MOD_ID);
     public static final DeferredRegister<ArmorMaterial>   ARMOR_MATERIALS    =
             DeferredRegister.create(Registries.ARMOR_MATERIAL, SpiroMod.MOD_ID);
-    public static final DeferredRegister<Feature<?>> FEATURES   = DeferredRegister.create(BuiltInRegistries.FEATURE, SpiroMod.MOD_ID);
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
+    public static final DeferredRegister<Feature<?>> FEATURES =
+            DeferredRegister.create(BuiltInRegistries.FEATURE, SpiroMod.MOD_ID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+            DeferredRegister.create(Registries.RECIPE_SERIALIZER, SpiroMod.MOD_ID);
+    public static final DeferredRegister<RecipeType<?>>       RECIPE_TYPES =
+            DeferredRegister.create(Registries.RECIPE_TYPE, SpiroMod.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab>     CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
     // Features go above all else!!!
@@ -118,6 +128,17 @@ public class Registrar
             BLOCK_ENTITIES.register("manual_crusher_entity", () -> BlockEntityType.Builder.of(
                     ManualCrusherBlockEntity::new, MANUAL_CRUSHER.get()).build(null));
     public static final DeferredItem<Item> MANUAL_CRUSHER_ITEM = regSimpleBlockItem(MANUAL_CRUSHER);
+
+    public static final DeferredHolder<RecipeSerializer<?>,
+            RecipeSerializer<ManualCrusherRecipe>> MANUAL_CRUSHER_SERIALIZER =
+        RECIPE_SERIALIZERS.register("manual_crusher", ManualCrusherRecipe.Serializer::new);
+    public static final DeferredHolder<RecipeType<?>,
+            RecipeType<ManualCrusherRecipe>> MANUAL_CRUSHER_TYPE =
+        RECIPE_TYPES.register("manual_crusher", () -> new RecipeType<ManualCrusherRecipe>()
+        {
+            @Override
+            public String toString() { return "manual_crusher"; }
+        });
 
     // Based on Nyfaria's code:
     // https://shorturl.at/bktNR
