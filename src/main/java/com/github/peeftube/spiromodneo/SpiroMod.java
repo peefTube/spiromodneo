@@ -2,6 +2,9 @@ package com.github.peeftube.spiromodneo;
 
 import com.github.peeftube.spiromodneo.core.init.InitializeBlockRenderTypes;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.screens.ManualCrusherMenu;
+import com.github.peeftube.spiromodneo.core.screens.ManualCrusherScreen;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -92,6 +95,12 @@ public class SpiroMod
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
             InitializeBlockRenderTypes.go();
+        }
+
+        @SubscribeEvent
+        public static void onScreenRegistration(RegisterMenuScreensEvent event)
+        {
+            event.register(Registrar.MANUAL_CRUSHER_MENU.get(), ManualCrusherScreen::new);
         }
     }
 }

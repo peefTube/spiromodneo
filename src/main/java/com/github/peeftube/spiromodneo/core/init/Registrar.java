@@ -6,6 +6,7 @@ import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ManualCru
 import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipe;
 import com.github.peeftube.spiromodneo.core.init.creative.CTProcessor;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
+import com.github.peeftube.spiromodneo.core.screens.ManualCrusherMenu;
 import com.github.peeftube.spiromodneo.util.MinMax;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.equipment.CustomArmorMaterial;
@@ -13,6 +14,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -25,6 +27,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.common.SimpleTier;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -53,6 +56,7 @@ public class Registrar
         BLOCKS.register(bus);
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
+        MENUS.register(bus);
         ARMOR_MATERIALS.register(bus);
         FEATURES.register(bus);
         RECIPE_SERIALIZERS.register(bus);
@@ -81,6 +85,8 @@ public class Registrar
     public static final DeferredRegister.Items            ITEMS              = DeferredRegister.createItems(SpiroMod.MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, SpiroMod.MOD_ID);
+    public static final DeferredRegister<MenuType<?>> MENUS =
+            DeferredRegister.create(BuiltInRegistries.MENU, SpiroMod.MOD_ID);
     public static final DeferredRegister<ArmorMaterial>   ARMOR_MATERIALS    =
             DeferredRegister.create(Registries.ARMOR_MATERIAL, SpiroMod.MOD_ID);
     public static final DeferredRegister<Feature<?>> FEATURES =
@@ -128,6 +134,9 @@ public class Registrar
             BLOCK_ENTITIES.register("manual_crusher_entity", () -> BlockEntityType.Builder.of(
                     ManualCrusherBlockEntity::new, MANUAL_CRUSHER.get()).build(null));
     public static final DeferredItem<Item> MANUAL_CRUSHER_ITEM = regSimpleBlockItem(MANUAL_CRUSHER);
+
+    public static final DeferredHolder<MenuType<?>, MenuType<ManualCrusherMenu>> MANUAL_CRUSHER_MENU =
+            MENUS.register("manual_crusher_menu", () -> IMenuTypeExtension.create(ManualCrusherMenu::new));
 
     public static final DeferredHolder<RecipeSerializer<?>,
             RecipeSerializer<ManualCrusherRecipe>> MANUAL_CRUSHER_SERIALIZER =

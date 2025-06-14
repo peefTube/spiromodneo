@@ -3,6 +3,7 @@ package com.github.peeftube.spiromodneo.core.init.content.blocks.entity;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipe;
 import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipeInput;
+import com.github.peeftube.spiromodneo.core.screens.ManualCrusherMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -46,8 +47,8 @@ public class ManualCrusherBlockEntity extends BlockEntity implements MenuProvide
     { return Component.translatable("block.spiromodneo.manual_crusher"); }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player)
-    { return null; }
+    public @Nullable AbstractContainerMenu createMenu(int id, Inventory inv, Player player)
+    { return new ManualCrusherMenu(id, inv, this); }
 
     /** Copied from: <a href="https://tinyurl.com/2kuvcsxn">KaupenJoe Tutorials</a> */
     @Override
