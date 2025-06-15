@@ -12,24 +12,47 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-import static com.ibm.icu.text.PluralRules.Operand.i;
-
 public class ManualCrusherBlockEntity extends BlockEntity implements MenuProvider
 {
     public final ItemStackHandler inv = new ItemStackHandler(2)
     {
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack)
+        { return slot == Slots.INPUT.getSlot(); }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate)
+        {
+            if (slot == Slots.INPUT.getSlot())
+            {
+                if (super.getStackInSlot(slot).getCount() - amount <= 0)
+                { super.setStackInSlot(Slots.OUTPUT.getSlot(), ItemStack.EMPTY); }
+                return super.extractItem(slot, amount, simulate);
+            }
+            else
+            {
+//                this.setStackInSlot(Slots.INPUT.getSlot(),
+//                        super.extractItem(Slots.INPUT.getSlot(), 1, simulate));
+                super.extractItem(Slots.INPUT.getSlot(), 1, simulate);
+
+                int extractionCount = ManualCrusherBlockEntity.this.getCurrentRecipe().isEmpty() ? 64 :
+                        ManualCrusherBlockEntity.this.getCurrentRecipe().get().value().output().getCount();
+
+                return super.extractItem(slot,
+                        Math.min(extractionCount, this.getStackInSlot(slot).getCount()), simulate);
+            }
+        }
+
         @Override
         protected void onContentsChanged(int slot)
         {
@@ -80,8 +103,11 @@ public class ManualCrusherBlockEntity extends BlockEntity implements MenuProvide
         Optional<RecipeHolder<ManualCrusherRecipe>> recipe = getCurrentRecipe();
         ItemStack output = recipe.get().value().output();
 
-        inv.setStackInSlot(Slots.OUTPUT.getSlot(), new ItemStack(output.getItem(),
-                inv.getStackInSlot(Slots.OUTPUT.getSlot()).getCount() + output.getCount()));
+        int outputCount = recipe.get().value().getResultItem().getCount();
+
+        /* inv.setStackInSlot(Slots.OUTPUT.getSlot(), new ItemStack(output.getItem(),
+                inv.getStackInSlot(Slots.OUTPUT.getSlot()).getCount() + output.getCount())); */
+        inv.setStackInSlot(Slots.OUTPUT.getSlot(), new ItemStack(output.getItem(), outputCount));
     }
 
     private boolean hasRecipe()

@@ -2,6 +2,8 @@ package com.github.peeftube.spiromodneo.core.screens;
 
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ManualCrusherBlockEntity;
+import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipe;
+import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipeInput;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -10,10 +12,15 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class ManualCrusherMenu extends AbstractContainerMenu
 {
@@ -32,11 +39,11 @@ public class ManualCrusherMenu extends AbstractContainerMenu
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        int inputSlot = ManualCrusherBlockEntity.Slots.INPUT.getSlot();
-        int outputSlot = ManualCrusherBlockEntity.Slots.OUTPUT.getSlot();
+        int slotInID = ManualCrusherBlockEntity.Slots.INPUT.getSlot();
+        int slotOutID = ManualCrusherBlockEntity.Slots.OUTPUT.getSlot();
 
-        this.addSlot(new SlotItemHandler(this.blockEntity.inv, inputSlot, 49, 35));
-        this.addSlot(new SlotItemHandler(this.blockEntity.inv, outputSlot, 107, 35));
+        this.addSlot(new SlotItemHandler(this.blockEntity.inv, slotInID, 49, 35));
+        this.addSlot(new SlotItemHandler(this.blockEntity.inv, slotOutID, 107, 35));
     }
 
     private void addPlayerInventory(Inventory inv)

@@ -37,6 +37,7 @@ public class ManualCrusherRecipeBuilder implements RecipeBuilder
     {
         this.category = cat;
         this.result = result;
+        this.result.setCount(count);
         this.count = count;
         this.ingredient = ingredient;
         this.experience = exp;

@@ -44,6 +44,9 @@ public record ManualCrusherRecipe(Ingredient inputItem, ItemStack output) implem
     public ItemStack getResultItem(HolderLookup.Provider registries)
     { return output; }
 
+    public ItemStack getResultItem()
+    { return output; }
+
     @Override
     public RecipeSerializer<?> getSerializer()
     { return Registrar.MANUAL_CRUSHER_SERIALIZER.get(); }
