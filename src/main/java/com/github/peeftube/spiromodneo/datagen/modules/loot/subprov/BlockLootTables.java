@@ -1,26 +1,33 @@
 package com.github.peeftube.spiromodneo.datagen.modules.loot.subprov;
 
+import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class BlockLootTables extends BlockLootSubProvider
 {
@@ -34,8 +41,44 @@ public class BlockLootTables extends BlockLootSubProvider
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalTables(metal); }
         dropSelf(Registrar.MANUAL_CRUSHER.get());
 
+        // Stone drop tables
+        for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneTables(stone); }
+
         // Ore tables
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreTables(ore); }
+    }
+
+    protected void stoneTables(StoneCollection set)
+    {
+        Map<Integer, Map<Supplier<Block>, Boolean>> mappings = set.returnBlockData();
+
+        for (int i = 0; i < mappings.size(); i++)
+        {
+            Map<Supplier<Block>, Boolean> subMappings = mappings.get(i);
+            for (Supplier<Block> s : subMappings.keySet())
+            {
+                switch(i)
+                {
+                    case 0 -> // Base stone. Should act like cobblestone drops.
+                    {
+                        // Is this vanilla? If not, we can run the code.
+                        if (!subMappings.get(s).booleanValue())
+                        {
+                            if (s.get() instanceof SlabBlock || s.get() instanceof StairBlock ||
+                                    s.get() instanceof ButtonBlock || s.get() instanceof PressurePlateBlock ||
+                            s.get() instanceof WallBlock)
+                            { dropSelf(s.get()); }
+                            else { dropOther(s.get(), mappings.get(1).keySet().stream().toList().getFirst().get()); }
+                        }
+                    }
+
+                    // We should have no need to check additional info from here on out.
+                    // TODO: Determine if this is true!
+                    default ->
+                    { if (!subMappings.get(s).booleanValue()) {dropSelf(s.get());}}
+                }
+            }
+        }
     }
 
     protected void metalTables(MetalCollection set)
@@ -88,7 +131,7 @@ public class BlockLootTables extends BlockLootSubProvider
             Item oreToDrop = set.getRawOre().getRawItem().get();
             NumberProvider oreToDropAmounts = set.getDropCount();
 
-            add(self, oreTable01(self, s.getOreBase().getAssociatedBlock().get(), oreToDrop, oreToDropAmounts));
+            add(self, oreTable01(self, s, oreToDrop, oreToDropAmounts));
         }
 
         // For block of this ore, assuming that it doesn't exist in vanilla already.
@@ -99,14 +142,26 @@ public class BlockLootTables extends BlockLootSubProvider
     protected Iterable<Block> getKnownBlocks()
     { return Registrar.BLOCKS.getEntries().stream().<Block>map(DeferredHolder::value).toList(); }
 
-    protected LootTable.Builder oreTable01(Block b0, Block b1, Item item, NumberProvider dropAmtRange)
+    protected LootTable.Builder oreTable01(Block b0, StoneMaterial s, Item item, NumberProvider dropAmtRange)
     {
         HolderLookup.RegistryLookup<Enchantment> regLookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
 
-        return this.createSilkTouchDispatchTable(b0,
+        LootTable.Builder builder = this.createSilkTouchDispatchTable(b0,
                 this.applyExplosionDecay(b0, LootItem.lootTableItem(item))
                         .apply(SetItemCountFunction.setCount(dropAmtRange))
                         .apply(ApplyBonusCount.addOreBonusCount(regLookup.getOrThrow(Enchantments.FORTUNE))));
+
+        Block b1 = ((s == StoneMaterial.STONE || s == StoneMaterial.DEEPSLATE) ?
+                (s == StoneMaterial.STONE) ? Blocks.COBBLESTONE : Blocks.COBBLED_DEEPSLATE :
+        BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(SpiroMod.MOD_ID, "cobbled_" + s.get())));
+
+        builder.withPool(
+                LootPool.lootPool()
+                        .add(LootItem.lootTableItem(b1))
+                        .setRolls(UniformGenerator.between(0, 1)))
+                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)));
+
+        return builder;
     }
 
     // Old code from 1.20.x, this no longer works and is here only for reference

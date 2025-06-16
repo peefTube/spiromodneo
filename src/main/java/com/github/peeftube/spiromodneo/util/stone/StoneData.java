@@ -29,4 +29,27 @@ public record StoneData(String name, RawStoneData stone, CobblestoneData cobble,
                         PolishedStoneData polished, StoneBrickData bricks, StoneTileData tile, CutStoneData cut,
                         MiscStoneData misc)
 {
+    public RawStoneData getStone()
+    { return this.stone; }
+
+    public CobblestoneData getCobble()
+    { return this.cobble; }
+
+    public SmoothStoneData getSmooth()
+    { return this.smooth; }
+
+    public PolishedStoneData getPolished()
+    { return this.polished; }
+
+    public StoneBrickData getBricks()
+    { return this.bricks; }
+
+    public StoneTileData getTile()
+    { return this.tile; }
+
+    public CutStoneData getCut()
+    { return this.cut; }
+
+    public MiscStoneData getMisc()
+    { return this.misc; }
 }

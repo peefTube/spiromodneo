@@ -2,10 +2,13 @@ package com.github.peeftube.spiromodneo.core.init.registry.data;
 
 import com.github.peeftube.spiromodneo.util.stone.StoneData;
 import com.github.peeftube.spiromodneo.util.stone.StoneUtilities;
+import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * A stone collection contains data related to all potential construction uses of a given type of stone.
@@ -26,5 +29,29 @@ public record StoneCollection(StoneMaterial material, StoneData bulkData) implem
         StoneCollection collection = new StoneCollection(material,
                 StoneUtilities.generateData(material));
         STONE_COLLECTIONS.add(collection); return collection;
+    }
+
+    public Map<Integer, Map<Supplier<Block>, Boolean>> returnBlockData()
+    {
+        Map<Integer, Map<Supplier<Block>, Boolean>> mappings = new HashMap<>();
+
+        Map<Supplier<Block>, Boolean> rawMappings =
+                this.bulkData.getStone().getValues(); mappings.put(0, rawMappings);
+        Map<Supplier<Block>, Boolean> cobbleMappings =
+                this.bulkData.getCobble().getValues(); mappings.put(1, cobbleMappings);
+        Map<Supplier<Block>, Boolean> smoothMappings =
+                this.bulkData.getSmooth().getValues(); mappings.put(2, smoothMappings);
+        Map<Supplier<Block>, Boolean> polishedMappings =
+                this.bulkData.getPolished().getValues(); mappings.put(3, polishedMappings);
+        Map<Supplier<Block>, Boolean> bricksMappings =
+                this.bulkData.getBricks().getValues(); mappings.put(4, bricksMappings);
+        Map<Supplier<Block>, Boolean> tilesMappings =
+                this.bulkData.getTile().getValues(); mappings.put(5, tilesMappings);
+        Map<Supplier<Block>, Boolean> cutMappings =
+                this.bulkData.getCut().getValues(); mappings.put(6, cutMappings);
+        Map<Supplier<Block>, Boolean> miscMappings =
+                this.bulkData.getMisc().getValues(); mappings.put(7, miscMappings);
+
+        return mappings;
     }
 }

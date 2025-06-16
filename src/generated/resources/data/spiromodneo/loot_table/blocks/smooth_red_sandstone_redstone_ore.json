@@ -1,5 +1,12 @@
 {
   "type": "minecraft:block",
+  "functions": [
+    {
+      "add": false,
+      "count": 1.0,
+      "function": "minecraft:set_count"
+    }
+  ],
   "pools": [
     {
       "bonus_rolls": 0.0,
@@ -55,6 +62,20 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spiromodneo:cobbled_red_sandstone"
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 1.0,
+        "min": 0.0
+      }
     }
   ],
   "random_sequence": "spiromodneo:blocks/smooth_red_sandstone_redstone_ore"

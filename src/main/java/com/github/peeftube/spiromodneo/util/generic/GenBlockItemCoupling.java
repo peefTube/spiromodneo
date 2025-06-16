@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record GenBlockItemCoupling(Supplier<Block> block, Supplier<Item> item)
+public record GenBlockItemCoupling(Supplier<Block> block, Supplier<Item> item, boolean isVanilla)
 {
     public static List<GenBlockItemCoupling> COUPLINGS = new ArrayList<>();
 
-    public static GenBlockItemCoupling couple(Supplier<Block> b, Supplier<Item> i)
-    { GenBlockItemCoupling c = new GenBlockItemCoupling(b, i); COUPLINGS.add(c); return c; }
+    public static GenBlockItemCoupling couple(Supplier<Block> b, Supplier<Item> i, boolean isVanilla)
+    { GenBlockItemCoupling c = new GenBlockItemCoupling(b, i, isVanilla); COUPLINGS.add(c); return c; }
 
     public Supplier<Block> getBlock()
     { return block; }
@@ -27,17 +27,20 @@ public record GenBlockItemCoupling(Supplier<Block> block, Supplier<Item> item)
     public Supplier<Item> getItem()
     { return item; }
 
+    public boolean isVanilla()
+    { return isVanilla; }
+
     public static GenBlockItemCoupling createNewBasic(Supplier<Block> b)
     {
         Supplier<Item> i = Registrar.regSimpleBlockItem((DeferredBlock<Block>) b);
-        return new GenBlockItemCoupling(b, i);
+        return new GenBlockItemCoupling(b, i, false);
     }
 
     public static GenBlockItemCoupling findFromBlock(Supplier<Block> b)
     {
         Block b0 = b.get();
         if (BuiltInRegistries.BLOCK.containsValue(b0))
-        { return new GenBlockItemCoupling(b, b0::asItem); }
+        { return new GenBlockItemCoupling(b, b0::asItem, true); }
         else
         { return createNewBasic(b); }
     }
