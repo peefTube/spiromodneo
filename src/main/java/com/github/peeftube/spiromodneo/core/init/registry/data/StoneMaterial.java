@@ -14,7 +14,7 @@ public enum StoneMaterial
     DIORITE("diorite", BaseStone.DIORITE),
     CALCITE("calcite", BaseStone.CALCITE),
     SANDSTONE("sandstone", BaseStone.SMS),
-    RED_SANDSTONE("calcite", BaseStone.SMRS),
+    RED_SANDSTONE("red_sandstone", BaseStone.SMRS),
     TUFF("tuff", BaseStone.TUFF),
     DRIPSTONE("dripstone", BaseStone.DRIPSTONE),
     NETHERRACK("netherrack", BaseStone.NETHERRACK),
