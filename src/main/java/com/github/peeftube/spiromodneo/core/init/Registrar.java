@@ -98,7 +98,23 @@ public class Registrar
     public static final DeferredRegister<CreativeModeTab>     CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
-    // Features go above all else!!!
+    // Stone collections should go first to avoid long-term problems.
+    public static final StoneCollection STONE_SET = StoneCollection.registerCollection(StoneMaterial.STONE);
+    public static final StoneCollection DEEPSLATE_SET = StoneCollection.registerCollection(StoneMaterial.DEEPSLATE);
+    public static final StoneCollection ANDESITE_SET = StoneCollection.registerCollection(StoneMaterial.ANDESITE);
+    public static final StoneCollection GRANITE_SET = StoneCollection.registerCollection(StoneMaterial.GRANITE);
+    public static final StoneCollection DIORITE_SET = StoneCollection.registerCollection(StoneMaterial.DIORITE);
+    public static final StoneCollection CALCITE_SET = StoneCollection.registerCollection(StoneMaterial.CALCITE);
+    public static final StoneCollection DRIPSTONE_SET = StoneCollection.registerCollection(StoneMaterial.DRIPSTONE);
+    public static final StoneCollection SANDSTONE_SET = StoneCollection.registerCollection(StoneMaterial.SANDSTONE);
+    public static final StoneCollection RED_SANDSTONE_SET = StoneCollection.registerCollection(StoneMaterial.RED_SANDSTONE);
+    public static final StoneCollection BASALT_SET = StoneCollection.registerCollection(StoneMaterial.BASALT);
+    public static final StoneCollection NETHERRACK_SET = StoneCollection.registerCollection(StoneMaterial.NETHERRACK);
+    public static final StoneCollection TUFF_SET = StoneCollection.registerCollection(StoneMaterial.TUFF);
+    public static final StoneCollection ENDSTONE_SET = StoneCollection.registerCollection(StoneMaterial.ENDSTONE);
+
+    // Features go above all else (that isn't stone collections)!!!
+    // -- placeholder -- //
 
     public static final DeferredItem<Item> SINEW = ITEMS.registerSimpleItem("sinew");
 
@@ -156,24 +172,6 @@ public class Registrar
 
     public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
     { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
-
-    // Stone collections need to go before everything else, they are explicitly referenced by data sets below and I
-    // have no interest in giving myself a headache later.
-    // NOTE: All appropriate "base stones" should be defined first so that they don't screw with the stone material
-    //       enum and wreak havoc on stone collection creation. Obviously this is not an issue for stock stone types.
-    public static final StoneCollection BASIC_STONE = StoneCollection.registerCollection(StoneMaterial.STONE);
-    public static final StoneCollection DEEPSLATE_STONE = StoneCollection.registerCollection(StoneMaterial.DEEPSLATE);
-    public static final StoneCollection ANDESITE_STONE = StoneCollection.registerCollection(StoneMaterial.ANDESITE);
-    public static final StoneCollection GRANITE_STONE = StoneCollection.registerCollection(StoneMaterial.GRANITE);
-    public static final StoneCollection DIORITE_STONE = StoneCollection.registerCollection(StoneMaterial.DIORITE);
-    public static final StoneCollection CALCITE_STONE = StoneCollection.registerCollection(StoneMaterial.CALCITE);
-    public static final StoneCollection SANDSTONE_STONE = StoneCollection.registerCollection(StoneMaterial.SANDSTONE);
-    public static final StoneCollection RED_SANDSTONE_STONE = StoneCollection.registerCollection(StoneMaterial.RED_SANDSTONE);
-    public static final StoneCollection TUFF_STONE = StoneCollection.registerCollection(StoneMaterial.TUFF);
-    public static final StoneCollection DRIPSTONE_STONE = StoneCollection.registerCollection(StoneMaterial.DRIPSTONE);
-    public static final StoneCollection NETHERRACK_STONE = StoneCollection.registerCollection(StoneMaterial.NETHERRACK);
-    public static final StoneCollection BASALT_STONE = StoneCollection.registerCollection(StoneMaterial.BASALT);
-    public static final StoneCollection ENDSTONE_STONE = StoneCollection.registerCollection(StoneMaterial.ENDSTONE);
 
     // Metal collections need to go first since some data sets will reference their contents
     public static final MetalCollection LEAD_METAL = MetalCollection.registerCollection(MetalMaterial.LEAD);

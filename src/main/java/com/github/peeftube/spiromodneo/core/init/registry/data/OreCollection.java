@@ -2,6 +2,7 @@ package com.github.peeftube.spiromodneo.core.init.registry.data;
 
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.util.MinMax;
+import com.github.peeftube.spiromodneo.util.TagCoupling;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.ore.*;
 import net.minecraft.tags.TagKey;
@@ -20,7 +21,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling> bulkData,
-                            RawCoupling rawOreCoupling, OreTagCoupling oreTags,
+                            RawCoupling rawOreCoupling, TagCoupling oreTags,
                             NumberProvider oreDropData) implements OreUtilities
 {
     public static List<OreCollection> ORE_COLLECTIONS = new ArrayList<>();
@@ -70,7 +71,7 @@ public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling
         String tagkey = "spiro_" + material.get() + "_ore";
         TagKey<Block> blockTag = SpiroTags.Blocks.tag(tagkey);
         TagKey<Item> itemTag = SpiroTags.Items.tag(tagkey);
-        OreTagCoupling tags = new OreTagCoupling(blockTag, itemTag);
+        TagCoupling  tags    = new TagCoupling(blockTag, itemTag);
 
         NumberProvider oreDrops = (MinMax.getMin() == MinMax.getMax()) ? ConstantValue.exactly(MinMax.getMin()) :
                 UniformGenerator.between(MinMax.getMin(), MinMax.getMax());

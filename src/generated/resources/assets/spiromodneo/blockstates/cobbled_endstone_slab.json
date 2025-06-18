@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "spiromodneo:block/cobbled_endstone_slab"
+    },
+    "type=double": {
+      "model": "spiromodneo:block/cobbled_endstone_slab_double"
+    },
+    "type=top": {
+      "model": "spiromodneo:block/cobbled_endstone_slab_top"
+    }
+  }
+}

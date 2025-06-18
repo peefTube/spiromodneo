@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "spiromodneo:block/granite_brick_slab"
+    },
+    "type=double": {
+      "model": "spiromodneo:block/granite_brick_slab_double"
+    },
+    "type=top": {
+      "model": "spiromodneo:block/granite_brick_slab_top"
+    }
+  }
+}

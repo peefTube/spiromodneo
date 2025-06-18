@@ -64,7 +64,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spiromodneo:cobbled_dripstone"
+          "name": "minecraft:air"
         }
       ],
       "rolls": {

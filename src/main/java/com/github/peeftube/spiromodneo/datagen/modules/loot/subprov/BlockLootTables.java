@@ -3,13 +3,14 @@ package com.github.peeftube.spiromodneo.datagen.modules.loot.subprov;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
-import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
+import com.github.peeftube.spiromodneo.util.stone.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -27,7 +28,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 public class BlockLootTables extends BlockLootSubProvider
 {
@@ -41,7 +41,7 @@ public class BlockLootTables extends BlockLootSubProvider
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalTables(metal); }
         dropSelf(Registrar.MANUAL_CRUSHER.get());
 
-        // Stone drop tables
+        // Stone tables
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneTables(stone); }
 
         // Ore tables
@@ -50,32 +50,71 @@ public class BlockLootTables extends BlockLootSubProvider
 
     protected void stoneTables(StoneCollection set)
     {
-        Map<Integer, Map<Supplier<Block>, Boolean>> mappings = set.returnBlockData();
-
-        for (int i = 0; i < mappings.size(); i++)
+        for (StoneBlockType type0 : StoneBlockType.values())
         {
-            Map<Supplier<Block>, Boolean> subMappings = mappings.get(i);
-            for (Supplier<Block> s : subMappings.keySet())
+            switch(type0)
             {
-                switch(i)
+                case BASE ->
                 {
-                    case 0 -> // Base stone. Should act like cobblestone drops.
+                    for (StoneVariantType type1 : StoneVariantType.values())
                     {
-                        // Is this vanilla? If not, we can run the code.
-                        if (!subMappings.get(s).booleanValue())
+                        if (set.bulkData().bulkData().get(type0).containsKey(type1))
                         {
-                            if (s.get() instanceof SlabBlock || s.get() instanceof StairBlock ||
-                                    s.get() instanceof ButtonBlock || s.get() instanceof PressurePlateBlock ||
-                            s.get() instanceof WallBlock)
-                            { dropSelf(s.get()); }
-                            else { dropOther(s.get(), mappings.get(1).keySet().stream().toList().getFirst().get()); }
+                            switch(type1)
+                            {
+                                default ->
+                                {
+                                    for (StoneSubBlockType type2 : StoneSubBlockType.values())
+                                    {
+                                        if (set.bulkData().bulkData().get(type0).get(type1).containsKey(type2)
+                                         && !StoneSetPresets.getPresets()
+                                        .containsKey(ExistingStoneCouplings
+                                                .getKey(set.material(), type0, type1, type2)))
+                                        {
+                                            switch (type2)
+                                            {
+                                                case DEFAULT -> stoneDropTable01(
+                                                        set.getBaseStone().get(), set.getCobble().get());
+
+                                                default -> dropSelf(set.bulkData()
+                                                       .getCouplingForKeys(type0, type1, type2).getBlock().get());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-
-                    // We should have no need to check additional info from here on out.
-                    // TODO: Determine if this is true!
-                    default ->
-                    { if (!subMappings.get(s).booleanValue()) {dropSelf(s.get());}}
+                }
+                default ->
+                {
+                    for (StoneVariantType type1 : StoneVariantType.values())
+                    {
+                        if (set.bulkData().bulkData().get(type0).containsKey(type1))
+                        {
+                            switch(type1)
+                            {
+                                default ->
+                                {
+                                    for (StoneSubBlockType type2 : StoneSubBlockType.values())
+                                    {
+                                        if (set.bulkData().bulkData().get(type0).get(type1).containsKey(type2)
+                                         && !StoneSetPresets.getPresets()
+                                        .containsKey(ExistingStoneCouplings
+                                                .getKey(set.material(), type0, type1, type2)))
+                                        {
+                                            switch(type2)
+                                            {
+                                                default ->
+                                                { dropSelf(set.bulkData().getCouplingForKeys(
+                                                        type0, type1, type2).getBlock().get()); }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -141,6 +180,18 @@ public class BlockLootTables extends BlockLootSubProvider
     @Override
     protected Iterable<Block> getKnownBlocks()
     { return Registrar.BLOCKS.getEntries().stream().<Block>map(DeferredHolder::value).toList(); }
+
+    protected LootTable.Builder stoneDropTable01(Block b0, Block b1)
+    {
+        HolderLookup.RegistryLookup<Enchantment> regLookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+
+        LootTable.Builder builder = this.createSilkTouchDispatchTable(b0,
+                this.applyExplosionDecay(b0, LootItem.lootTableItem(b1))
+                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
+                    .apply(ApplyBonusCount.addOreBonusCount(regLookup.getOrThrow(Enchantments.FORTUNE))));
+
+        return builder;
+    }
 
     protected LootTable.Builder oreTable01(Block b0, StoneMaterial s, Item item, NumberProvider dropAmtRange)
     {

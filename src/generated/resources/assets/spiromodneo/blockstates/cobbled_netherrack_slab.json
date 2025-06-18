@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "spiromodneo:block/cobbled_netherrack_slab"
+    },
+    "type=double": {
+      "model": "spiromodneo:block/cobbled_netherrack_slab_double"
+    },
+    "type=top": {
+      "model": "spiromodneo:block/cobbled_netherrack_slab_top"
+    }
+  }
+}

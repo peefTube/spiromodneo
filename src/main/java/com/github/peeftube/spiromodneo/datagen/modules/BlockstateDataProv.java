@@ -4,23 +4,23 @@ import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.RLUtility;
-import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
+import com.github.peeftube.spiromodneo.util.stone.*;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.*;
+import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredItem;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+
+import static com.github.peeftube.spiromodneo.util.stone.StoneSetPresets.getPresets;
 
 public class BlockstateDataProv extends BlockStateProvider
 {
@@ -32,6 +32,7 @@ public class BlockstateDataProv extends BlockStateProvider
     {
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
+        for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone); }
 
         externalModelAssociation01(Registrar.MANUAL_CRUSHER.get(), "manual_crusher");
     }
@@ -41,6 +42,9 @@ public class BlockstateDataProv extends BlockStateProvider
         BlockModelBuilder bm = models().withExistingParent(name(b), RLUtility.makeRL(SpiroMod.MOD_ID, template + "_import"));
         getVariantBuilder(b).partialState().setModels(new ConfiguredModel(bm));
     }
+
+    protected BlockModelBuilder finder(String name, String namespace, String path)
+    { return models().withExistingParent(name, RLUtility.makeRL(namespace, path)); }
 
     protected void metalSetDesign(MetalCollection set)
     {
@@ -95,7 +99,7 @@ public class BlockstateDataProv extends BlockStateProvider
 
             // Make this code easier to read, PLEASE..
             Block b = bulkData.get(s).block().get();
-            ResourceLocation r = blockTexture(s.getOreBase().getAssociatedBlock().get());
+            ResourceLocation r = blockTexture(s.getOreBase().getOreBase().get());
 
             // Quick sanity check for smooth sandstone and related
             switch(s.getOreBase())
@@ -133,6 +137,301 @@ public class BlockstateDataProv extends BlockStateProvider
             // Initialize this raw ore block and add it to the model set.
             BlockModelBuilder ore = packedOreBlockBuilder(b, r);
             getVariantBuilder(b).partialState().setModels(new ConfiguredModel(ore));
+        }
+    }
+
+    private Block knownCouplingReadBlockFromKeys(StoneData d,
+            StoneBlockType k0, StoneVariantType k1, StoneSubBlockType k2)
+    { return d.getCouplingForKeys(k0, k1, k2).getBlock().get(); }
+
+    private void stoneSetDesign(StoneCollection set)
+    {
+        StoneData data = set.bulkData();
+        StoneMaterial mat = set.material();
+
+        for (StoneBlockType k0 : StoneBlockType.values())
+        {
+            for (StoneVariantType k1 : StoneVariantType.values())
+            {
+                for (StoneSubBlockType k2: StoneSubBlockType.values())
+                {
+                    boolean available = data.doesCouplingExistForKeys(k0, k1, k2);
+                    String baseKey = ExistingStoneCouplings.getKey(set.material(), k0, k1, StoneSubBlockType.DEFAULT);
+                    String key = ExistingStoneCouplings.getKey(set.material(), k0, k1, k2);
+
+                    boolean isDefault = k2 == StoneSubBlockType.DEFAULT;
+                    boolean textureIsStock = getPresets().containsKey(isDefault ? key : baseKey);
+                    String ns = getPresets().containsKey(baseKey) ? "minecraft" : SpiroMod.MOD_ID;
+
+                    if (available && !getPresets().containsKey(key))
+                    {
+                        Block            bAbsBase = knownCouplingReadBlockFromKeys(data,
+                                StoneBlockType.BASE, StoneVariantType.DEFAULT, StoneSubBlockType.DEFAULT);
+                        Block               bBase = knownCouplingReadBlockFromKeys(data, k0, k1, StoneSubBlockType.DEFAULT);
+                        Block                   b = knownCouplingReadBlockFromKeys(data, k0, k1, k2);
+                        List<BlockModelBuilder> builders = new ArrayList<>();
+
+                        boolean isSandstoneLike = mat == StoneMaterial.SANDSTONE || mat == StoneMaterial.RED_SANDSTONE;
+                        boolean isBasaltLike = mat == StoneMaterial.BASALT;
+                        boolean isDeepslateLike = mat == StoneMaterial.DEEPSLATE || isBasaltLike;
+
+                        boolean isBrickOrTile = !(k0 == StoneBlockType.BRICKS || k0 == StoneBlockType.TILES);
+                        isSandstoneLike = isSandstoneLike ? isBrickOrTile : isSandstoneLike;
+                        isDeepslateLike = isDeepslateLike ? isBrickOrTile : isDeepslateLike;
+                        isBasaltLike = isBasaltLike ? isBrickOrTile : isBasaltLike;
+
+                        boolean isCutSandstone = isSandstoneLike && k0 == StoneBlockType.CUT;
+
+                        boolean isSmooth = k0 != StoneBlockType.SMOOTH;
+                        isSandstoneLike = isSmooth && isSandstoneLike;
+                        isDeepslateLike = isSmooth && isDeepslateLike;
+                        isBasaltLike = isSmooth && isBasaltLike;
+
+                        ResourceLocation tex = textureIsStock ? isDefault ? blockTexture(b) : blockTexture(bBase)
+                                : RLUtility.makeRL("placeholder");
+                        ResourceLocation tex2 = isSandstoneLike && !isCutSandstone ? getBottomTex(tex) :
+                                isDeepslateLike || isCutSandstone ?
+                                        getTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex) : tex;
+                        ResourceLocation tex3 = isSandstoneLike || isDeepslateLike ?
+                                getTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex) : tex;
+                        ResourceLocation tex4 = isBasaltLike ? getSideTex(tex) : tex;
+
+                        switch (k2)
+                        {
+                            case DEFAULT ->
+                            {
+                                builders.add(models()
+                                        .cubeBottomTop(key, tex4, tex2, tex3));
+                                getVariantBuilder(b).partialState().setModels(
+                                        new ConfiguredModel(builders.getFirst()));
+                            }
+                            case SLAB ->
+                            {
+                                builders.add(models().slab(key, tex4, tex2, tex3));
+                                builders.add(models().slabTop(key + "_top", tex4, tex2, tex3));
+                                builders.add(finder(key + "_double", ns, "block/" + baseKey));
+                                getVariantBuilder(b)
+                                        .partialState().with(SlabBlock.TYPE, SlabType.BOTTOM)
+                                        .setModels(new ConfiguredModel(builders.getFirst()))
+                                        .partialState().with(SlabBlock.TYPE, SlabType.TOP)
+                                        .setModels(new ConfiguredModel(builders.get(1)))
+                                        .partialState().with(SlabBlock.TYPE, SlabType.DOUBLE)
+                                        .setModels(new ConfiguredModel(builders.get(2)));
+                            }
+                            case STAIRS ->
+                            {
+                                builders.add(models().stairs(key, tex4, tex2, tex3));
+                                builders.add(models().stairsInner(key + "_inner", tex4, tex2, tex3));
+                                builders.add(models().stairsOuter(key + "_outer", tex4, tex2, tex3));
+                                stairsBuilder(b, builders);
+                            }
+                            case WALL ->
+                            {
+                                builders.add(models().wallSide(key, tex2));
+                                builders.add(models().wallSideTall(key + "_tall", tex2));
+                                builders.add(models().wallPost(key + "_post", tex2));
+                                builders.add(models().wallInventory(key + "_inv", tex2));
+                                wallsBuilder(b, builders);
+                            }
+                            case BUTTON ->
+                            {
+                                builders.add(models().button(key, tex2));
+                                builders.add(models().buttonPressed(key + "_pressed", tex2));
+                                builders.add(models().buttonInventory(key + "_inv", tex2));
+                                buttonsBuilder(b, builders);
+                            }
+                            case PRESSURE_PLATE ->
+                            {
+                                builders.add(models().pressurePlate(key, tex2));
+                                builders.add(models().pressurePlateDown(key + "_pressed", tex2));
+                                getVariantBuilder(b).partialState()
+                                    .with(PressurePlateBlock.POWERED, Boolean.FALSE)
+                                        .setModels(new ConfiguredModel(builders.getFirst()))
+                                    .partialState()
+                                    .with(PressurePlateBlock.POWERED, Boolean.TRUE)
+                                        .setModels(new ConfiguredModel(builders.getLast()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void buttonsBuilder(Block b, List<BlockModelBuilder> builders)
+    {
+        VariantBlockStateBuilder buttonsBuilder = getVariantBuilder(b);
+
+        for (AttachFace f : AttachFace.values())
+        {
+            for (Direction d : Direction.values())
+            {
+                if (!(d == Direction.DOWN || d == Direction.UP))
+                {
+                    boolean uvLock = f == AttachFace.WALL;
+                    int x = uvLock ? 90 : f == AttachFace.CEILING ? 180 : 0;
+                    int y = 0;
+
+                    switch (d)
+                    {
+                        case EAST -> { y = (f == AttachFace.CEILING) ? 270 : 90; }
+                        case NORTH -> { y = (f == AttachFace.CEILING) ? 180 : 0; }
+                        case SOUTH -> { y = (f == AttachFace.CEILING) ? 0 : 180; }
+                        case WEST -> { y = (f == AttachFace.CEILING) ? 90 : 270; }
+                    }
+
+                    buttonsBuilder = buttonsBuilder.partialState()
+                            .with(ButtonBlock.FACE, f)
+                            .with(ButtonBlock.FACING, d)
+                            .with(ButtonBlock.POWERED, Boolean.FALSE)
+                            .setModels(new ConfiguredModel(builders.getFirst(), x, y, uvLock))
+                            .partialState()
+                            .with(ButtonBlock.FACE, f)
+                            .with(ButtonBlock.FACING, d)
+                            .with(ButtonBlock.POWERED, Boolean.TRUE)
+                            .setModels(new ConfiguredModel(builders.get(1), x, y, uvLock));
+                }
+            }
+        }
+    }
+
+    private void wallsBuilder(Block b, List<BlockModelBuilder> builders)
+    {
+        MultiPartBlockStateBuilder wallsBuilder = getMultipartBuilder(b);
+
+        for (WallSide sv : WallSide.values())
+        {
+            if (sv != WallSide.NONE)
+            {
+                for (Direction d : Direction.values())
+                {
+                    switch (d)
+                    {
+                        case UP ->
+                        {
+                            if (sv == WallSide.LOW)
+                            {
+                                wallsBuilder = wallsBuilder.part()
+                                           .modelFile(new ConfiguredModel(builders.get(2)).model)
+                                           .addModel()
+                                           .condition(WallBlock.UP, Boolean.TRUE).end();
+                            }
+                        }
+
+                        case SOUTH, NORTH, EAST, WEST ->
+                        {
+                            EnumProperty<WallSide> wall = d == Direction.SOUTH ? WallBlock.SOUTH_WALL :
+                                    d == Direction.NORTH ? WallBlock.NORTH_WALL :
+                                            d == Direction.EAST ? WallBlock.EAST_WALL :
+                                                    WallBlock.WEST_WALL;
+
+                            int y = wall == WallBlock.SOUTH_WALL ? 180 :
+                                    wall == WallBlock.WEST_WALL ? 270 :
+                                    wall == WallBlock.NORTH_WALL ? 0 : 90;
+
+                            switch (sv)
+                            {
+                                case LOW ->
+                                {
+                                    wallsBuilder = wallsBuilder.part()
+                                           .modelFile(new ConfiguredModel(builders.getFirst()).model)
+                                           .rotationY(y).uvLock(y != 0)
+                                           .addModel()
+                                           .condition(wall, sv).end();
+                                }
+                                case TALL ->
+                                {
+                                    wallsBuilder = wallsBuilder.part()
+                                           .modelFile(new ConfiguredModel(builders.get(1)).model)
+                                           .rotationY(y).uvLock(y != 0)
+                                           .addModel()
+                                           .condition(wall, sv).end();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void stairsBuilder(Block b, List<BlockModelBuilder> builders)
+    {
+        VariantBlockStateBuilder stairsBuilder = getVariantBuilder(b);
+        for (Direction d : Direction.values())
+        {
+            if (!(d == Direction.DOWN || d == Direction.UP))
+            {
+                for (StairsShape s : StairsShape.values())
+                {
+                    for (Half h : Half.values())
+                    {
+                        boolean isBottom = h == Half.BOTTOM;
+
+                        int x = 0;
+                        int y = 0;
+                        int index = 0;
+
+                        boolean isInner = s == StairsShape.INNER_LEFT || s == StairsShape.INNER_RIGHT;
+
+                        switch(d)
+                        {
+                            case EAST ->
+                            {
+                                switch(s)
+                                {
+                                    case INNER_LEFT, OUTER_LEFT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 270 : 0; index = isInner ? 1 : 2; }
+                                    case INNER_RIGHT, OUTER_RIGHT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 0 : 90; index = isInner ? 1 : 2; }
+                                    case STRAIGHT -> { x = isBottom ? 0 : 180; }
+                                }
+                            }
+                            case WEST ->
+                            {
+                                switch(s)
+                                {
+                                    case INNER_LEFT, OUTER_LEFT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 90 : 180; index = isInner ? 1 : 2; }
+                                    case INNER_RIGHT, OUTER_RIGHT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 180 : 270; index = isInner ? 1 : 2; }
+                                    case STRAIGHT -> { x = isBottom ? 0 : 180; y = 180; }
+                                }
+                            }
+                            case NORTH ->
+                            {
+                                switch(s)
+                                {
+                                    case INNER_LEFT, OUTER_LEFT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 180 : 270; index = isInner ? 1 : 2; }
+                                    case INNER_RIGHT, OUTER_RIGHT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 270 : 0; index = isInner ? 1 : 2; }
+                                    case STRAIGHT -> { x = isBottom ? 0 : 180; y = 270; }
+                                }
+                            }
+                            case SOUTH ->
+                            {
+                                switch(s)
+                                {
+                                    case INNER_LEFT, OUTER_LEFT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 0 : 90; index = isInner ? 1 : 2; }
+                                    case INNER_RIGHT, OUTER_RIGHT ->
+                                    { x = isBottom ? 0 : 180; y = isBottom ? 90 : 180; index = isInner ? 1 : 2; }
+                                    case STRAIGHT -> { x = isBottom ? 0 : 180; y = 90; }
+                                }
+                            }
+                        }
+
+                        boolean uvLock = (!(x == 0 && y == 0));
+
+                        stairsBuilder = stairsBuilder.partialState()
+                        .with(StairBlock.FACING, d)
+                        .with(StairBlock.SHAPE, s)
+                        .with(StairBlock.HALF, h)
+                        .setModels(new ConfiguredModel(builders.get(index), x, y, uvLock));
+                    }
+                }
+            }
         }
     }
 

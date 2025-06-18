@@ -34,6 +34,16 @@ public enum StoneMaterial
     public String get()
     { return name; }
 
+    public String getAsBlock()
+    {
+        switch(name)
+        {
+            case "dripstone" -> { return "dripstone_block"; }
+            case "endstone" -> { return "end_stone"; }
+            default -> { return name; }
+        }
+    }
+
     public BaseStone getOreBase()
     { return oreBase; }
 }

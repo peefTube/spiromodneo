@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "spiromodneo:block/mossy_cobbled_dripstone_slab"
+    },
+    "type=double": {
+      "model": "spiromodneo:block/mossy_cobbled_dripstone_slab_double"
+    },
+    "type=top": {
+      "model": "spiromodneo:block/mossy_cobbled_dripstone_slab_top"
+    }
+  }
+}

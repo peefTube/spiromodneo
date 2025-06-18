@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "spiromodneo:placeholder_top",
+    "side": "spiromodneo:placeholder",
+    "top": "spiromodneo:placeholder_top"
+  }
+}

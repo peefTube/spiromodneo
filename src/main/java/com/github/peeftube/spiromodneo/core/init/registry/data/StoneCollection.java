@@ -1,57 +1,81 @@
 package com.github.peeftube.spiromodneo.core.init.registry.data;
 
-import com.github.peeftube.spiromodneo.util.stone.StoneData;
-import com.github.peeftube.spiromodneo.util.stone.StoneUtilities;
+import com.github.peeftube.spiromodneo.util.GenericBlockItemCoupling;
+import com.github.peeftube.spiromodneo.util.SpiroTags;
+import com.github.peeftube.spiromodneo.util.TagCoupling;
+import com.github.peeftube.spiromodneo.util.equipment.EquipmentUtilities;
+import com.github.peeftube.spiromodneo.util.stone.*;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * A stone collection contains data related to all potential construction uses of a given type of stone.
- * This is not something which would ordinarily find use in vanilla Minecraft, but for the purposes of this mod
- * is used to enable all given stone types to be refined similarly to vanilla stone, and to provide all available
- * variations (polished, mossy, etc.) to all stone types. This adds a significant amount of data, so having some
- * method of structuring the data will be necessary.
- * @param material Defines the base material of the collection. The oreBase field of the enum is not used here
- *                 as this is exclusively restricted to use in ore and worldgen purposes.
- * @param bulkData This contains the majority of the data for the collection.
- */
-public record StoneCollection(StoneMaterial material, StoneData bulkData) implements StoneUtilities
+ * @param material Passing in a <code>StoneMaterial</code> may seem pointless,
+ *                 but there is a reason for it.
+ *                 Some stone types are not vanilla and as such the <code>BaseStone</code>
+ *                 associated with the <code>StoneMaterial</code> may need to be populated
+ *                 after-the-fact. This is by design, to allow extensibility without
+ *                 long-term hassle. */
+public record StoneCollection(StoneMaterial material, StoneData bulkData, TagCoupling tags) implements StoneUtilities
 {
     public static List<StoneCollection> STONE_COLLECTIONS = new ArrayList<>();
 
     public static StoneCollection registerCollection(StoneMaterial material)
+    { return registerCollection(material, false); }
+
+    /**
+     * @param isBaseSmooth Checks if this collection behaves like basalt or sandstone; if so, it will use a
+     *                     different value to pass into <code>setOreBase()</code>.
+     */
+    public static StoneCollection registerCollection(StoneMaterial material, boolean isBaseSmooth)
     {
-        StoneCollection collection = new StoneCollection(material,
-                StoneUtilities.generateData(material));
+        StoneData data = StoneUtilities.populate(material);
+        String tagkey = "spiro_stone_of_type_" + data.name();
+
+        TagCoupling newTags = new TagCoupling
+        ( SpiroTags.Blocks.tag(tagkey), SpiroTags.Items.tag(tagkey) );
+        StoneCollection collection = new StoneCollection(material, data, newTags);
+
+        Map<StoneBlockType,
+                Map<StoneVariantType,
+                        Map<StoneSubBlockType,
+                                GenericBlockItemCoupling>>> populatedBulkData = data.bulkData();
+
+        collection.material().getOreBase().setOreBase(isBaseSmooth ?
+                populatedBulkData.get(StoneBlockType.SMOOTH).get(StoneVariantType.DEFAULT)
+                                 .get(StoneSubBlockType.DEFAULT).getBlock() :
+                populatedBulkData.get(StoneBlockType.BASE).get(StoneVariantType.DEFAULT)
+                                 .get(StoneSubBlockType.DEFAULT).getBlock());
+        collection.material().getOreBase().setDefaultBase(
+                populatedBulkData.get(StoneBlockType.BASE).get(StoneVariantType.DEFAULT)
+                                 .get(StoneSubBlockType.DEFAULT).getBlock());
+
         STONE_COLLECTIONS.add(collection); return collection;
     }
 
-    public Map<Integer, Map<Supplier<Block>, Boolean>> returnBlockData()
+    public Supplier<Block> getBaseStone()
     {
-        Map<Integer, Map<Supplier<Block>, Boolean>> mappings = new HashMap<>();
+        return this.bulkData().bulkData()
+                   .get(StoneBlockType.BASE).get(StoneVariantType.DEFAULT).get(StoneSubBlockType.DEFAULT)
+                .getBlock();
+    }
 
-        Map<Supplier<Block>, Boolean> rawMappings =
-                this.bulkData.getStone().getValues(); mappings.put(0, rawMappings);
-        Map<Supplier<Block>, Boolean> cobbleMappings =
-                this.bulkData.getCobble().getValues(); mappings.put(1, cobbleMappings);
-        Map<Supplier<Block>, Boolean> smoothMappings =
-                this.bulkData.getSmooth().getValues(); mappings.put(2, smoothMappings);
-        Map<Supplier<Block>, Boolean> polishedMappings =
-                this.bulkData.getPolished().getValues(); mappings.put(3, polishedMappings);
-        Map<Supplier<Block>, Boolean> bricksMappings =
-                this.bulkData.getBricks().getValues(); mappings.put(4, bricksMappings);
-        Map<Supplier<Block>, Boolean> tilesMappings =
-                this.bulkData.getTile().getValues(); mappings.put(5, tilesMappings);
-        Map<Supplier<Block>, Boolean> cutMappings =
-                this.bulkData.getCut().getValues(); mappings.put(6, cutMappings);
-        Map<Supplier<Block>, Boolean> miscMappings =
-                this.bulkData.getMisc().getValues(); mappings.put(7, miscMappings);
+    public Supplier<Block> getCobble()
+    {
+        return this.bulkData().bulkData()
+                   .get(StoneBlockType.COBBLE).get(StoneVariantType.DEFAULT).get(StoneSubBlockType.DEFAULT)
+                   .getBlock();
+    }
 
-        return mappings;
+    public Supplier<Block> getMossyCobble()
+    {
+        return this.bulkData().bulkData()
+                   .get(StoneBlockType.COBBLE).get(StoneVariantType.MOSSY).get(StoneSubBlockType.DEFAULT)
+                   .getBlock();
     }
 }

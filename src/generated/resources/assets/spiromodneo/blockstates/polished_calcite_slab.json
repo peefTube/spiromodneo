@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "spiromodneo:block/polished_calcite_slab"
+    },
+    "type=double": {
+      "model": "spiromodneo:block/polished_calcite_slab_double"
+    },
+    "type=top": {
+      "model": "spiromodneo:block/polished_calcite_slab_top"
+    }
+  }
+}

@@ -68,7 +68,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spiromodneo:cobbled_endstone"
+          "name": "minecraft:air"
         }
       ],
       "rolls": {
