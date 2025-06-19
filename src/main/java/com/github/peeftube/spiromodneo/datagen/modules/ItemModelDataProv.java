@@ -10,6 +10,7 @@ import com.github.peeftube.spiromodneo.util.equipment.ToolSet;
 import com.github.peeftube.spiromodneo.util.metal.MetalUtilities;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
+import com.github.peeftube.spiromodneo.util.stone.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -20,6 +21,8 @@ import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.Map;
 import java.util.function.Supplier;
+
+import static com.github.peeftube.spiromodneo.util.stone.StoneSetPresets.getPresets;
 
 public class ItemModelDataProv extends ItemModelProvider
 {
@@ -45,6 +48,7 @@ public class ItemModelDataProv extends ItemModelProvider
         // Block items
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
+        for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone); }
         blockParser(Registrar.MANUAL_CRUSHER_ITEM);
     }
 
@@ -104,6 +108,32 @@ public class ItemModelDataProv extends ItemModelProvider
             // This part is extremely easy, fortunately.
             blockParser((DeferredItem<Item>) b);
             itemParser((DeferredItem<Item>) i);
+        }
+    }
+
+    private void stoneSetDesign(StoneCollection set)
+    {
+        StoneData     data = set.bulkData();
+        StoneMaterial mat  = set.material();
+
+        for (StoneBlockType k0 : StoneBlockType.values())
+        {
+            for (StoneVariantType k1 : StoneVariantType.values())
+            {
+                for (StoneSubBlockType k2 : StoneSubBlockType.values())
+                {
+                    boolean available = data.doesCouplingExistForKeys(k0, k1, k2);
+                    String  baseKey   = ExistingStoneCouplings.getKey(set.material(), k0, k1, StoneSubBlockType.DEFAULT);
+                    String  key       = ExistingStoneCouplings.getKey(set.material(), k0, k1, k2);
+
+                    boolean isDefault      = k2 == StoneSubBlockType.DEFAULT;
+                    boolean textureIsStock = getPresets().containsKey(isDefault ? key : baseKey);
+                    String  ns             = getPresets().containsKey(baseKey) ? "minecraft" : SpiroMod.MOD_ID;
+
+                    if (available && !getPresets().containsKey(key))
+                    { blockParser((DeferredItem<Item>) set.bulkData().getCouplingForKeys(k0, k1, k2).getItem()); }
+                }
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/wall_inventory",
   "textures": {
-    "wall": "spiromodneo:placeholder_top"
+    "wall": "spiromodneo:block/cobbled_basalt"
   }
 }

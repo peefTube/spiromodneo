@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "spiromodneo:placeholder",
-    "side": "spiromodneo:placeholder",
-    "top": "spiromodneo:placeholder"
+    "bottom": "spiromodneo:block/polished_netherrack",
+    "side": "spiromodneo:block/polished_netherrack",
+    "top": "spiromodneo:block/polished_netherrack"
   }
 }

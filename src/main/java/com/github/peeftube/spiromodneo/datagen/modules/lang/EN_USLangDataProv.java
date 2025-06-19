@@ -5,6 +5,7 @@ import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
+import com.github.peeftube.spiromodneo.util.stone.*;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -13,6 +14,8 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.github.peeftube.spiromodneo.util.stone.StoneSetPresets.getPresets;
 
 public class EN_USLangDataProv extends LanguageProvider
 {
@@ -27,6 +30,9 @@ public class EN_USLangDataProv extends LanguageProvider
 
         // Ores
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreParser(ore); }
+
+        // Stone collections
+        for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneParser(stone); }
 
         // Equipment
         for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS) { equipParser(equip); }
@@ -169,6 +175,72 @@ public class EN_USLangDataProv extends LanguageProvider
             add(i, readableMat);
         }
     }
+
+    private void stoneParser(StoneCollection set)
+    {
+        StoneData     data = set.bulkData();
+        StoneMaterial mat  = set.material();
+
+        for (StoneBlockType k0 : StoneBlockType.values())
+        {
+            for (StoneVariantType k1 : StoneVariantType.values())
+            {
+                for (StoneSubBlockType k2 : StoneSubBlockType.values())
+                {
+                    boolean available = data.doesCouplingExistForKeys(k0, k1, k2);
+                    String  baseKey   = ExistingStoneCouplings.getKey(set.material(), k0, k1, StoneSubBlockType.DEFAULT);
+                    String  key       = ExistingStoneCouplings.getKey(set.material(), k0, k1, k2);
+
+                    boolean isDefault      = k2 == StoneSubBlockType.DEFAULT;
+                    boolean textureIsStock = getPresets().containsKey(isDefault ? key : baseKey);
+                    String  ns             = getPresets().containsKey(baseKey) ? "minecraft" : SpiroMod.MOD_ID;
+
+                    if (available && !getPresets().containsKey(key))
+                    {
+                        Block b = set.bulkData().getCouplingForKeys(k0, k1, k2).getBlock().get();
+                        add(b, generateStoneSetString(set, k0, k1, k2));
+                    }
+                }
+            }
+        }
+    }
+
+    protected String generateStoneSetString(StoneCollection s, StoneBlockType k0, StoneVariantType k1, StoneSubBlockType k2)
+    {
+        String materialString = s.material().toString().toLowerCase().replace('_', ' ');
+        materialString = materialString.equals("endstone") ? "end stone" : materialString;
+        String[] subStrings = materialString.split(" ");
+        String outputString = "";
+        for (int i = 0; i < subStrings.length; i++)
+        { outputString = (outputString + ((i > 0) ? " " : "") + capitalize(subStrings[i])); }
+        if (outputString.equals("Stone") && k0 == StoneBlockType.COBBLE)
+        { outputString = "Cobblestone"; }
+
+        switch(k0)
+        {
+            case TILES, BRICKS, COLUMN -> { outputString = outputString + " " +
+                    ((k2 == StoneSubBlockType.DEFAULT || k0 == StoneBlockType.COLUMN) ? capitalize(k0.toString().toLowerCase())
+                            : capitalize(k0.toString().toLowerCase().substring(0, k0.toString().length() - 1))); }
+            case BASE -> {} // No need to do anything here.
+            case COBBLE ->
+            { if (!(outputString.contains("Cobblestone")))
+            { outputString = capitalize(k0.toString().toLowerCase() + "d") + " " + outputString; }}
+            default -> outputString = capitalize(k0.toString().toLowerCase()) + " " + outputString;
+        }
+
+        outputString = k1 != StoneVariantType.DEFAULT ? capitalize(k1.toString().toLowerCase()) + " " + outputString :
+                outputString;
+
+        outputString = k2 != StoneSubBlockType.DEFAULT ?
+                k2 == StoneSubBlockType.PRESSURE_PLATE ? outputString + " Pressure Plate" :
+                outputString + " " + capitalize(k2.toString().toLowerCase()) :
+                outputString;
+
+        return outputString;
+    }
+
+    private String capitalize(String input)
+    { return input.substring(0, 1).toUpperCase() + input.substring(1); }
 
     // Ore set String subroutine
     protected String generateOreBlockString(BaseStone s, String readable)

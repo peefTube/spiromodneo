@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/wall_inventory",
   "textures": {
-    "wall": "spiromodneo:placeholder"
+    "wall": "spiromodneo:block/mossy_cobbled_calcite"
   }
 }

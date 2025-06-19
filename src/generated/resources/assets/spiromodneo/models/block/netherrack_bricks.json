@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "spiromodneo:placeholder",
-    "side": "spiromodneo:placeholder",
-    "top": "spiromodneo:placeholder"
+    "bottom": "spiromodneo:block/netherrack_bricks",
+    "side": "spiromodneo:block/netherrack_bricks",
+    "top": "spiromodneo:block/netherrack_bricks"
   }
 }

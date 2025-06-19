@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/stairs",
   "textures": {
-    "bottom": "spiromodneo:placeholder",
-    "side": "spiromodneo:placeholder",
-    "top": "spiromodneo:placeholder"
+    "bottom": "spiromodneo:block/mossy_tuff_bricks",
+    "side": "spiromodneo:block/mossy_tuff_bricks",
+    "top": "spiromodneo:block/mossy_tuff_bricks"
   }
 }

@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "spiromodneo:placeholder",
-    "side": "spiromodneo:placeholder",
-    "top": "spiromodneo:placeholder"
+    "bottom": "spiromodneo:block/mossy_deepslate_bricks",
+    "side": "spiromodneo:block/mossy_deepslate_bricks",
+    "top": "spiromodneo:block/mossy_deepslate_bricks"
   }
 }

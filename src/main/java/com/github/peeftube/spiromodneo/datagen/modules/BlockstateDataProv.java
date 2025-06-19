@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.*;
 import net.neoforged.neoforge.client.model.generators.*;
@@ -32,7 +33,7 @@ public class BlockstateDataProv extends BlockStateProvider
     {
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
-        for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone); }
+        for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone, this.models().existingFileHelper); }
 
         externalModelAssociation01(Registrar.MANUAL_CRUSHER.get(), "manual_crusher");
     }
@@ -144,7 +145,7 @@ public class BlockstateDataProv extends BlockStateProvider
             StoneBlockType k0, StoneVariantType k1, StoneSubBlockType k2)
     { return d.getCouplingForKeys(k0, k1, k2).getBlock().get(); }
 
-    private void stoneSetDesign(StoneCollection set)
+    private void stoneSetDesign(StoneCollection set, ExistingFileHelper eFH)
     {
         StoneData data = set.bulkData();
         StoneMaterial mat = set.material();
@@ -188,13 +189,16 @@ public class BlockstateDataProv extends BlockStateProvider
                         isBasaltLike = isSmooth && isBasaltLike;
 
                         ResourceLocation tex = textureIsStock ? isDefault ? blockTexture(b) : blockTexture(bBase)
+                                : eFH.exists(blockTexture(b), ModelProvider.TEXTURE) ? blockTexture(b)
+                                : eFH.exists(blockTexture(bBase), ModelProvider.TEXTURE) ? blockTexture(bBase)
                                 : RLUtility.makeRL("placeholder");
-                        ResourceLocation tex2 = isSandstoneLike && !isCutSandstone ? getBottomTex(tex) :
+
+                        ResourceLocation tex2 = isSandstoneLike && !isCutSandstone ? safeGetBottomTex(tex, eFH) :
                                 isDeepslateLike || isCutSandstone ?
-                                        getTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex) : tex;
+                                        safeGetTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex, eFH) : tex;
                         ResourceLocation tex3 = isSandstoneLike || isDeepslateLike ?
-                                getTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex) : tex;
-                        ResourceLocation tex4 = isBasaltLike ? getSideTex(tex) : tex;
+                                safeGetTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex, eFH) : tex;
+                        ResourceLocation tex4 = isBasaltLike ? safeGetSideTex(tex, eFH) : tex;
 
                         switch (k2)
                         {
@@ -461,6 +465,15 @@ public class BlockstateDataProv extends BlockStateProvider
     private ResourceLocation getTopTex(ResourceLocation block) { return RLUtility.invokeRL(block.toString() + "_top"); }
     private ResourceLocation getFrontTex(ResourceLocation block) { return RLUtility.invokeRL(block.toString() + "_front"); }
     private ResourceLocation getSideTex(ResourceLocation block) { return RLUtility.invokeRL(block.toString() + "_side"); }
+
+    private ResourceLocation safeGetBottomTex(ResourceLocation block, ExistingFileHelper eFH)
+    { return eFH.exists(getBottomTex(block), ModelProvider.TEXTURE) ? getBottomTex(block) : block; }
+    private ResourceLocation safeGetTopTex(ResourceLocation block, ExistingFileHelper eFH)
+    { return eFH.exists(getTopTex(block), ModelProvider.TEXTURE) ? getTopTex(block) : block; }
+    private ResourceLocation safeGetFrontTex(ResourceLocation block, ExistingFileHelper eFH)
+    { return eFH.exists(getFrontTex(block), ModelProvider.TEXTURE) ? getFrontTex(block) : block; }
+    private ResourceLocation safeGetSideTex(ResourceLocation block, ExistingFileHelper eFH)
+    { return eFH.exists(getSideTex(block), ModelProvider.TEXTURE) ? getSideTex(block) : block; }
 
     protected BlockModelBuilder modularOreBuilder(Block block, ResourceLocation baseTex, ResourceLocation oreTex)
     { return modularOreBuilder(block, baseTex, oreTex, 0); }
