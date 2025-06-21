@@ -22,20 +22,24 @@ import java.util.function.Supplier;
 
 public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling> bulkData,
                             RawCoupling rawOreCoupling, TagCoupling oreTags,
-                            NumberProvider oreDropData) implements OreUtilities
+                            NumberProvider oreDropData, FuelOreData fuel) implements OreUtilities
 {
     public static List<OreCollection> ORE_COLLECTIONS = new ArrayList<>();
 
     public static OreCollection registerCollection(OreMaterial material)
-    { return registerCollection(material, 0, new MinMax(1, 1)); }
+    { return registerCollection(material, 0, new MinMax(1, 1), FuelOreData.nonFuel()); }
 
     public static OreCollection registerCollection(OreMaterial material, int li)
-    { return registerCollection(material, li, new MinMax(1, 1)); }
+    { return registerCollection(material, li, new MinMax(1, 1), FuelOreData.nonFuel()); }
 
     public static OreCollection registerCollection(OreMaterial material, MinMax minMax)
-    { return registerCollection(material, 0, minMax); }
+    { return registerCollection(material, 0, minMax, FuelOreData.nonFuel()); }
 
-    public static OreCollection registerCollection(OreMaterial material, int lightEmissionLevel, MinMax minMax)
+    public static OreCollection registerCollection(OreMaterial material, MinMax minMax, FuelOreData fuel)
+    { return registerCollection(material, 0, minMax, fuel); }
+
+    public static OreCollection registerCollection(OreMaterial material, int lightEmissionLevel, MinMax minMax,
+            FuelOreData fuel)
     {
         String oreName = material.get() + "_ore";
         int li = lightEmissionLevel;
@@ -77,7 +81,7 @@ public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling
                 UniformGenerator.between(MinMax.getMin(), MinMax.getMax());
 
         OreCollection collection = new OreCollection(material, mappings, OreUtilities.determineRawOre(material, li),
-                tags, oreDrops);
+                tags, oreDrops, fuel);
 
         ORE_COLLECTIONS.add(collection); return collection;
     }

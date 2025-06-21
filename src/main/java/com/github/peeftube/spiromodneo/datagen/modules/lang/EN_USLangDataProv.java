@@ -153,7 +153,15 @@ public class EN_USLangDataProv extends LanguageProvider
             String mat = material.get();
 
             // Generate a translation string and then add it to the translation set.
-            String readableMat = mat.substring(0, 1).toUpperCase() + mat.substring(1) + " Ore";
+            String[] substrings = mat.split("_");
+            String readableMat = ""; int stIndex = 0;
+            for (String st : substrings)
+            {
+                readableMat = readableMat + (stIndex > 0 ? " " : "") +
+                        st.substring(0, 1).toUpperCase() + st.substring(1);
+                stIndex++;
+            }
+            readableMat = readableMat + " Ore";
             add(b, generateOreBlockString(s.getOreBase(), readableMat));
         }
 
@@ -167,11 +175,22 @@ public class EN_USLangDataProv extends LanguageProvider
 
             // Readable block String:
             String rawMineral       = material.isGem() ? "" : "Raw ";
-            String readableBlockMat = "Block of " + mat.substring(0, 1).toUpperCase() + mat.substring(1);
+
+            // Generate a translation string and then add it to the translation set.
+            String[] substrings = mat.split("_");
+            String readableMat = ""; int stIndex = 0;
+            for (String st : substrings)
+            {
+                readableMat = readableMat + (stIndex > 0 ? " " : "") +
+                        st.substring(0, 1).toUpperCase() + st.substring(1);
+                stIndex++;
+            }
+            readableMat = readableMat + " Ore";
+            String readableBlockMat = "Block of " + readableMat;
             add(b, rawMineral + readableBlockMat);
 
             // Readable item String:
-            String readableMat = rawMineral + mat.substring(0, 1).toUpperCase() + mat.substring(1) ;
+            readableMat = rawMineral + readableMat;
             add(i, readableMat);
         }
     }

@@ -227,6 +227,23 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.RUBY_ORES, StoneMaterial.RED_SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_TERRACOTTA, rDBS(Registrar.RUBY_ORES, StoneMaterial.CALCITE))
         ));
+
+        public static final Supplier<List<OreConfiguration.TargetBlockState>> METHANE_ICE_ORE_TARGETS
+                = Suppliers.memoize(() -> List.of(
+                OreConfiguration.target(TargetRules.BLOCK_STONE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.STONE)),
+                OreConfiguration.target(TargetRules.BLOCK_DEEPSLATE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.DEEPSLATE)),
+                OreConfiguration.target(TargetRules.BLOCK_ANDESITE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.ANDESITE)),
+                OreConfiguration.target(TargetRules.BLOCK_GRANITE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.GRANITE)),
+                OreConfiguration.target(TargetRules.BLOCK_DIORITE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.DIORITE)),
+                OreConfiguration.target(TargetRules.BLOCK_CALCITE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.CALCITE)),
+                OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.TUFF)),
+                OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.DRIPSTONE)),
+                OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.BASALT)),
+                OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.SANDSTONE)),
+                OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.RED_SANDSTONE)),
+                OreConfiguration.target(TargetRules.TAG_TERRACOTTA, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.BASALT))
+        ));
     }
 
     /** Returns the default block state. */

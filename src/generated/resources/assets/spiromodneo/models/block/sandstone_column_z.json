@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_uv_locked_z",
+  "textures": {
+    "end": "spiromodneo:block/sandstone_column",
+    "side": "spiromodneo:block/sandstone_column"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "values": {
+    "spiromodneo:methane_ice": {
+      "burn_time": 2400
+    },
+    "spiromodneo:methane_ice_block": {
+      "burn_time": 24000
+    }
+  }
+}

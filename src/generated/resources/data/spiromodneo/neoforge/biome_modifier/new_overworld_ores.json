@@ -22,7 +22,8 @@
     "spiromodneo:redstone_ore_lower",
     "spiromodneo:lead_ore_small",
     "spiromodneo:lead_ore_mid",
-    "spiromodneo:lead_ore_upper"
+    "spiromodneo:lead_ore_upper",
+    "spiromodneo:methane_ore_overworld"
   ],
   "step": "underground_ores"
 }

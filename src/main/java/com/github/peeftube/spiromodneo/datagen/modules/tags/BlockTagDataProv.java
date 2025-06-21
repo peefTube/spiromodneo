@@ -132,6 +132,11 @@ public class BlockTagDataProv extends BlockTagsProvider
                     tag(BlockTags.NEEDS_IRON_TOOL).remove(o);
                     tag(SpiroTags.Blocks.NEEDS_STEEL_TOOL).add(o);
                 }
+                case METHANE_ICE ->
+                {
+                    tag(BlockTags.NEEDS_IRON_TOOL).add(o);
+                    tag(BlockTags.PIGLIN_REPELLENTS).add(o);
+                }
             }
         }
 
@@ -150,6 +155,11 @@ public class BlockTagDataProv extends BlockTagsProvider
             {
                 tag(BlockTags.NEEDS_IRON_TOOL).remove(b);
                 tag(SpiroTags.Blocks.NEEDS_STEEL_TOOL).add(b);
+            }
+            case METHANE_ICE ->
+            {
+                tag(BlockTags.NEEDS_IRON_TOOL).add(b);
+                tag(BlockTags.PIGLIN_REPELLENTS).add(b);
             }
         }
 

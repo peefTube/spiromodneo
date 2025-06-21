@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
-      "model": "spiromodneo:block/netherrack_column"
+    "axis=x": {
+      "model": "spiromodneo:block/netherrack_column_x"
+    },
+    "axis=y": {
+      "model": "spiromodneo:block/netherrack_column_y"
+    },
+    "axis=z": {
+      "model": "spiromodneo:block/netherrack_column_z"
     }
   }
 }

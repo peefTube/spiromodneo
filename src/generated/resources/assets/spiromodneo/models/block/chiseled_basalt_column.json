@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "spiromodneo:placeholder_top",
-    "side": "spiromodneo:placeholder_side",
-    "top": "spiromodneo:placeholder_top"
-  }
-}

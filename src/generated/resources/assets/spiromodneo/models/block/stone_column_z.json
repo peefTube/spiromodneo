@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_uv_locked_z",
+  "textures": {
+    "end": "spiromodneo:block/stone_column_top",
+    "side": "spiromodneo:block/stone_column"
+  }
+}

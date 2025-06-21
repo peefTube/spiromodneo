@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": [
+    "spiromodneo:gold_ore_nether",
+    "spiromodneo:quartz_ore_nether",
+    "spiromodneo:methane_ore_nether",
+    "spiromodneo:methane_ore_mega_nether"
+  ],
+  "step": "underground_ores"
+}

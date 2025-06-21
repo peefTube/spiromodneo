@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_methane_ice_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "spiromodneo:methane_ice"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "spiromodneo:spiro_smelt_methane_ice_from_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_methane_ice_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spiromodneo:spiro_smelt_methane_ice_from_ore"
+    ]
+  }
+}

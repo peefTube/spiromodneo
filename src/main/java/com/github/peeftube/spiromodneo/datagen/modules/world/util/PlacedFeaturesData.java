@@ -57,6 +57,10 @@ public class PlacedFeaturesData
 
     public static final ResourceKey<PlacedFeature> RUBY_ORE = registerKey("ruby_ore");
 
+    public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_OVERWORLD = registerKey("methane_ore_overworld");
+    public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_NETHER = registerKey("methane_ore_nether");
+    public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_MEGA_NETHER = registerKey("methane_ore_mega_nether");
+
     public static void bootstrap(BootstrapContext<PlacedFeature> context)
     {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -238,6 +242,25 @@ public class PlacedFeaturesData
                 BiomeFilter.biome(),
                 InSquarePlacement.spread(),
                 CountPlacement.of(100)
+        ));
+
+        register(context, METHANE_ICE_ORE_OVERWORLD, configuredFeatures.getOrThrow(ConfigFeaturesData.OVERWORLD_METHANE_ICE), List.of(
+                HeightRangePlacement.of(TrapezoidHeight.of(VerticalAnchor.absolute(-256), VerticalAnchor.absolute(-80))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(20)
+        ));
+        register(context, METHANE_ICE_ORE_NETHER, configuredFeatures.getOrThrow(ConfigFeaturesData.NETHER_METHANE_ICE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(30)
+        ));
+        register(context, METHANE_ICE_ORE_MEGA_NETHER, configuredFeatures.getOrThrow(ConfigFeaturesData.MEGA_NETHER_METHANE_ICE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(4)
         ));
     }
 

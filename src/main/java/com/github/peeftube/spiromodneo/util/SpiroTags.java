@@ -55,7 +55,11 @@ public class SpiroTags
     {
         public static TagKey<Biome> RUBY_SPAWNABLE = tag("is_ruby_spawnable");
 
+        public static TagKey<Biome> TEMPERATE_OR_COLD_NETHER_BIOMES = tag("temperate_or_cold_nether_biomes");
+
         public static TagKey<Biome> tag(String name) { return TagKey.create(Registries.BIOME, RLUtility.makeRL(name)); }
         public static TagKey<Biome> forgeTag(String name) { return TagKey.create(Registries.BIOME, RLUtility.makeRL("forge", name)); }
+
+        public static TagKey<Biome> getColdNetherTag() { return TEMPERATE_OR_COLD_NETHER_BIOMES; }
     }
 }

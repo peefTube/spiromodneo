@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_uv_locked_y",
+  "textures": {
+    "end": "spiromodneo:block/andesite_column_top",
+    "side": "spiromodneo:block/andesite_column"
+  }
+}

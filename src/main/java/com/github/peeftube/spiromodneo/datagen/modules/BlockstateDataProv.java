@@ -188,26 +188,57 @@ public class BlockstateDataProv extends BlockStateProvider
                         isDeepslateLike = isSmooth && isDeepslateLike;
                         isBasaltLike = isSmooth && isBasaltLike;
 
+                        boolean isColumn = k0 == StoneBlockType.COLUMN;
+
                         ResourceLocation tex = textureIsStock ? isDefault ? blockTexture(b) : blockTexture(bBase)
                                 : eFH.exists(blockTexture(b), ModelProvider.TEXTURE) ? blockTexture(b)
                                 : eFH.exists(blockTexture(bBase), ModelProvider.TEXTURE) ? blockTexture(bBase)
                                 : RLUtility.makeRL("placeholder");
 
                         ResourceLocation tex2 = isSandstoneLike && !isCutSandstone ? safeGetBottomTex(tex, eFH) :
-                                isDeepslateLike || isCutSandstone ?
+                                isDeepslateLike || isCutSandstone || isColumn ?
                                         safeGetTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex, eFH) : tex;
-                        ResourceLocation tex3 = isSandstoneLike || isDeepslateLike ?
+                        ResourceLocation tex3 = isSandstoneLike || isDeepslateLike || isColumn ?
                                 safeGetTopTex(isCutSandstone ? blockTexture(bAbsBase) : tex, eFH) : tex;
-                        ResourceLocation tex4 = isBasaltLike ? safeGetSideTex(tex, eFH) : tex;
+                        ResourceLocation tex4 = isBasaltLike || isColumn ? safeGetSideTex(tex, eFH) : tex;
+
+                        boolean isBaseStoneOrColumn = !(k0 == StoneBlockType.SMOOTH || k0 == StoneBlockType.POLISHED ||
+                                k0 == StoneBlockType.BRICKS || k0 == StoneBlockType.TILES ||
+                                k0 == StoneBlockType.COBBLE || k0 == StoneBlockType.CUT);
 
                         switch (k2)
                         {
                             case DEFAULT ->
                             {
-                                builders.add(models()
-                                        .cubeBottomTop(key, tex4, tex2, tex3));
-                                getVariantBuilder(b).partialState().setModels(
-                                        new ConfiguredModel(builders.getFirst()));
+                                if (!(isDeepslateLike && isBaseStoneOrColumn) && !isColumn)
+                                {
+                                    builders.add(models()
+                                            .cubeBottomTop(key, tex4, tex2, tex3));
+                                    getVariantBuilder(b).partialState().setModels(
+                                            new ConfiguredModel(builders.getFirst()));
+                                }
+                                else
+                                {
+                                    builders.add(models()
+                                            .withExistingParent(key + "_x", "block/cube_column_uv_locked_x")
+                                            .texture("side", tex4)
+                                            .texture("end", tex2));
+                                    builders.add(models()
+                                            .withExistingParent(key + "_y", "block/cube_column_uv_locked_y")
+                                            .texture("side", tex4)
+                                            .texture("end", tex2));
+                                    builders.add(models()
+                                            .withExistingParent(key + "_z", "block/cube_column_uv_locked_z")
+                                            .texture("side", tex4)
+                                            .texture("end", tex2));
+                                    getVariantBuilder(b)
+                                            .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.X)
+                                            .setModels(new ConfiguredModel(builders.get(0)))
+                                            .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.Y)
+                                            .setModels(new ConfiguredModel(builders.get(1)))
+                                            .partialState().with(RotatedPillarBlock.AXIS, Direction.Axis.Z)
+                                            .setModels(new ConfiguredModel(builders.get(2)));
+                                }
                             }
                             case SLAB ->
                             {

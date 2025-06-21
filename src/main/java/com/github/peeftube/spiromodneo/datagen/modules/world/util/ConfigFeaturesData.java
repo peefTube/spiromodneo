@@ -57,6 +57,10 @@ public class ConfigFeaturesData
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> RUBY_ORE = registerKey("ruby_ore");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_METHANE_ICE = registerKey("methane_ice_ore_overworld");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NETHER_METHANE_ICE = registerKey("methane_ice_ore_nether");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_NETHER_METHANE_ICE = registerKey("methane_ice_ore_mega_nether");
+
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context)
     {
         HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -114,6 +118,13 @@ public class ConfigFeaturesData
 
         register(context, RUBY_ORE, Feature.ORE,
                 new OreConfiguration(TargetRuleData.OreTargets.RUBY_ORE_TARGETS.get(), 3));
+
+        register(context, OVERWORLD_METHANE_ICE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.METHANE_ICE_ORE_TARGETS.get(), 8));
+        register(context, NETHER_METHANE_ICE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.METHANE_ICE_ORE_TARGETS.get(), 8));
+        register(context, MEGA_NETHER_METHANE_ICE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.METHANE_ICE_ORE_TARGETS.get(), 18, 0.9F));
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name)

@@ -1,7 +1,12 @@
 package com.github.peeftube.spiromodneo.util.ore;
 
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.content.items.FuelBlockItem;
+import com.github.peeftube.spiromodneo.core.init.content.items.FuelItem;
+import com.github.peeftube.spiromodneo.core.init.registry.data.FuelOreData;
 import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -62,6 +67,9 @@ public interface OreUtilities
     }
 
     static RawCoupling determineRawOre(OreMaterial material, int li)
+    { return determineRawOre(material, li, FuelOreData.nonFuel()); }
+
+    static RawCoupling determineRawOre(OreMaterial material, int li, FuelOreData fuelData)
     {
         // A map of existing raw material blocks with their associated items.
         Map<OreMaterial, RawCoupling> presets = new HashMap<>();
@@ -90,13 +98,20 @@ public interface OreUtilities
             OreCoupling c;
             String      rawMineral = material.isGem() ? "" : "raw_";
 
+            boolean isFuel = fuelData.isFuel();
+
             Supplier<Block> b = Registrar.regBlock(rawMineral + material.get() + "_block",
                     () -> new Block(Registrar.RAW_ORE.lightLevel(s -> li)));
-            Supplier<Item> bi = Registrar.regSimpleBlockItem((DeferredBlock<Block>) b);
+            Supplier<Item> bi = Registrar.ITEMS.register(rawMineral + material.get() + "_block",
+                    isFuel ? () -> new FuelBlockItem(b.get(), new Item.Properties(),
+                            fuelData.burnTime() * 10) :
+                    () -> new BlockItem(b.get(), new Item.Properties()));
             c = new OreCoupling(b, bi);
 
-            return new RawCoupling(c, Registrar.ITEMS.register(rawMineral + material.get(),
-                    () -> new Item(new Item.Properties())));
+            Supplier<Item> oi = isFuel ? () -> new FuelItem(new Item.Properties(), fuelData.burnTime()) :
+                    () -> new Item(new Item.Properties());
+
+            return new RawCoupling(c, Registrar.ITEMS.register(rawMineral + material.get(), oi));
         }
     }
 }

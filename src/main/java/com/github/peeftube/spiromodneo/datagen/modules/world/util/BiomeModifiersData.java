@@ -33,8 +33,10 @@ import java.util.Set;
 public class BiomeModifiersData
 {
     public static final ResourceKey<BiomeModifier> REMOVE_VANILLA_OVERWORLD_ORES = key("remove_overworld_ores");
+    public static final ResourceKey<BiomeModifier> REMOVE_VANILLA_NETHER_ORES = key("remove_nether_ores");
 
     public static final ResourceKey<BiomeModifier> NEW_OVERWORLD_ORES = key("new_overworld_ores");
+    public static final ResourceKey<BiomeModifier> NEW_NETHER_ORES = key("new_nether_ores");
     public static final ResourceKey<BiomeModifier> NEW_EMERALD_ORE = key("new_emerald_ore");
     public static final ResourceKey<BiomeModifier> NEW_RUBY_ORE = key("new_ruby_ore");
 
@@ -57,6 +59,13 @@ public class BiomeModifiersData
                 Set.of(GenerationStep.Decoration.UNDERGROUND_ORES)
         ));
 
+        context.register(REMOVE_VANILLA_NETHER_ORES, new BiomeModifiers.RemoveFeaturesBiomeModifier(
+                tag(biomes, BiomeTags.IS_NETHER),
+                features(features,
+                        OrePlacements.ORE_GOLD_NETHER, OrePlacements.ORE_QUARTZ_NETHER),
+                Set.of(GenerationStep.Decoration.UNDERGROUND_ORES)
+        ));
+
         context.register(NEW_OVERWORLD_ORES, new BiomeModifiers.AddFeaturesBiomeModifier(
                 tag(biomes, BiomeTags.IS_OVERWORLD),
                 features(features,
@@ -69,7 +78,16 @@ public class BiomeModifiersData
                         PlacedFeaturesData.GOLD_ORE, PlacedFeaturesData.GOLD_ORE_EXTRA, PlacedFeaturesData.GOLD_ORE_LOWER,
                         PlacedFeaturesData.LAPIS_ORE, PlacedFeaturesData.LAPIS_ORE_BURIED,
                         PlacedFeaturesData.REDSTONE_ORE, PlacedFeaturesData.REDSTONE_ORE_LOWER,
-                        PlacedFeaturesData.LEAD_ORE_SMALL, PlacedFeaturesData.LEAD_ORE_MID, PlacedFeaturesData.LEAD_ORE_UPPER),
+                        PlacedFeaturesData.LEAD_ORE_SMALL, PlacedFeaturesData.LEAD_ORE_MID, PlacedFeaturesData.LEAD_ORE_UPPER,
+                        PlacedFeaturesData.METHANE_ICE_ORE_OVERWORLD),
+                GenerationStep.Decoration.UNDERGROUND_ORES
+        ));
+
+        context.register(NEW_NETHER_ORES, new BiomeModifiers.AddFeaturesBiomeModifier(
+                tag(biomes, BiomeTags.IS_NETHER),
+                features(features,
+                        PlacedFeaturesData.GOLD_ORE_NETHER, PlacedFeaturesData.QUARTZ_ORE_NETHER,
+                        PlacedFeaturesData.METHANE_ICE_ORE_NETHER, PlacedFeaturesData.METHANE_ICE_ORE_MEGA_NETHER),
                 GenerationStep.Decoration.UNDERGROUND_ORES
         ));
 

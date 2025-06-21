@@ -194,6 +194,23 @@ public interface StoneUtilities
                 return new GenericBlockItemCoupling(b, i);
             }
 
+            boolean isNotSubBlockVariant = !(kv.contains("slab") || kv.contains("stairs") ||
+                    kv.contains("button") || kv.contains("pressure_plate") || kv.endsWith("_wall"));
+            if (isNotSubBlockVariant)
+            {
+                boolean isBaseStoneOrColumn = !(kv.contains("smooth") || kv.contains("polished") ||
+                        kv.contains("brick") || kv.contains("tile") || kv.contains("cobble") ||
+                        kv.contains("cut"));
+                if ((kv.contains("basalt") && isBaseStoneOrColumn ||
+                        (kv.contains("deepslate") && isBaseStoneOrColumn)) ||
+                        (kv.contains("column")))
+                {
+                    Supplier<Block> b = Registrar.regBlock(kv, () -> new RotatedPillarBlock(props));
+                    Supplier<Item>  i = Registrar.regSimpleBlockItem((DeferredBlock<Block>) b);
+                    return new GenericBlockItemCoupling(b, i);
+                }
+            }
+
             Supplier<Block> b = Registrar.regBlock(kv, () -> new Block(props));
             Supplier<Item> i = Registrar.regSimpleBlockItem((DeferredBlock<Block>) b);
             return new GenericBlockItemCoupling(b, i);

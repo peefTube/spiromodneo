@@ -24,5 +24,6 @@ public class BiomeTagDataProv extends BiomeTagsProvider
         tag(SpiroTags.Biomes.RUBY_SPAWNABLE)
                 .addTags(BiomeTags.IS_JUNGLE)
                 .add(Biomes.LUSH_CAVES);
+        tag(SpiroTags.Biomes.TEMPERATE_OR_COLD_NETHER_BIOMES);
     }
 }

@@ -29,6 +29,7 @@ public class InitializeBlockRenderTypes
         oreSettings(Registrar.QUARTZ_ORES);
         oreSettings(Registrar.RUBY_ORES);
         oreSettings(Registrar.LEAD_ORES);
+        oreSettings(Registrar.METHANE_ICE_ORES);
     }
 
     protected static void oreSettings(OreCollection set)

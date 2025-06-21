@@ -3,6 +3,8 @@
   "package": "com.github.peeftube.spiromodneo.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BucketItemMixin",
+    "FluidTypeMixin",
     "NoiseChunkMixin"
   ],
   "client": [

@@ -232,9 +232,10 @@ public class Registrar
     public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ,
             new MinMax(2, 5));
     public static final OreCollection RUBY_ORES = OreCollection.registerCollection(OreMaterial.RUBY);
-
     public static final OreCollection LEAD_ORES = OreCollection.registerCollection(OreMaterial.LEAD,
             new MinMax(1, 3));
+    public static final OreCollection METHANE_ICE_ORES = OreCollection.registerCollection(OreMaterial.METHANE_ICE,
+            new MinMax(1, 3), FuelOreData.asFuel(120.0f)); // 120s = 2400t, 150% of coal/charcoal
 
     // Language key for creative tabs
     public static final String TAB_TITLE_KEY_FORMULAIC = "itemGroup." + SpiroMod.MOD_ID;

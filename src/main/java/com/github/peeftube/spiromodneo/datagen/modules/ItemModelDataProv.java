@@ -7,21 +7,23 @@ import com.github.peeftube.spiromodneo.util.DataCheckResult;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.equipment.ArmorSet;
 import com.github.peeftube.spiromodneo.util.equipment.ToolSet;
-import com.github.peeftube.spiromodneo.util.metal.MetalUtilities;
-import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.github.peeftube.spiromodneo.util.RLUtility.makeRL;
 import static com.github.peeftube.spiromodneo.util.stone.StoneSetPresets.getPresets;
 
 public class ItemModelDataProv extends ItemModelProvider
@@ -131,7 +133,8 @@ public class ItemModelDataProv extends ItemModelProvider
                     String  ns             = getPresets().containsKey(baseKey) ? "minecraft" : SpiroMod.MOD_ID;
 
                     if (available && !getPresets().containsKey(key))
-                    { blockParser((DeferredItem<Item>) set.bulkData().getCouplingForKeys(k0, k1, k2).getItem()); }
+                    { couplingParser((DeferredBlock<Block>) set.bulkData().getCouplingForKeys(k0, k1, k2).getBlock(),
+                            (DeferredItem<Item>) set.bulkData().getCouplingForKeys(k0, k1, k2).getItem()); }
                 }
             }
         }
@@ -185,6 +188,24 @@ public class ItemModelDataProv extends ItemModelProvider
         }
     }
 
+    //
+    protected void couplingParser(DeferredBlock<Block> block, DeferredItem<Item> item)
+    {
+        String rawPath = BuiltInRegistries.ITEM.getKey(item.get()).getPath();
+        String path = "block/" + rawPath;
+        boolean modelExists = this.existingFileHelper.exists(makeRL(path), ModelProvider.MODEL);
+        boolean isNotSpecialCase = !(path.contains("_button") || path.contains("_wall") || path.contains("_door"));
+        if (modelExists && isNotSpecialCase) { blockParser(item); }
+        else
+        {
+            boolean isColumnCheck = this.existingFileHelper.exists(makeRL(path + "_y"), ModelProvider.MODEL);
+            boolean isInventoryCheck = this.existingFileHelper.exists(makeRL(path + "_inv"), ModelProvider.MODEL);
+
+            if (isColumnCheck) { withExistingParent(rawPath, makeRL(path + "_y")); }
+            if (isInventoryCheck) { withExistingParent(rawPath, makeRL(path + "_inv")); }
+        }
+    }
+
     // Block item model creation subroutine
     protected void blockParser(DeferredItem<Item> item)
     {
@@ -207,14 +228,14 @@ public class ItemModelDataProv extends ItemModelProvider
                 // Handheld item.
                 return withExistingParent(item.getId().getPath(),
                         RLUtility.invokeRL("minecraft:item/handheld")).texture("layer0",
-                        RLUtility.makeRL("item/" + imageName));
+                        makeRL("item/" + imageName));
             }
             default ->
             {
                 // Assume basic type.
                 return withExistingParent(item.getId().getPath(),
                         RLUtility.invokeRL("minecraft:item/generated")).texture("layer0",
-                        RLUtility.makeRL("item/" + imageName));
+                        makeRL("item/" + imageName));
             }
         }
     }

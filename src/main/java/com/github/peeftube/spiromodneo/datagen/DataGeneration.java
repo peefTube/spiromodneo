@@ -10,6 +10,7 @@ import com.github.peeftube.spiromodneo.datagen.modules.recipe.RecipeDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.BiomeTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.BlockTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.ItemTagDataProv;
+import com.github.peeftube.spiromodneo.datagen.modules.world.CustomDataMapProv;
 import com.github.peeftube.spiromodneo.datagen.modules.world.WorldgenDataProv;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
@@ -51,5 +52,7 @@ public class DataGeneration
 
         generator.addProvider(true, new WorldgenDataProv(output,
                 event.getLookupProvider(), Set.of(SpiroMod.MOD_ID, "minecraft")));
+        generator.addProvider(true, new CustomDataMapProv(output,
+                event.getLookupProvider()));
     }
 }
