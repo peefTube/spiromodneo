@@ -8,18 +8,29 @@
   },
   "downfall": 0,
   "effects": {
-    "fog_color": 9995613,
-    "grass_color": 13353396,
-    "foliage_color": 13353396,
+    "fog_color": 6840176,
+    "grass_color": 9338215,
+    "foliage_color": 11840157,
+    "additions_sound": {
+      "sound": "minecraft:ambient.crimson_forest.additions",
+      "tick_chance": 0.0111
+    },
+    "ambient_sound": "minecraft:ambient.crimson_forest.loop",
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2,
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 36000
+      "sound": "minecraft:ambient.crimson_forest.mood",
+      "tick_delay": 6000
     },
-    "sky_color": 7907327,
-    "water_color": 6061928,
-    "water_fog_color": 4347721,
+    "music": {
+      "max_delay": 24000,
+      "min_delay": 12000,
+      "replace_current_music": false,
+      "sound": "minecraft:music.nether.crimson_forest"
+    },
+    "sky_color": 7254527,
+    "water_color": 6840176,
+    "water_fog_color": 3223091,
     "particle": {
       "options": {
         "type": "minecraft:ash"
@@ -57,23 +68,24 @@
     "axolotls": [],
     "creature": [
       {
-        "type": "minecraft:hoglin",
-        "maxCount": 4,
-        "minCount": 4,
-        "weight": 10
-      },
-      {
         "type": "minecraft:skeleton_horse",
-        "maxCount": 6,
-        "minCount": 2,
+        "maxCount": 3,
+        "minCount": 1,
         "weight": 5
       }
     ],
     "misc": [],
-    "monster": [],
+    "monster": [
+      {
+        "type": "minecraft:hoglin",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 10
+      }
+    ],
     "underground_water_creature": [],
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.8
+  "temperature": 0.6
 }

@@ -91,7 +91,10 @@ public class BiomeModifiersData
                 tag(biomes, BiomeTags.IS_NETHER),
                 features(features,
                         PlacedFeaturesData.GOLD_ORE_NETHER, PlacedFeaturesData.QUARTZ_ORE_NETHER,
-                        PlacedFeaturesData.METHANE_ICE_ORE_NETHER, PlacedFeaturesData.METHANE_ICE_ORE_MEGA_NETHER),
+                        PlacedFeaturesData.METHANE_ICE_ORE_NETHER, PlacedFeaturesData.METHANE_ICE_ORE_MEGA_NETHER,
+                        PlacedFeaturesData.IRON_ORE_NETHER, PlacedFeaturesData.IRON_ORE_NETHER_LARGE,
+                        PlacedFeaturesData.LEAD_ORE_NETHER, PlacedFeaturesData.LEAD_ORE_NETHER_LARGE,
+                        PlacedFeaturesData.COPPER_ORE_NETHER),
                 GenerationStep.Decoration.UNDERGROUND_ORES
         ));
 

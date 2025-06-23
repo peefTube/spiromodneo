@@ -5,7 +5,12 @@
     "spiromodneo:gold_ore_nether",
     "spiromodneo:quartz_ore_nether",
     "spiromodneo:methane_ore_nether",
-    "spiromodneo:methane_ore_mega_nether"
+    "spiromodneo:methane_ore_mega_nether",
+    "spiromodneo:iron_ore_nether",
+    "spiromodneo:iron_ore_nether_large",
+    "spiromodneo:lead_ore_nether",
+    "spiromodneo:lead_ore_nether_large",
+    "spiromodneo:copper_ore_nether"
   ],
   "step": "underground_ores"
 }

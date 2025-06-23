@@ -27,9 +27,12 @@ public class PlacedFeaturesData
     public static final ResourceKey<PlacedFeature> IRON_ORE_UPPER = registerKey("iron_ore_upper");
     public static final ResourceKey<PlacedFeature> IRON_ORE_MID = registerKey("iron_ore_mid");
     public static final ResourceKey<PlacedFeature> IRON_ORE_SMALL = registerKey("iron_ore_small");
+    public static final ResourceKey<PlacedFeature> IRON_ORE_NETHER = registerKey("iron_ore_nether");
+    public static final ResourceKey<PlacedFeature> IRON_ORE_NETHER_LARGE = registerKey("iron_ore_nether_large");
 
     public static final ResourceKey<PlacedFeature> COPPER_ORE = registerKey("copper_ore");
     public static final ResourceKey<PlacedFeature> COPPER_ORE_LARGE = registerKey("copper_ore_large");
+    public static final ResourceKey<PlacedFeature> COPPER_ORE_NETHER = registerKey("copper_ore_nether");
 
     public static final ResourceKey<PlacedFeature> DIAMOND_ORE_SMALL = registerKey("diamond_ore_small");
     public static final ResourceKey<PlacedFeature> DIAMOND_ORE = registerKey("diamond_ore");
@@ -57,6 +60,8 @@ public class PlacedFeaturesData
     public static final ResourceKey<PlacedFeature> LEAD_ORE_UPPER = registerKey("lead_ore_upper");
     public static final ResourceKey<PlacedFeature> LEAD_ORE_MID = registerKey("lead_ore_mid");
     public static final ResourceKey<PlacedFeature> LEAD_ORE_SMALL = registerKey("lead_ore_small");
+    public static final ResourceKey<PlacedFeature> LEAD_ORE_NETHER = registerKey("lead_ore_nether");
+    public static final ResourceKey<PlacedFeature> LEAD_ORE_NETHER_LARGE = registerKey("lead_ore_nether_large");
 
     public static final ResourceKey<PlacedFeature> RUBY_ORE = registerKey("ruby_ore");
 
@@ -104,6 +109,18 @@ public class PlacedFeaturesData
                 InSquarePlacement.spread(),
                 CountPlacement.of(10)
         ));
+        register(context, IRON_ORE_NETHER, configuredFeatures.getOrThrow(ConfigFeaturesData.IRON_ORE_SMALL), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(0))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(10)
+        ));
+        register(context, IRON_ORE_NETHER_LARGE, configuredFeatures.getOrThrow(ConfigFeaturesData.IRON_ORE_GENERIC), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(0))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(10)
+        ));
 
         register(context, COPPER_ORE, configuredFeatures.getOrThrow(ConfigFeaturesData.COPPER_ORE_SMALL), List.of(
                 HeightRangePlacement.of(TrapezoidHeight.of(VerticalAnchor.absolute(-16), VerticalAnchor.absolute(112))),
@@ -116,6 +133,12 @@ public class PlacedFeaturesData
                 BiomeFilter.biome(),
                 InSquarePlacement.spread(),
                 CountPlacement.of(16)
+        ));
+        register(context, COPPER_ORE_NETHER, configuredFeatures.getOrThrow(ConfigFeaturesData.COPPER_ORE_SMALL), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(0))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(10)
         ));
 
         register(context, DIAMOND_ORE_SMALL, configuredFeatures.getOrThrow(ConfigFeaturesData.DIAMOND_ORE_SMALL), List.of(
@@ -240,6 +263,18 @@ public class PlacedFeaturesData
         ));
         register(context, LEAD_ORE_SMALL, configuredFeatures.getOrThrow(ConfigFeaturesData.LEAD_ORE_SMALL), List.of(
                 HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.absolute(72))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(10)
+        ));
+        register(context, LEAD_ORE_NETHER, configuredFeatures.getOrThrow(ConfigFeaturesData.LEAD_ORE_SMALL), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(0))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(10)
+        ));
+        register(context, LEAD_ORE_NETHER_LARGE, configuredFeatures.getOrThrow(ConfigFeaturesData.LEAD_ORE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(0))),
                 BiomeFilter.biome(),
                 InSquarePlacement.spread(),
                 CountPlacement.of(10)
