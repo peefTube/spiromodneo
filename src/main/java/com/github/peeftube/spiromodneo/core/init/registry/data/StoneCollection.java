@@ -58,21 +58,21 @@ public record StoneCollection(StoneMaterial material, StoneData bulkData, TagCou
         STONE_COLLECTIONS.add(collection); return collection;
     }
 
-    public Supplier<Block> getBaseStone()
+    public Supplier<? extends Block> getBaseStone()
     {
         return this.bulkData().bulkData()
                    .get(StoneBlockType.BASE).get(StoneVariantType.DEFAULT).get(StoneSubBlockType.DEFAULT)
                 .getBlock();
     }
 
-    public Supplier<Block> getCobble()
+    public Supplier<? extends Block> getCobble()
     {
         return this.bulkData().bulkData()
                    .get(StoneBlockType.COBBLE).get(StoneVariantType.DEFAULT).get(StoneSubBlockType.DEFAULT)
                    .getBlock();
     }
 
-    public Supplier<Block> getMossyCobble()
+    public Supplier<? extends Block> getMossyCobble()
     {
         return this.bulkData().bulkData()
                    .get(StoneBlockType.COBBLE).get(StoneVariantType.MOSSY).get(StoneSubBlockType.DEFAULT)

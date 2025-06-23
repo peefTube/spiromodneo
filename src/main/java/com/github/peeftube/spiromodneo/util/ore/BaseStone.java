@@ -29,13 +29,14 @@ public enum BaseStone
     private final String                    name;
     private final BlockBehaviour.Properties props;
     private final boolean                   prePopulated;
-    private Supplier<Block>           oreBase;
-    private Supplier<Block>           defaultBase;
+    private Supplier<? extends Block>           oreBase;
+    private Supplier<? extends Block>           defaultBase;
 
-    BaseStone(String name, BlockBehaviour.Properties props, Supplier<Block> oreBase, boolean isPopulated)
+    BaseStone(String name, BlockBehaviour.Properties props, Supplier<? extends Block> oreBase, boolean isPopulated)
     { this.name = name; this.props = props; this.oreBase = oreBase; this.defaultBase = oreBase; this.prePopulated = isPopulated; }
 
-    BaseStone(String name, BlockBehaviour.Properties props, Supplier<Block> oreBase, Supplier<Block> defaultBase, boolean isPopulated)
+    BaseStone(String name, BlockBehaviour.Properties props, Supplier<? extends Block> oreBase,
+            Supplier<? extends Block> defaultBase, boolean isPopulated)
     { this.name = name; this.props = props; this.oreBase = oreBase; this.defaultBase = defaultBase; this.prePopulated = isPopulated; }
 
     public String get()
@@ -46,20 +47,20 @@ public enum BaseStone
 
     /** Will only be set if this enum value is not pre-populated.
      * For vanilla stone types, this should always return preset values. */
-    public void setOreBase(Supplier<Block> oreBase)
+    public void setOreBase(Supplier<? extends Block> oreBase)
     { this.oreBase = this.prePopulated ? this.oreBase : oreBase; }
 
     /** Will only be set if this enum value is not pre-populated.
      * For vanilla stone types, this should always return preset values. */
-    public void setDefaultBase(Supplier<Block> defaultBase)
+    public void setDefaultBase(Supplier<? extends Block> defaultBase)
     { this.defaultBase = this.prePopulated ? this.defaultBase : defaultBase; }
 
     public boolean isPrePopulated()
     { return prePopulated; }
 
-    public Supplier<Block> getOreBase()
+    public Supplier<? extends Block> getOreBase()
     { return oreBase; }
 
-    public Supplier<Block> getDefault()
+    public Supplier<? extends Block> getDefault()
     { return defaultBase; }
 }

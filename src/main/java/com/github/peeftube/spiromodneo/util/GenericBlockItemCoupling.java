@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record GenericBlockItemCoupling(Supplier<Block> block, Supplier<Item> item)
+public record GenericBlockItemCoupling(Supplier<? extends Block> block, Supplier<? extends Item> item)
 {
     public static List<GenericBlockItemCoupling> GENERIC_COUPLINGS = new ArrayList<>();
 
-    public static GenericBlockItemCoupling couple(Supplier<Block> b, Supplier<Item> i)
+    public static GenericBlockItemCoupling couple(Supplier<? extends Block> b, Supplier<? extends Item> i)
     { GenericBlockItemCoupling c = new GenericBlockItemCoupling(b, i); GENERIC_COUPLINGS.add(c); return c; }
 
-    public Supplier<Block> getBlock()
+    public Supplier<? extends Block> getBlock()
     { return block; }
 
-    public Supplier<Item> getItem()
+    public Supplier<? extends Item> getItem()
     { return item; }
 }

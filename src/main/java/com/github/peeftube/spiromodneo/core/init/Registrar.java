@@ -171,7 +171,7 @@ public class Registrar
     public static <B extends Block> DeferredBlock<B> regBlock(String name, Supplier<B> block)
     { return BLOCKS.register(name, block); }
 
-    public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
+    public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<? extends Block> block)
     { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
 
     // Metal collections need to go first since some data sets will reference their contents

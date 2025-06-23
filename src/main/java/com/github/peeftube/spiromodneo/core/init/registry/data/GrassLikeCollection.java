@@ -64,8 +64,8 @@ public record GrassLikeCollection(GrassLike type, Map<Soil, GenericBlockItemCoup
 
     private static GenericBlockItemCoupling createNew(Soil s, GrassLike g, int li)
     {
-        Supplier<Block> bSup;
-        Supplier<Item> iSup;
+        Supplier<? extends Block> bSup;
+        Supplier<? extends Item> iSup;
 
         String blockName = g.getName() + "_on_" + s.getName();
 
@@ -76,21 +76,21 @@ public record GrassLikeCollection(GrassLike type, Map<Soil, GenericBlockItemCoup
                 bSup = () -> new NyliumBlock(BlockBehaviour.Properties.of()
                         .lightLevel(state -> li).sound(SoundType.NYLIUM));
                 bSup = Registrar.regBlock(blockName, bSup);
-                iSup = Registrar.regSimpleBlockItem((DeferredBlock<Block>) bSup);
+                iSup = Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) bSup);
             }
             case MYCELIUM ->
             {
                 bSup = () -> new MyceliumBlock(BlockBehaviour.Properties.of()
                         .lightLevel(state -> li).sound(SoundType.GRASS));
                 bSup = Registrar.regBlock(blockName, bSup);
-                iSup = Registrar.regSimpleBlockItem((DeferredBlock<Block>) bSup);
+                iSup = Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) bSup);
             }
             default ->
             {
                 bSup = () -> new GrassBlock(BlockBehaviour.Properties.of()
                         .lightLevel(state -> li).sound(SoundType.GRASS));
                 bSup = Registrar.regBlock(blockName, bSup);
-                iSup = Registrar.regSimpleBlockItem((DeferredBlock<Block>) bSup);
+                iSup = Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) bSup);
             }
         }
 
