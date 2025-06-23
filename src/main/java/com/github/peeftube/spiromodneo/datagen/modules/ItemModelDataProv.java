@@ -51,7 +51,23 @@ public class ItemModelDataProv extends ItemModelProvider
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone); }
+        for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassSetDesign(grass); }
         blockParser(Registrar.MANUAL_CRUSHER_ITEM);
+    }
+
+    private void grassSetDesign(GrassLikeCollection set)
+    {
+        for (Soil s : Soil.values())
+        {
+            boolean sanityCheckDirt =
+                    (!(set.type() == GrassLike.GRASS || set.type() == GrassLike.MYCELIUM));
+            boolean sanityCheckNetherrack =
+                    (!(set.type() == GrassLike.CRIMSON_NYLIUM || set.type() == GrassLike.WARPED_NYLIUM));
+            boolean sanityCheck =
+                    s == Soil.DIRT ? sanityCheckDirt : s != Soil.NETHERRACK || sanityCheckNetherrack;
+
+            if (sanityCheck) blockParser((DeferredItem<Item>) set.bulkData().get(s).getItem());
+        }
     }
 
     protected void equipmentSetDesign(EquipmentCollection set)

@@ -1,9 +1,7 @@
 package com.github.peeftube.spiromodneo.core.init;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
-import com.github.peeftube.spiromodneo.core.init.registry.data.StoneMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -12,24 +10,38 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class InitializeBlockRenderTypes
 {
     public static void go()
     {
         // Ore handling.
-        oreSettings(Registrar.COAL_ORES);
-        oreSettings(Registrar.IRON_ORES);
-        oreSettings(Registrar.COPPER_ORES);
-        oreSettings(Registrar.GOLD_ORES);
-        oreSettings(Registrar.LAPIS_ORES);
-        oreSettings(Registrar.REDSTONE_ORES);
-        oreSettings(Registrar.EMERALD_ORES);
-        oreSettings(Registrar.DIAMOND_ORES);
-        oreSettings(Registrar.QUARTZ_ORES);
-        oreSettings(Registrar.RUBY_ORES);
-        oreSettings(Registrar.LEAD_ORES);
-        oreSettings(Registrar.METHANE_ICE_ORES);
+        for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSettings(ore); }
+
+        // Grass handling.
+        for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassSettings(grass); }
+    }
+
+    protected static void grassSettings(GrassLikeCollection set)
+    {
+        for (Soil s : Soil.values())
+        {
+            boolean sanityCheckDirt =
+                    (!(set.type() == GrassLike.GRASS || set.type() == GrassLike.MYCELIUM));
+            boolean sanityCheckNetherrack =
+                    (!(set.type() == GrassLike.CRIMSON_NYLIUM || set.type() == GrassLike.WARPED_NYLIUM));
+            boolean sanityCheck =
+                    s == Soil.DIRT ? sanityCheckDirt : s != Soil.NETHERRACK || sanityCheckNetherrack;
+
+            // I don't know why, I don't want to know why, I shouldn't have to know why, but without this
+            // logger call this code doesn't seem to want to work properly.
+            // Oracle pls fix
+            SpiroMod.LOGGER.info("RUNNING GRASS: " + set.type().getName());
+
+            if (sanityCheck) ItemBlockRenderTypes.setRenderLayer(set.bulkData().get(s).getBlock().get(),
+                    ChunkRenderTypeSet.of(RenderType.solid(), RenderType.translucent()));
+        }
     }
 
     protected static void oreSettings(OreCollection set)
@@ -63,7 +75,7 @@ public class InitializeBlockRenderTypes
             // I don't know why, I don't want to know why, I shouldn't have to know why, but without this
             // logger call this code doesn't seem to want to work properly.
             // Oracle pls fix
-            SpiroMod.LOGGER.info("RUNNING: " + s.get().toUpperCase() + material.get().toUpperCase());
+            SpiroMod.LOGGER.info("RUNNING ORE: " + s.get().toUpperCase() + material.get().toUpperCase());
 
             // Change render type status.
             ItemBlockRenderTypes.setRenderLayer(b, ChunkRenderTypeSet.of(RenderType.solid(), RenderType.translucent()));

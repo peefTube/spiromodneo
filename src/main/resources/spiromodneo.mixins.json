@@ -4,8 +4,11 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BucketItemMixin",
+    "BushBlockMixin",
     "FluidTypeMixin",
-    "NoiseChunkMixin"
+    "FungusBlockMixin",
+    "NoiseChunkMixin",
+    "SpreadingSnowyDirtBlockMixin"
   ],
   "client": [
   ],

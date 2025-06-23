@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.github.peeftube.spiromodneo.util.stone.StoneSetPresets.getPresets;
 
@@ -34,6 +35,7 @@ public class BlockstateDataProv extends BlockStateProvider
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalSetDesign(metal); }
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone, this.models().existingFileHelper); }
+        for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassSetDesign(grass); }
 
         externalModelAssociation01(Registrar.MANUAL_CRUSHER.get(), "manual_crusher");
     }
@@ -46,6 +48,92 @@ public class BlockstateDataProv extends BlockStateProvider
 
     protected BlockModelBuilder finder(String name, String namespace, String path)
     { return models().withExistingParent(name, RLUtility.makeRL(namespace, path)); }
+
+    private void grassSetDesign(GrassLikeCollection set)
+    {
+        for (Soil s : Soil.values())
+        {
+            boolean sanityCheckDirt =
+                    (!(set.type() == GrassLike.GRASS || set.type() == GrassLike.MYCELIUM));
+            boolean sanityCheckNetherrack =
+                    (!(set.type() == GrassLike.CRIMSON_NYLIUM || set.type() == GrassLike.WARPED_NYLIUM));
+            boolean sanityCheck =
+                    s == Soil.DIRT ? sanityCheckDirt : s != Soil.NETHERRACK || sanityCheckNetherrack;
+
+            if (sanityCheck)
+            {
+                Block b = set.bulkData().get(s).getBlock().get();
+
+                ResourceLocation topOverTex =
+                        set.type() == GrassLike.GRASS ? RLUtility.invokeRL("minecraft:block/grass_block_top") :
+                        set.type() == GrassLike.MYCELIUM ? RLUtility.invokeRL("minecraft:block/mycelium_top") :
+                        set.type() == GrassLike.CRIMSON_NYLIUM ? RLUtility.invokeRL("minecraft:block/crimson_nylium") :
+                        set.type() == GrassLike.WARPED_NYLIUM ? RLUtility.invokeRL("minecraft:block/warped_nylium") :
+                        set.type() == GrassLike.VITALIUM ? RLUtility.makeRL("block/vitalium_top") :
+                        RLUtility.makeRL("placeholder");
+                ResourceLocation sideOverTex =
+                        set.type() == GrassLike.GRASS ? RLUtility.invokeRL("minecraft:block/grass_block_side_overlay") :
+                        set.type() == GrassLike.MYCELIUM ? RLUtility.makeRL("block/overlays/mycelium_side_overlay") :
+                        set.type() == GrassLike.CRIMSON_NYLIUM ? RLUtility.makeRL("block/overlays/crimson_nylium_side_overlay") :
+                        set.type() == GrassLike.WARPED_NYLIUM ? RLUtility.makeRL("block/overlays/warped_nylium_side_overlay") :
+                        set.type() == GrassLike.VITALIUM ? RLUtility.makeRL("block/overlays/vitalium_side_overlay") :
+                        RLUtility.makeRL("placeholder");
+                ResourceLocation snowTop = RLUtility.invokeRL("minecraft:block/snow");
+                ResourceLocation snowSide = RLUtility.makeRL("block/overlays/snow_side_overlay");
+
+                VariantBlockStateBuilder builder = getVariantBuilder(b);
+
+                if (b instanceof SpreadingSnowyDirtBlock)
+                {
+                    builder = builder.partialState().with(SpreadingSnowyDirtBlock.SNOWY, false).setModels(
+                            new ConfiguredModel(models()
+                                    .withExistingParent(name(b), "cube_bottom_top")
+                           .texture("base", blockTexture(s.getSoil().get()))
+                           .element().cube("#base").end()
+                           .texture("top", topOverTex).texture("side", sideOverTex).element()
+                           .face(Direction.UP).texture("#top").cullface(Direction.UP).end()
+                           .face(Direction.EAST).texture("#side").cullface(Direction.EAST).end()
+                           .face(Direction.WEST).texture("#side").cullface(Direction.WEST).end()
+                           .face(Direction.NORTH).texture("#side").cullface(Direction.NORTH).end()
+                           .face(Direction.SOUTH).texture("#side").cullface(Direction.SOUTH).end()
+                           .end()
+                           .texture("particle", blockTexture(s.getSoil().get()))
+                            /* .renderType(renTranslucent) */))
+                           .partialState().with(SpreadingSnowyDirtBlock.SNOWY, true).setModels(
+                            new ConfiguredModel(models()
+                                    .withExistingParent(name(b) + "_snowy", "cube_bottom_top")
+                           .texture("base", blockTexture(s.getSoil().get()))
+                           .element().cube("#base").end()
+                           .texture("top", snowTop).texture("side", snowSide).element()
+                           .face(Direction.UP).texture("#top").cullface(Direction.UP).end()
+                           .face(Direction.EAST).texture("#side").cullface(Direction.EAST).end()
+                           .face(Direction.WEST).texture("#side").cullface(Direction.WEST).end()
+                           .face(Direction.NORTH).texture("#side").cullface(Direction.NORTH).end()
+                           .face(Direction.SOUTH).texture("#side").cullface(Direction.SOUTH).end()
+                           .end()
+                           .texture("particle", blockTexture(s.getSoil().get()))
+                            /* .renderType(renTranslucent) */));
+                }
+                else
+                {
+                    builder = builder.partialState().setModels(
+                            new ConfiguredModel(models()
+                                    .withExistingParent(name(b), "cube_bottom_top")
+                                    .texture("base", blockTexture(s.getSoil().get()))
+                                    .element().cube("#base").end()
+                                    .texture("top", topOverTex).texture("side", sideOverTex).element()
+                                    .face(Direction.UP).texture("#top").cullface(Direction.UP).end()
+                                    .face(Direction.EAST).texture("#side").cullface(Direction.EAST).end()
+                                    .face(Direction.WEST).texture("#side").cullface(Direction.WEST).end()
+                                    .face(Direction.NORTH).texture("#side").cullface(Direction.NORTH).end()
+                                    .face(Direction.SOUTH).texture("#side").cullface(Direction.SOUTH).end()
+                                    .end()
+                                    .texture("particle", blockTexture(s.getSoil().get()))
+                                    /* .renderType(renTranslucent) */));
+                }
+            }
+        }
+    }
 
     protected void metalSetDesign(MetalCollection set)
     {

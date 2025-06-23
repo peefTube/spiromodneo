@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo.datagen.modules.tags;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.content.worldgen.biome.NeoBiomes;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -24,6 +25,14 @@ public class BiomeTagDataProv extends BiomeTagsProvider
         tag(SpiroTags.Biomes.RUBY_SPAWNABLE)
                 .addTags(BiomeTags.IS_JUNGLE)
                 .add(Biomes.LUSH_CAVES);
-        tag(SpiroTags.Biomes.TEMPERATE_OR_COLD_NETHER_BIOMES);
+
+        tag(SpiroTags.Biomes.LIMBO_GARDEN)
+                .add(NeoBiomes.NETHER_LIMBO_GARDEN);
+        tag(SpiroTags.Biomes.getColdNetherTag())
+                .addTags(SpiroTags.Biomes.LIMBO_GARDEN);
+        tag(SpiroTags.Biomes.IS_CUSTOM_NETHER)
+                .addTags(SpiroTags.Biomes.getColdNetherTag());
+        tag(BiomeTags.IS_NETHER)
+                .addTags(SpiroTags.Biomes.IS_CUSTOM_NETHER);
     }
 }

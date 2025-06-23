@@ -1,10 +1,7 @@
 package com.github.peeftube.spiromodneo.datagen.modules.tags;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreMaterial;
-import com.github.peeftube.spiromodneo.core.init.registry.data.StoneCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.StoneMaterial;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
@@ -50,6 +47,9 @@ public class BlockTagDataProv extends BlockTagsProvider
         // Stone collections
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneTags(stone); }
 
+        // Grass & soil
+        for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassTags(grass); }
+
         // Tool level setup
         tag(SpiroTags.Blocks.INCORRECT_FOR_COPPER)
                 .addTag(BlockTags.NEEDS_IRON_TOOL)
@@ -68,6 +68,17 @@ public class BlockTagDataProv extends BlockTagsProvider
                 .addTag(SpiroTags.Blocks.NEEDS_STEEL_TOOL);
         tag(SpiroTags.Blocks.INCORRECT_FOR_STEEL)
                 .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+    }
+
+    private void grassTags(GrassLikeCollection set)
+    {
+        TagKey<Block> tag = set.tags().getBlockTag();
+
+        for (Soil s : Soil.values())
+        {
+            tag(s.getTag()).add(set.bulkData().get(s).getBlock().get());
+            tag(tag).add(set.bulkData().get(s).getBlock().get());
+        }
     }
 
     private void stoneTags(StoneCollection set)

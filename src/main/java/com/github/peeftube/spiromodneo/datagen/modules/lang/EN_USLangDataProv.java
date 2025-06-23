@@ -14,6 +14,7 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.github.peeftube.spiromodneo.util.stone.StoneSetPresets.getPresets;
 
@@ -30,6 +31,9 @@ public class EN_USLangDataProv extends LanguageProvider
 
         // Ores
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreParser(ore); }
+
+        // Grass & soil
+        for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassParser(grass); }
 
         // Stone collections
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneParser(stone); }
@@ -53,6 +57,44 @@ public class EN_USLangDataProv extends LanguageProvider
 
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
+    }
+
+    private void grassParser(GrassLikeCollection set)
+    {
+        for (Soil s : Soil.values())
+        {
+            boolean sanityCheckDirt =
+                    (!(set.type() == GrassLike.GRASS || set.type() == GrassLike.MYCELIUM));
+            boolean sanityCheckNetherrack =
+                    (!(set.type() == GrassLike.CRIMSON_NYLIUM || set.type() == GrassLike.WARPED_NYLIUM));
+            boolean sanityCheck =
+                    s == Soil.DIRT ? sanityCheckDirt : s != Soil.NETHERRACK || sanityCheckNetherrack;
+
+            String soilName = "";
+            String[] soilSubs = s.getName().split("_");
+            int stIndex = 0;
+            for (String st : soilSubs)
+            {
+                soilName = soilName + (stIndex > 0 ? " " : "") +
+                        st.substring(0, 1).toUpperCase() + st.substring(1);
+                stIndex++;
+            }
+            stIndex = 0; soilName = "(" + soilName + ")";
+
+            String typeName = "";
+            String[] typeSubs = set.type().getName().split("_");
+            for (String st : typeSubs)
+            {
+                typeName = typeName + (stIndex > 0 ? " " : "") +
+                        st.substring(0, 1).toUpperCase() + st.substring(1);
+                stIndex++;
+            }
+            typeName = set.type() == GrassLike.GRASS ? "Grass Block" : typeName;
+            String name = typeName + " " + soilName;
+            name = (set.type() == GrassLike.VITALIUM && s == Soil.SOUL_SOIL) ? "Nether Grass (Vitalium)" : name;
+
+            if (sanityCheck) add(set.bulkData().get(s).getBlock().get(), name);
+        }
     }
 
     protected void equipParser(EquipmentCollection set)

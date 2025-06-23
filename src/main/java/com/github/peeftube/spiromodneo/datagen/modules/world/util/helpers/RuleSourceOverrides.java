@@ -1,6 +1,8 @@
 package com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.registry.data.Soil;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -80,10 +82,13 @@ public interface RuleSourceOverrides
     /** Copied from SurfaceRuleData.java */
     SurfaceRules.RuleSource CRIMSON_NYLIUM = makeStateRule(Blocks.CRIMSON_NYLIUM);
     /** Copied from SurfaceRuleData.java */
+    SurfaceRules.RuleSource GLOWSTONE = makeStateRule(Blocks.GLOWSTONE);
+    /** Copied from SurfaceRuleData.java */
     SurfaceRules.RuleSource ENDSTONE = makeStateRule(Blocks.END_STONE);
 
     // Original block replacement rules
     SurfaceRules.RuleSource SMOOTH_BASALT = makeStateRule(Blocks.SMOOTH_BASALT);
+    SurfaceRules.RuleSource VITALIUM = makeStateRule(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get());
 
     /** Copied from SurfaceRuleData.java */
     static SurfaceRules.RuleSource makeStateRule(Block block)

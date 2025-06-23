@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "spiromodneo:block/mycelium_on_mud"
+    },
+    "snowy=true": {
+      "model": "spiromodneo:block/mycelium_on_mud_snowy"
+    }
+  }
+}

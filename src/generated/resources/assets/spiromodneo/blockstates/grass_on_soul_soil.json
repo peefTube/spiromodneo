@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "spiromodneo:block/grass_on_soul_soil"
+    },
+    "snowy=true": {
+      "model": "spiromodneo:block/grass_on_soul_soil_snowy"
+    }
+  }
+}

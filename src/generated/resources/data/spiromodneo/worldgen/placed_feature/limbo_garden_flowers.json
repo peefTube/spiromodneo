@@ -1,0 +1,12 @@
+{
+  "feature": "minecraft:flower_plain",
+  "placement": [
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": 2
+    }
+  ]
+}

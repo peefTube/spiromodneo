@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "spiromodneo:block/mycelium_on_netherrack"
+    },
+    "snowy=true": {
+      "model": "spiromodneo:block/mycelium_on_netherrack_snowy"
+    }
+  }
+}

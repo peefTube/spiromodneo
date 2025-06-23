@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "spiromodneo:block/vitalium_on_dirt"
+    },
+    "snowy=true": {
+      "model": "spiromodneo:block/vitalium_on_dirt_snowy"
+    }
+  }
+}

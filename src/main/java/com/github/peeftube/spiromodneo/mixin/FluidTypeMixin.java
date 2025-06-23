@@ -20,5 +20,5 @@ public abstract class FluidTypeMixin
     @ModifyExpressionValue(method = "isVaporizedOnPlacement", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/dimension/DimensionType;ultraWarm()Z"))
     public boolean onCheckVaporized(boolean original, Level level, BlockPos pos, FluidStack stack)
-    { return original && level.getBiomeManager().getBiome(pos).is(SpiroTags.Biomes.getColdNetherTag()); }
+    { return original && !level.getBiomeManager().getBiome(pos).is(SpiroTags.Biomes.getColdNetherTag()); }
 }

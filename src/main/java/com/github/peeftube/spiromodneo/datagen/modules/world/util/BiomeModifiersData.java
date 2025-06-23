@@ -12,6 +12,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.placement.AquaticPlacements;
 import net.minecraft.data.worldgen.placement.MiscOverworldPlacements;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.resources.ResourceKey;
@@ -39,6 +40,9 @@ public class BiomeModifiersData
     public static final ResourceKey<BiomeModifier> NEW_NETHER_ORES = key("new_nether_ores");
     public static final ResourceKey<BiomeModifier> NEW_EMERALD_ORE = key("new_emerald_ore");
     public static final ResourceKey<BiomeModifier> NEW_RUBY_ORE = key("new_ruby_ore");
+
+    public static final ResourceKey<BiomeModifier> COLD_NETHER_WATER = key("cold_nether_water_features");
+    public static final ResourceKey<BiomeModifier> LIMBO_GARDEN_FOLIAGE = key("limbo_garden_foliage");
 
     public static void bootstrap(final BootstrapContext<BiomeModifier> context)
     {
@@ -103,6 +107,21 @@ public class BiomeModifiersData
                 features(features,
                         PlacedFeaturesData.RUBY_ORE),
                 GenerationStep.Decoration.UNDERGROUND_ORES
+        ));
+
+        context.register(COLD_NETHER_WATER, new BiomeModifiers.AddFeaturesBiomeModifier(
+                tag(biomes, SpiroTags.Biomes.TEMPERATE_OR_COLD_NETHER_BIOMES),
+                features(features,
+                        PlacedFeaturesData.NETHER_WATER_LAKE),
+                GenerationStep.Decoration.LAKES
+        ));
+
+        context.register(LIMBO_GARDEN_FOLIAGE, new BiomeModifiers.AddFeaturesBiomeModifier(
+                tag(biomes, SpiroTags.Biomes.LIMBO_GARDEN),
+                features(features,
+                        PlacedFeaturesData.NETHER_OVERWORLD_TREES, PlacedFeaturesData.NETHER_OVERWORLD_GRASS,
+                        PlacedFeaturesData.NETHER_OVERWORLD_FLOWERS),
+                GenerationStep.Decoration.VEGETAL_DECORATION
         ));
     }
 

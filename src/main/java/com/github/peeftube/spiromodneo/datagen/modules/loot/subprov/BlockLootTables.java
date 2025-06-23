@@ -28,6 +28,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class BlockLootTables extends BlockLootSubProvider
 {
@@ -39,6 +40,7 @@ public class BlockLootTables extends BlockLootSubProvider
     {
         // Simple drop-self tables
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalTables(metal); }
+        for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassLikeTables(grass); }
         dropSelf(Registrar.MANUAL_CRUSHER.get());
 
         // Stone tables
@@ -46,6 +48,22 @@ public class BlockLootTables extends BlockLootSubProvider
 
         // Ore tables
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreTables(ore); }
+    }
+
+    protected void grassLikeTables(GrassLikeCollection set)
+    {
+        for (Soil s : Soil.values())
+        {
+            boolean sanityCheckDirt =
+                    (!(set.type() == GrassLike.GRASS || set.type() == GrassLike.MYCELIUM));
+            boolean sanityCheckNetherrack =
+                    (!(set.type() == GrassLike.CRIMSON_NYLIUM || set.type() == GrassLike.WARPED_NYLIUM));
+            boolean sanityCheck =
+                    s == Soil.DIRT ? sanityCheckDirt : s != Soil.NETHERRACK || sanityCheckNetherrack;
+
+            Supplier<Block> soilToDrop = s.getSoil();
+            if (sanityCheck) dropOther(set.bulkData().get(s).getBlock().get(), soilToDrop.get());
+        }
     }
 
     protected void stoneTables(StoneCollection set)

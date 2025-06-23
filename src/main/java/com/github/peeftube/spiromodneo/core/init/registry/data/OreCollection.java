@@ -104,8 +104,8 @@ public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling
 
         // Quick redstone catch case
         if (m.toLowerCase().contains("redstone"))
-        { block = () -> new RedStoneOreBlock(b.getProps().noOcclusion().lightLevel(s -> li)); }
-        else { block = () -> new Block(b.getProps().noOcclusion().lightLevel(s -> li)); }
+        { block = () -> new RedStoneOreBlock(b.getProps().lightLevel(s -> li)); }
+        else { block = () -> new Block(b.getProps().lightLevel(s -> li)); }
 
         block = Registrar.regBlock(b.get() + m, block);
         Supplier<Item> item = Registrar.regSimpleBlockItem((DeferredBlock<Block>) block);

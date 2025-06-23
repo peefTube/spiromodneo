@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spiromodneo:temperate_or_cold_nether_biomes",
+  "features": "spiromodneo:nether_water_lake",
+  "step": "lakes"
+}

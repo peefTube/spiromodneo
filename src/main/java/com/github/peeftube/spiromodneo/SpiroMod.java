@@ -2,9 +2,21 @@ package com.github.peeftube.spiromodneo;
 
 import com.github.peeftube.spiromodneo.core.init.InitializeBlockRenderTypes;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
-import com.github.peeftube.spiromodneo.core.screens.ManualCrusherMenu;
+import com.github.peeftube.spiromodneo.core.init.content.worldgen.region.NetherColdRegion;
+import com.github.peeftube.spiromodneo.core.init.registry.data.Soil;
 import com.github.peeftube.spiromodneo.core.screens.ManualCrusherScreen;
+import com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers.custombiome.NetherColdRegionSourceRules;
+import com.github.peeftube.spiromodneo.util.RLUtility;
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -25,6 +37,8 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import terrablender.api.Regions;
+import terrablender.api.SurfaceRuleManager;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(SpiroMod.MOD_ID)
@@ -58,6 +72,14 @@ public class SpiroMod
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+        event.enqueueWork(() ->
+        {
+            Regions.register(new NetherColdRegion(RLUtility.makeRL("spiro_cold_nether_region"), 1));
+
+            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.NETHER, MOD_ID,
+                    NetherColdRegionSourceRules.rules());
+        });
+
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
@@ -101,6 +123,33 @@ public class SpiroMod
         public static void onScreenRegistration(RegisterMenuScreensEvent event)
         {
             event.register(Registrar.MANUAL_CRUSHER_MENU.get(), ManualCrusherScreen::new);
+        }
+
+        @SubscribeEvent
+        public static void onRegisterBlockColorHandlers(RegisterColorHandlersEvent.Block event)
+        {
+            for (Soil s : Soil.values())
+            {
+                if (s != Soil.DIRT)
+                {
+                    event.register((st, l, p, i) ->
+                            {
+                                if (l != null && p != null) { return BiomeColors.getAverageGrassColor(l, p); }
+                                else { return GrassColor.getDefaultColor(); }
+                            },
+                            Registrar.GRASS_TYPE.bulkData().get(s).getBlock().get(),
+                            Registrar.VITALIUM_TYPE.bulkData().get(s).getBlock().get());
+                }
+                else
+                {
+                    event.register((st, l, p, i) ->
+                            {
+                                if (l != null && p != null) { return BiomeColors.getAverageGrassColor(l, p); }
+                                else { return GrassColor.getDefaultColor(); }
+                            },
+                            Registrar.VITALIUM_TYPE.bulkData().get(s).getBlock().get());
+                }
+            }
         }
     }
 }

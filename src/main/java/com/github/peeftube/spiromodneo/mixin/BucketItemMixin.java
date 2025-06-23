@@ -21,5 +21,5 @@ public abstract class BucketItemMixin
     at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/dimension/DimensionType;ultraWarm()Z"))
     public boolean onEmptyContents(boolean original, @Nullable Player player, Level level, BlockPos pos,
             @Nullable BlockHitResult result, @Nullable ItemStack container)
-    { return original && level.getBiomeManager().getBiome(result.getBlockPos()).is(SpiroTags.Biomes.getColdNetherTag()); }
+    { return original && !level.getBiomeManager().getBiome(result.getBlockPos()).is(SpiroTags.Biomes.getColdNetherTag()); }
 }

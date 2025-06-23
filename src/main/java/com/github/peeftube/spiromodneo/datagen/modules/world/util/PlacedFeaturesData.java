@@ -6,6 +6,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.features.TreeFeatures;
+import net.minecraft.data.worldgen.features.VegetationFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -60,6 +63,11 @@ public class PlacedFeaturesData
     public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_OVERWORLD = registerKey("methane_ore_overworld");
     public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_NETHER = registerKey("methane_ore_nether");
     public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_MEGA_NETHER = registerKey("methane_ore_mega_nether");
+
+    public static final ResourceKey<PlacedFeature> NETHER_WATER_LAKE = registerKey("nether_water_lake");
+    public static final ResourceKey<PlacedFeature> NETHER_OVERWORLD_TREES = registerKey("limbo_garden_trees");
+    public static final ResourceKey<PlacedFeature> NETHER_OVERWORLD_GRASS = registerKey("limbo_garden_grass");
+    public static final ResourceKey<PlacedFeature> NETHER_OVERWORLD_FLOWERS = registerKey("limbo_garden_flowers");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context)
     {
@@ -262,6 +270,25 @@ public class PlacedFeaturesData
                 InSquarePlacement.spread(),
                 CountPlacement.of(4)
         ));
+
+        register(context, NETHER_WATER_LAKE,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.NETHER_WATER_LAKE),
+                List.of(BiomeFilter.biome(),
+                        RarityFilter.onAverageOnceEvery(80),
+                        CountOnEveryLayerPlacement.of(UniformInt.of(0, 1))));
+
+        register(context, NETHER_OVERWORLD_TREES,
+                configuredFeatures.getOrThrow(VegetationFeatures.TREES_BIRCH_AND_OAK),
+                List.of(BiomeFilter.biome(),
+                        CountOnEveryLayerPlacement.of(8)));
+        register(context, NETHER_OVERWORLD_GRASS,
+                configuredFeatures.getOrThrow(VegetationFeatures.PATCH_GRASS),
+                List.of(BiomeFilter.biome(),
+                        CountOnEveryLayerPlacement.of(16)));
+        register(context, NETHER_OVERWORLD_FLOWERS,
+                configuredFeatures.getOrThrow(VegetationFeatures.FLOWER_PLAIN),
+                List.of(BiomeFilter.biome(),
+                        CountOnEveryLayerPlacement.of(2)));
     }
 
     private static ResourceKey<PlacedFeature> registerKey(String name)

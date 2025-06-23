@@ -20,6 +20,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -236,6 +237,17 @@ public class Registrar
             new MinMax(1, 3));
     public static final OreCollection METHANE_ICE_ORES = OreCollection.registerCollection(OreMaterial.METHANE_ICE,
             new MinMax(1, 3), FuelOreData.asFuel(120.0f)); // 120s = 2400t, 150% of coal/charcoal
+
+    public static final GrassLikeCollection GRASS_TYPE =
+            GrassLikeCollection.registerCollection(GrassLike.GRASS);
+    public static final GrassLikeCollection MYCELIUM_TYPE =
+            GrassLikeCollection.registerCollection(GrassLike.MYCELIUM);
+    public static final GrassLikeCollection CRIMSON_NYLIUM_TYPE =
+            GrassLikeCollection.registerCollection(GrassLike.CRIMSON_NYLIUM);
+    public static final GrassLikeCollection WARPED_NYLIUM_TYPE =
+            GrassLikeCollection.registerCollection(GrassLike.WARPED_NYLIUM);
+    public static final GrassLikeCollection VITALIUM_TYPE =
+            GrassLikeCollection.registerCollection(GrassLike.VITALIUM, 3);
 
     // Language key for creative tabs
     public static final String TAB_TITLE_KEY_FORMULAIC = "itemGroup." + SpiroMod.MOD_ID;
