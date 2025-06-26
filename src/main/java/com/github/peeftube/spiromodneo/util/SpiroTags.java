@@ -25,6 +25,8 @@ public class SpiroTags
         public static TagKey<Block> RED_SANDSTONE_ORE_REPLACEABLES = tag("red_sandstone_ore_replaceables");
         public static TagKey<Block> BASALT_ORE_REPLACEABLES = tag("basalt_ore_replaceables");
 
+        public static TagKey<Block> SUPPORTS_TAPPER = tag("can_support_tapper");
+
         public static TagKey<Block> tag(String name) { return BlockTags.create(RLUtility.makeRL(name)); }
         public static TagKey<Block> forgeTag(String name) { return BlockTags.create(RLUtility.makeRL("forge", name)); }
     }

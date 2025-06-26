@@ -1,17 +1,18 @@
 package com.github.peeftube.spiromodneo.datagen.modules.world.util;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.data.worldgen.features.VegetationFeatures;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.heightproviders.TrapezoidHeight;
 import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
@@ -69,10 +70,19 @@ public class PlacedFeaturesData
     public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_NETHER = registerKey("methane_ore_nether");
     public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_MEGA_NETHER = registerKey("methane_ore_mega_nether");
 
-    public static final ResourceKey<PlacedFeature> NETHER_WATER_LAKE = registerKey("nether_water_lake");
-    public static final ResourceKey<PlacedFeature> NETHER_OVERWORLD_TREES = registerKey("limbo_garden_trees");
+    public static final ResourceKey<PlacedFeature> NETHER_WATER_LAKE      = registerKey("nether_water_lake");
+    public static final ResourceKey<PlacedFeature> ASHEN_TREES            = registerKey("ashen_trees");
+
     public static final ResourceKey<PlacedFeature> NETHER_OVERWORLD_GRASS = registerKey("limbo_garden_grass");
     public static final ResourceKey<PlacedFeature> NETHER_OVERWORLD_FLOWERS = registerKey("limbo_garden_flowers");
+
+    public static final ResourceKey<PlacedFeature> ASHEN_OAK = registerKey("ashen_oak");
+    public static final ResourceKey<PlacedFeature> ASHEN_OAK_FANCY = registerKey("ashen_oak_fancy");
+    public static final ResourceKey<PlacedFeature> ASHEN_OAK_BEES = registerKey("ashen_oak_bees");
+    public static final ResourceKey<PlacedFeature> ASHEN_OAK_FANCY_BEES = registerKey("ashen_oak_fancy_bees");
+
+    public static final ResourceKey<PlacedFeature> ASHEN_BIRCH = registerKey("ashen_birch");
+    public static final ResourceKey<PlacedFeature> ASHEN_BIRCH_BEES = registerKey("ashen_birch_bees");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context)
     {
@@ -309,13 +319,46 @@ public class PlacedFeaturesData
         register(context, NETHER_WATER_LAKE,
                 configuredFeatures.getOrThrow(ConfigFeaturesData.NETHER_WATER_LAKE),
                 List.of(BiomeFilter.biome(),
-                        RarityFilter.onAverageOnceEvery(80),
-                        CountOnEveryLayerPlacement.of(UniformInt.of(0, 1))));
+                        RarityFilter.onAverageOnceEvery(70),
+                        CountOnEveryLayerPlacement.of(UniformInt.of(0, 3))));
 
-        register(context, NETHER_OVERWORLD_TREES,
-                configuredFeatures.getOrThrow(VegetationFeatures.TREES_BIRCH_AND_OAK),
+        register(context, ASHEN_OAK,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_OAK),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.ASHEN_OAK_WOOD.getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, ASHEN_OAK_FANCY,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_OAK_FANCY),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.ASHEN_OAK_WOOD.getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, ASHEN_OAK_BEES,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_OAK_BEES),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.ASHEN_OAK_WOOD.getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, ASHEN_OAK_FANCY_BEES,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_OAK_FANCY_BEES),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.ASHEN_OAK_WOOD.getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+
+        register(context, ASHEN_BIRCH,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_BIRCH),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.ASHEN_BIRCH_WOOD.getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, ASHEN_BIRCH_BEES,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_BIRCH_BEES),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.ASHEN_BIRCH_WOOD.getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+
+        register(context, ASHEN_TREES,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_TREES),
                 List.of(BiomeFilter.biome(),
                         CountOnEveryLayerPlacement.of(8)));
+
         register(context, NETHER_OVERWORLD_GRASS,
                 configuredFeatures.getOrThrow(VegetationFeatures.PATCH_GRASS),
                 List.of(BiomeFilter.biome(),

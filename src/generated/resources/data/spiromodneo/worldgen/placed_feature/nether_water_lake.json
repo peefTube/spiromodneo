@@ -6,13 +6,13 @@
     },
     {
       "type": "minecraft:rarity_filter",
-      "chance": 80
+      "chance": 70
     },
     {
       "type": "minecraft:count_on_every_layer",
       "count": {
         "type": "minecraft:uniform",
-        "max_inclusive": 1,
+        "max_inclusive": 3,
         "min_inclusive": 0
       }
     }

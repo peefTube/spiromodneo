@@ -2,11 +2,13 @@ package com.github.peeftube.spiromodneo.core.init;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.ManualCrusherBlock;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.TapperBlock;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ManualCrusherBlockEntity;
 import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipe;
 import com.github.peeftube.spiromodneo.core.init.creative.CTProcessor;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.core.screens.ManualCrusherMenu;
+import com.github.peeftube.spiromodneo.util.GenericBlockItemCoupling;
 import com.github.peeftube.spiromodneo.util.MinMax;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.equipment.CustomArmorMaterial;
@@ -166,6 +168,13 @@ public class Registrar
             public String toString() { return "manual_crusher"; }
         });
 
+    public static final DeferredItem<Item> CAOUTCHOUC = ITEMS.registerSimpleItem("caoutchouc");
+    public static final DeferredItem<Item> MAPLE_SAP = ITEMS.registerSimpleItem("maple_sap");
+
+    public static final DeferredBlock<Block> TAPPER = BLOCKS.register("tapper",
+            () -> new TapperBlock(RAW_ORE.noCollission().strength(0.5f, 0f)));
+    public static final DeferredItem<Item> TAPPER_ITEM = regSimpleBlockItem(TAPPER);
+
     // Based on Nyfaria's code:
     // https://shorturl.at/bktNR
     public static <B extends Block> DeferredBlock<B> regBlock(String name, Supplier<B> block)
@@ -248,6 +257,19 @@ public class Registrar
             GrassLikeCollection.registerCollection(GrassLike.WARPED_NYLIUM);
     public static final GrassLikeCollection VITALIUM_TYPE =
             GrassLikeCollection.registerCollection(GrassLike.VITALIUM, 3);
+
+    public static final WoodCollection OAK_WOOD = WoodCollection.registerCollection(WoodMaterial.OAK);
+    public static final WoodCollection BIRCH_WOOD = WoodCollection.registerCollection(WoodMaterial.BIRCH);
+    public static final WoodCollection SPRUCE_WOOD = WoodCollection.registerCollection(WoodMaterial.SPRUCE);
+    public static final WoodCollection JUNGLE_WOOD = WoodCollection.registerCollection(WoodMaterial.JUNGLE);
+    public static final WoodCollection ACACIA_WOOD = WoodCollection.registerCollection(WoodMaterial.ACACIA);
+    public static final WoodCollection DARK_OAK_WOOD = WoodCollection.registerCollection(WoodMaterial.DARK_OAK);
+    public static final WoodCollection CHERRY_WOOD = WoodCollection.registerCollection(WoodMaterial.CHERRY);
+    public static final WoodCollection CRIMSON_MYCOMATERIAL = WoodCollection.registerCollection(WoodMaterial.CRIMSON_FUNGUS);
+    public static final WoodCollection WARPED_MYCOMATERIAL = WoodCollection.registerCollection(WoodMaterial.WARPED_FUNGUS);
+    public static final WoodCollection MANGROVE_WOOD = WoodCollection.registerCollection(WoodMaterial.MANGROVE);
+    public static final WoodCollection ASHEN_OAK_WOOD = WoodCollection.registerCollection(WoodMaterial.ASHEN_OAK);
+    public static final WoodCollection ASHEN_BIRCH_WOOD = WoodCollection.registerCollection(WoodMaterial.ASHEN_BIRCH);
 
     // Language key for creative tabs
     public static final String TAB_TITLE_KEY_FORMULAIC = "itemGroup." + SpiroMod.MOD_ID;

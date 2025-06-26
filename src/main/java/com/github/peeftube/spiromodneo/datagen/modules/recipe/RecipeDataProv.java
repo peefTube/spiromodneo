@@ -49,6 +49,19 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         // Additional / Other / Loose
         stringLikeHandler(output);
         manualCrusherCraftingHandler(output);
+        tapperRecipe(output);
+    }
+
+    private void tapperRecipe(RecipeOutput consumer)
+    {
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registrar.TAPPER)
+               .pattern("ICI")
+               .pattern(" B ")
+               .define('I', Items.IRON_INGOT)
+               .define('C', Items.COPPER_INGOT)
+               .define('B', Items.BUCKET)
+               .unlockedBy("has_a_bucket", has(Items.BUCKET))
+               .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_tapper_crafting"));
     }
 
     private void manualCrusherCraftingHandler(RecipeOutput consumer)

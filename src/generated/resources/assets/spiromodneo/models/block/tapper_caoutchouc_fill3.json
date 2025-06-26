@@ -1,0 +1,6 @@
+{
+  "parent": "spiromodneo:block/tapper_fill3_import",
+  "textures": {
+    "1": "spiromodneo:block/tapper/caoutchouc"
+  }
+}

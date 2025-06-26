@@ -2,7 +2,7 @@
   "type": "neoforge:add_features",
   "biomes": "#spiromodneo:limbo_garden",
   "features": [
-    "spiromodneo:limbo_garden_trees",
+    "spiromodneo:ashen_trees",
     "spiromodneo:limbo_garden_grass",
     "spiromodneo:limbo_garden_flowers"
   ],

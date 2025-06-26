@@ -28,9 +28,7 @@ public class NetherColdRegionSourceRules
                         SurfaceRules.ifTrue(SurfaceRules.isBiome(NeoBiomes.NETHER_LIMBO_GARDEN), SurfaceRules.sequence(
                         SurfaceRules.ifTrue(SurfaceRules.stoneDepthCheck(0, false, 0, CaveSurface.FLOOR),
                                 // Default to the limbo garden's base terrain
-                                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.sequence(
-                                        SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.NETHERRACK, -0.0125, 0.0125),
-                                                WATER), vitalium))),
+                                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, vitalium)),
                         SurfaceRules.ifTrue(SurfaceRules.ON_CEILING,
                                 SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.NETHERRACK, -0.075, 0.075),
                                         GLOWSTONE)),

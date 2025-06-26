@@ -4,25 +4,17 @@ import com.github.peeftube.spiromodneo.util.SpiroTags;
 import net.minecraft.core.Holder.Reference;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.util.RLUtility;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.placement.AquaticPlacements;
-import net.minecraft.data.worldgen.placement.MiscOverworldPlacements;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -122,7 +114,7 @@ public class BiomeModifiersData
         context.register(LIMBO_GARDEN_FOLIAGE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 tag(biomes, SpiroTags.Biomes.LIMBO_GARDEN),
                 features(features,
-                        PlacedFeaturesData.NETHER_OVERWORLD_TREES, PlacedFeaturesData.NETHER_OVERWORLD_GRASS,
+                        PlacedFeaturesData.ASHEN_TREES, PlacedFeaturesData.NETHER_OVERWORLD_GRASS,
                         PlacedFeaturesData.NETHER_OVERWORLD_FLOWERS),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));

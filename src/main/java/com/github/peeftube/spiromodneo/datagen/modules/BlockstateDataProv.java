@@ -2,6 +2,7 @@ package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.TapperBlock;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
@@ -38,6 +39,70 @@ public class BlockstateDataProv extends BlockStateProvider
         for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassSetDesign(grass); }
 
         externalModelAssociation01(Registrar.MANUAL_CRUSHER.get(), "manual_crusher");
+
+        tapper(Registrar.TAPPER.get());
+    }
+
+    private void tapper(Block tapper)
+    {
+        VariantBlockStateBuilder builder = getVariantBuilder(tapper);
+
+        for (Tappable fill : Tappable.values())
+        {
+            String rlPath = fill == Tappable.EMPTY ? "placeholder" : "block/tapper/" + fill.name().toLowerCase();
+
+            BlockModelBuilder noFill =
+                    models().withExistingParent("tapper_" + fill.name().toLowerCase() + "_fill0",
+                            RLUtility.makeRL("tapper_fill0_import"));
+            BlockModelBuilder fill1 =
+                    models().withExistingParent("tapper_" + fill.name().toLowerCase() + "_fill1",
+                            RLUtility.makeRL("tapper_fill1_import"))
+                            .texture("1", RLUtility.makeRL(rlPath));
+            BlockModelBuilder fill2 =
+                    models().withExistingParent("tapper_" + fill.name().toLowerCase() + "_fill2",
+                            RLUtility.makeRL("tapper_fill2_import"))
+                            .texture("1", RLUtility.makeRL(rlPath));
+            BlockModelBuilder fill3 =
+                    models().withExistingParent("tapper_" + fill.name().toLowerCase() + "_fill3",
+                            RLUtility.makeRL("tapper_fill3_import"))
+                            .texture("1", RLUtility.makeRL(rlPath));
+
+            for (Direction d : Direction.values())
+            {
+                if (d != Direction.UP && d != Direction.DOWN)
+                {
+                    int y = 0;
+
+                    switch (d)
+                    {
+                        case EAST -> { y = 90; }
+                        case SOUTH -> { y = 180; }
+                        case WEST -> { y = 270; }
+                    }
+
+                    builder = builder.partialState()
+                         .with(TapperBlock.FILL, 0)
+                         .with(TapperBlock.OUTPUT, fill)
+                         .with(TapperBlock.FACING, d)
+                         .setModels(new ConfiguredModel(noFill, 0, y, true))
+                                     .partialState()
+                         .with(TapperBlock.FILL, 1)
+                         .with(TapperBlock.OUTPUT, fill)
+                         .with(TapperBlock.FACING, d)
+                         .setModels(new ConfiguredModel(fill1, 0, y, true))
+                                     .partialState()
+                         .with(TapperBlock.FILL, 2)
+                         .with(TapperBlock.OUTPUT, fill)
+                         .with(TapperBlock.FACING, d)
+                         .setModels(new ConfiguredModel(fill2, 0, y, true))
+                                     .partialState()
+                         .with(TapperBlock.FILL, 3)
+                         .with(TapperBlock.OUTPUT, fill)
+                         .with(TapperBlock.FACING, d)
+                         .setModels(new ConfiguredModel(fill3, 0, y, true));
+                }
+            }
+        }
     }
 
     protected void externalModelAssociation01(Block b, String template)

@@ -2,6 +2,7 @@ package com.github.peeftube.spiromodneo.datagen.modules.world.util;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.registry.data.Soil;
 import com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers.TargetRuleData;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import net.minecraft.core.HolderGetter;
@@ -9,6 +10,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,9 +20,16 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.LakeFeature;
 import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
+import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.feature.treedecorators.BeehiveDecorator;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.List;
 
@@ -69,6 +79,16 @@ public class ConfigFeaturesData
     public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_NETHER_METHANE_ICE = registerKey("methane_ice_ore_mega_nether");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> NETHER_WATER_LAKE = registerKey("nether_water_lake");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_OAK = registerKey("ashen_oak");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_OAK_FANCY = registerKey("ashen_oak_fancy");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_OAK_BEES = registerKey("ashen_oak_bees");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_OAK_FANCY_BEES = registerKey("ashen_oak_fancy_bees");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_BIRCH = registerKey("ashen_birch");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_BIRCH_BEES = registerKey("ashen_birch_bees");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_TREES = registerKey("ashen_trees");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context)
     {
@@ -138,6 +158,73 @@ public class ConfigFeaturesData
         register(context, NETHER_WATER_LAKE, Feature.LAKE,
                 new LakeFeature.Configuration(BlockStateProvider.simple(Blocks.WATER.defaultBlockState()),
                         BlockStateProvider.simple(Blocks.SMOOTH_BASALT.defaultBlockState())));
+
+        register(context, ASHEN_OAK, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLog().get()),
+                        new StraightTrunkPlacer(4, 2, 0),
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLeaves().get()),
+                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get()))
+                .ignoreVines().build());
+        register(context, ASHEN_OAK_FANCY, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLog().get()),
+                        new FancyTrunkPlacer(3, 11, 0),
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLeaves().get()),
+                        new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get()))
+                .ignoreVines().build());
+        register(context, ASHEN_OAK_BEES, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLog().get()),
+                        new StraightTrunkPlacer(4, 2, 0),
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLeaves().get()),
+                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get()))
+                .decorators(List.of(new BeehiveDecorator(0.02F)))
+                .ignoreVines().build());
+        register(context, ASHEN_OAK_FANCY_BEES, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLog().get()),
+                        new FancyTrunkPlacer(3, 11, 0),
+                        BlockStateProvider.simple(Registrar.ASHEN_OAK_WOOD.getBaseLeaves().get()),
+                        new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get()))
+                .decorators(List.of(new BeehiveDecorator(0.05F)))
+                .ignoreVines().build());
+
+        register(context, ASHEN_BIRCH, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.ASHEN_BIRCH_WOOD.getBaseLog().get()),
+                        new StraightTrunkPlacer(5, 2, 0),
+                        BlockStateProvider.simple(Registrar.ASHEN_BIRCH_WOOD.getBaseLeaves().get()),
+                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get()))
+                .ignoreVines().build());
+        register(context, ASHEN_BIRCH_BEES, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.ASHEN_BIRCH_WOOD.getBaseLog().get()),
+                        new StraightTrunkPlacer(5, 2, 0),
+                        BlockStateProvider.simple(Registrar.ASHEN_BIRCH_WOOD.getBaseLeaves().get()),
+                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get()))
+                .decorators(List.of(new BeehiveDecorator(0.02F)))
+                .ignoreVines().build());
+
+        register(context, ASHEN_TREES, Feature.RANDOM_SELECTOR,
+                new RandomFeatureConfiguration(List.of(
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(PlacedFeaturesData.ASHEN_OAK_FANCY_BEES), 0.1F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(PlacedFeaturesData.ASHEN_BIRCH_BEES), 0.2F)),
+                        placedFeatures.getOrThrow(PlacedFeaturesData.ASHEN_OAK_BEES)));
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name)

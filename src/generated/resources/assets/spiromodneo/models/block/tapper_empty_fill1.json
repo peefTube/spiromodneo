@@ -1,0 +1,6 @@
+{
+  "parent": "spiromodneo:block/tapper_fill1_import",
+  "textures": {
+    "1": "spiromodneo:placeholder"
+  }
+}

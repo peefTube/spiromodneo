@@ -54,6 +54,7 @@ public class EN_USLangDataProv extends LanguageProvider
         add(Registrar.CRUSHED_CARBON.get(), "Carbon Dust");
 
         add(Registrar.MANUAL_CRUSHER.get(), "Manual Crusher");
+        add(Registrar.TAPPER.get(), "Tapper");
 
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");

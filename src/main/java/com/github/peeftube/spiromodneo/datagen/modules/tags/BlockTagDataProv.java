@@ -76,6 +76,9 @@ public class BlockTagDataProv extends BlockTagsProvider
 
         for (Soil s : Soil.values())
         {
+            if (s == Soil.SOUL_SOIL)
+            { tag(BlockTags.SOUL_FIRE_BASE_BLOCKS).add(set.bulkData().get(s).getBlock().get()); }
+
             tag(s.getTag()).add(set.bulkData().get(s).getBlock().get());
             tag(tag).add(set.bulkData().get(s).getBlock().get());
         }

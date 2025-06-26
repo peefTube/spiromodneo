@@ -5,6 +5,9 @@ import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
+import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
+import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -41,13 +44,76 @@ public class BlockLootTables extends BlockLootSubProvider
         // Simple drop-self tables
         for (MetalCollection metal : MetalCollection.METAL_COLLECTIONS) { metalTables(metal); }
         for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassLikeTables(grass); }
+        for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodTables(wood); }
         dropSelf(Registrar.MANUAL_CRUSHER.get());
+        dropSelf(Registrar.TAPPER.get());
 
         // Stone tables
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneTables(stone); }
 
         // Ore tables
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreTables(ore); }
+    }
+
+    private void woodTables(WoodCollection set)
+    {
+        WoodMaterial mat = set.type();
+        boolean isVanillaWood = mat == WoodMaterial.OAK || mat == WoodMaterial.BIRCH || mat == WoodMaterial.SPRUCE ||
+                mat == WoodMaterial.JUNGLE || mat == WoodMaterial.ACACIA || mat == WoodMaterial.DARK_OAK ||
+                mat == WoodMaterial.CHERRY || mat == WoodMaterial.MANGROVE || mat == WoodMaterial.CRIMSON_FUNGUS ||
+                mat == WoodMaterial.WARPED_FUNGUS;
+
+        for (LivingWoodBlockType t : LivingWoodBlockType.values())
+        {
+            if (!isVanillaWood)
+            {
+                if (t == LivingWoodBlockType.LEAVES)
+                { add(set.getBaseLeaves().get(),
+                        createLeavesDrops(set.getBaseLeaves().get(),
+                                set.getBaseSapling().get(), NORMAL_LEAVES_SAPLING_CHANCES)); }
+                else
+                { if ((t != LivingWoodBlockType.ROOTS && t != LivingWoodBlockType.ROOTS_WITH_MUD)
+                            || mat.isLikeMangroves()) dropSelf(set.bulkData().livingWood().get(t).getBlock().get()); }
+            }
+        }
+
+        for (PlankBlockSubType t : PlankBlockSubType.values())
+        { if (!isVanillaWood) { dropSelf(set.bulkData().planks().get(t).getBlock().get()); } }
+
+        for (ManufacturedWoodType t : ManufacturedWoodType.values())
+        {
+            boolean isGenericCraftingTable = mat == WoodMaterial.OAK;
+            boolean isGenericChest = mat == WoodMaterial.ACACIA;
+            boolean isGenericBarrel = mat == WoodMaterial.SPRUCE;
+
+            boolean isNormalSignType = t == ManufacturedWoodType.SIGN || t == ManufacturedWoodType.WALL_SIGN;
+            boolean isNotWallSign = (!(t == ManufacturedWoodType.WALL_SIGN
+                    || t == ManufacturedWoodType.WALL_HANGING_SIGN));
+
+            switch(t)
+            {
+                case CHEST, TRAPPED_CHEST ->
+                { if (!isGenericChest) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
+                case SIGN, WALL_SIGN, HANGING_SIGN, WALL_HANGING_SIGN ->
+                {
+                    if (!isVanillaWood)
+                    { if (isNotWallSign)
+                    { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); }
+                    else
+                    { dropOther(set.bulkData().manufacturables().get(t).getBlock().get(),
+                       isNormalSignType ?
+                        set.bulkData().manufacturables().get(ManufacturedWoodType.WALL_SIGN).getBlock().get() :
+                        set.bulkData().manufacturables().get(ManufacturedWoodType.WALL_HANGING_SIGN).getBlock().get()); }
+                    }
+                }
+                case BARREL ->
+                { if (!isGenericBarrel) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
+                case CRAFTING_TABLE ->
+                { if (!isGenericCraftingTable) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
+                default ->
+                { if (!isVanillaWood) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
+            }
+        }
     }
 
     protected void grassLikeTables(GrassLikeCollection set)
