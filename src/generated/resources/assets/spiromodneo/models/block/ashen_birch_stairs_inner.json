@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "spiromodneo:block/ashen_birch_planks",
+    "side": "spiromodneo:block/ashen_birch_planks",
+    "top": "spiromodneo:block/ashen_birch_planks"
+  }
+}

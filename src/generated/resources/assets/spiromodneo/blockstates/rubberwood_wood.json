@@ -1,0 +1,67 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "spiromodneo:block/rubberwood_wood"
+      },
+      "when": {
+        "axis": "y"
+      }
+    },
+    {
+      "apply": {
+        "model": "spiromodneo:block/rubberwood_wood_horiz",
+        "x": 90
+      },
+      "when": {
+        "axis": "z"
+      }
+    },
+    {
+      "apply": {
+        "model": "spiromodneo:block/rubberwood_wood_horiz",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "axis": "x"
+      }
+    },
+    {
+      "apply": {
+        "model": "spiromodneo:block/rubberwood_wood_tap_n"
+      },
+      "when": {
+        "north": "true",
+        "tapped": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "spiromodneo:block/rubberwood_wood_tap_s"
+      },
+      "when": {
+        "south": "true",
+        "tapped": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "spiromodneo:block/rubberwood_wood_tap_e"
+      },
+      "when": {
+        "east": "true",
+        "tapped": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "spiromodneo:block/rubberwood_wood_tap_w"
+      },
+      "when": {
+        "tapped": "true",
+        "west": "true"
+      }
+    }
+  ]
+}

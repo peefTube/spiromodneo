@@ -9,8 +9,11 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.VegetationFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.util.valueproviders.WeightedListInt;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -83,6 +86,18 @@ public class PlacedFeaturesData
 
     public static final ResourceKey<PlacedFeature> ASHEN_BIRCH = registerKey("ashen_birch");
     public static final ResourceKey<PlacedFeature> ASHEN_BIRCH_BEES = registerKey("ashen_birch_bees");
+
+    public static final ResourceKey<PlacedFeature> MAPLE = registerKey("maple");
+    public static final ResourceKey<PlacedFeature> MAPLE_FANCY = registerKey("maple_fancy");
+    public static final ResourceKey<PlacedFeature> MAPLE_BEES = registerKey("maple_bees");
+    public static final ResourceKey<PlacedFeature> MAPLE_FANCY_BEES = registerKey("maple_fancy_bees");
+
+    public static final ResourceKey<PlacedFeature> RUBBERWOOD = registerKey("rubberwood");
+    public static final ResourceKey<PlacedFeature> RUBBERWOOD_HUGE = registerKey("rubberwood_huge");
+
+    public static final ResourceKey<PlacedFeature> MAPLE_TREES_01 = registerKey("maple_trees_01");
+
+    public static final ResourceKey<PlacedFeature> RUBBER_TREES_01 = registerKey("rubber_trees_01");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context)
     {
@@ -367,6 +382,58 @@ public class PlacedFeaturesData
                 configuredFeatures.getOrThrow(VegetationFeatures.FLOWER_PLAIN),
                 List.of(BiomeFilter.biome(),
                         CountOnEveryLayerPlacement.of(2)));
+        
+        register(context, MAPLE,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.MAPLE),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.MAPLE_WOOD.wood().getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, MAPLE_FANCY,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.MAPLE_FANCY),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.MAPLE_WOOD.wood().getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, MAPLE_BEES,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.MAPLE_BEES),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.MAPLE_WOOD.wood().getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, MAPLE_FANCY_BEES,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.MAPLE_FANCY_BEES),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.MAPLE_WOOD.wood().getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+
+        register(context, MAPLE_TREES_01,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.MAPLE_TREES_01),
+                List.of(
+                        InSquarePlacement.spread(),
+                        BiomeFilter.biome(),
+                        SurfaceWaterDepthFilter.forMaxDepth(0),
+                        PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+                        PlacementUtils.countExtra(10, 0.1F, 1)
+                ));
+
+        register(context, RUBBERWOOD,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.RUBBERWOOD),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.RUBBER_WOOD.wood().getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+        register(context, RUBBERWOOD_HUGE,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.RUBBERWOOD_HUGE),
+                List.of(BlockPredicateFilter.forPredicate(
+                        BlockPredicate.wouldSurvive(Registrar.RUBBER_WOOD.wood().getBaseSapling().get().defaultBlockState(),
+                                Vec3i.ZERO))));
+
+        register(context, RUBBER_TREES_01,
+                configuredFeatures.getOrThrow(ConfigFeaturesData.RUBBER_TREES_01),
+                List.of(
+                        InSquarePlacement.spread(),
+                        BiomeFilter.biome(),
+                        SurfaceWaterDepthFilter.forMaxDepth(0),
+                        PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+                        PlacementUtils.countExtra(10, 0.1F, 1)
+                ));
     }
 
     private static ResourceKey<PlacedFeature> registerKey(String name)

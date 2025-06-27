@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "spiromodneo:block/ashen_birch_planks"
+  }
+}

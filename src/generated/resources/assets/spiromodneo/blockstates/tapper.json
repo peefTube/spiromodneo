@@ -2,230 +2,182 @@
   "variants": {
     "facing=east,filled=0,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill0",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=0,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill0",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=0,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill0",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=1,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill1",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=1,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill1",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=1,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill1",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=2,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill2",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=2,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill2",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=2,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill2",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=3,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill3",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=3,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill3",
-      "uvlock": true,
       "y": 90
     },
     "facing=east,filled=3,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill3",
-      "uvlock": true,
       "y": 90
     },
     "facing=north,filled=0,material=caoutchouc": {
-      "model": "spiromodneo:block/tapper_caoutchouc_fill0",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_caoutchouc_fill0"
     },
     "facing=north,filled=0,material=empty": {
-      "model": "spiromodneo:block/tapper_empty_fill0",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_empty_fill0"
     },
     "facing=north,filled=0,material=maple_sap": {
-      "model": "spiromodneo:block/tapper_maple_sap_fill0",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_maple_sap_fill0"
     },
     "facing=north,filled=1,material=caoutchouc": {
-      "model": "spiromodneo:block/tapper_caoutchouc_fill1",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_caoutchouc_fill1"
     },
     "facing=north,filled=1,material=empty": {
-      "model": "spiromodneo:block/tapper_empty_fill1",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_empty_fill1"
     },
     "facing=north,filled=1,material=maple_sap": {
-      "model": "spiromodneo:block/tapper_maple_sap_fill1",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_maple_sap_fill1"
     },
     "facing=north,filled=2,material=caoutchouc": {
-      "model": "spiromodneo:block/tapper_caoutchouc_fill2",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_caoutchouc_fill2"
     },
     "facing=north,filled=2,material=empty": {
-      "model": "spiromodneo:block/tapper_empty_fill2",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_empty_fill2"
     },
     "facing=north,filled=2,material=maple_sap": {
-      "model": "spiromodneo:block/tapper_maple_sap_fill2",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_maple_sap_fill2"
     },
     "facing=north,filled=3,material=caoutchouc": {
-      "model": "spiromodneo:block/tapper_caoutchouc_fill3",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_caoutchouc_fill3"
     },
     "facing=north,filled=3,material=empty": {
-      "model": "spiromodneo:block/tapper_empty_fill3",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_empty_fill3"
     },
     "facing=north,filled=3,material=maple_sap": {
-      "model": "spiromodneo:block/tapper_maple_sap_fill3",
-      "uvlock": true
+      "model": "spiromodneo:block/tapper_maple_sap_fill3"
     },
     "facing=south,filled=0,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill0",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=0,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill0",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=0,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill0",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=1,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill1",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=1,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill1",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=1,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill1",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=2,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill2",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=2,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill2",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=2,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill2",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=3,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill3",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=3,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill3",
-      "uvlock": true,
       "y": 180
     },
     "facing=south,filled=3,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill3",
-      "uvlock": true,
       "y": 180
     },
     "facing=west,filled=0,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill0",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=0,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill0",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=0,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill0",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=1,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill1",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=1,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill1",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=1,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill1",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=2,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill2",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=2,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill2",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=2,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill2",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=3,material=caoutchouc": {
       "model": "spiromodneo:block/tapper_caoutchouc_fill3",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=3,material=empty": {
       "model": "spiromodneo:block/tapper_empty_fill3",
-      "uvlock": true,
       "y": 270
     },
     "facing=west,filled=3,material=maple_sap": {
       "model": "spiromodneo:block/tapper_maple_sap_fill3",
-      "uvlock": true,
       "y": 270
     }
   }

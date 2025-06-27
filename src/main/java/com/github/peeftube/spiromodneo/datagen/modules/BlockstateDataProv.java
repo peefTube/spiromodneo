@@ -2,11 +2,15 @@ package com.github.peeftube.spiromodneo.datagen.modules;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.TappableWoodBlock;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.TapperBlock;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
+import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
+import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -37,6 +41,7 @@ public class BlockstateDataProv extends BlockStateProvider
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone, this.models().existingFileHelper); }
         for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassSetDesign(grass); }
+        for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodSetDesign(wood, this.models().existingFileHelper); }
 
         externalModelAssociation01(Registrar.MANUAL_CRUSHER.get(), "manual_crusher");
 
@@ -84,22 +89,22 @@ public class BlockstateDataProv extends BlockStateProvider
                          .with(TapperBlock.FILL, 0)
                          .with(TapperBlock.OUTPUT, fill)
                          .with(TapperBlock.FACING, d)
-                         .setModels(new ConfiguredModel(noFill, 0, y, true))
+                         .setModels(new ConfiguredModel(noFill, 0, y, false))
                                      .partialState()
                          .with(TapperBlock.FILL, 1)
                          .with(TapperBlock.OUTPUT, fill)
                          .with(TapperBlock.FACING, d)
-                         .setModels(new ConfiguredModel(fill1, 0, y, true))
+                         .setModels(new ConfiguredModel(fill1, 0, y, false))
                                      .partialState()
                          .with(TapperBlock.FILL, 2)
                          .with(TapperBlock.OUTPUT, fill)
                          .with(TapperBlock.FACING, d)
-                         .setModels(new ConfiguredModel(fill2, 0, y, true))
+                         .setModels(new ConfiguredModel(fill2, 0, y, false))
                                      .partialState()
                          .with(TapperBlock.FILL, 3)
                          .with(TapperBlock.OUTPUT, fill)
                          .with(TapperBlock.FACING, d)
-                         .setModels(new ConfiguredModel(fill3, 0, y, true));
+                         .setModels(new ConfiguredModel(fill3, 0, y, false));
                 }
             }
         }
@@ -113,6 +118,326 @@ public class BlockstateDataProv extends BlockStateProvider
 
     protected BlockModelBuilder finder(String name, String namespace, String path)
     { return models().withExistingParent(name, RLUtility.makeRL(namespace, path)); }
+
+    private void woodSetDesign(WoodCollection set, ExistingFileHelper eFH)
+    {
+        String setName = set.type().getName().replace("_fungus", "");
+        boolean isFungal = set.type().isLikeNetherFungus();
+
+        String logFix = isFungal ? "_stem" : "_log";
+        String woodFix = isFungal ? "_hyphae" : "_wood";
+        String strippedFix = "stripped_";
+        String leavesFix = isFungal ? "_wart_block" : "_leaves";
+        String saplingFix = isFungal ? "_fungus" : "_sapling";
+        String rootFix = "_roots"; String rootMudFix = "_muddy_roots";
+
+        for (LivingWoodBlockType t : LivingWoodBlockType.values())
+        {
+            if (set.bulkData().livingWood().get(t) != null)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().livingWood().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+
+                Block b = set.bulkData().livingWood().get(t).getBlock().get();
+
+                if (!isVanilla)
+                {
+                    switch(t)
+                    {
+                        case ROOTS, ROOTS_WITH_MUD -> {}
+                        case LOG, STRIPPED_LOG ->
+                        {
+                            if (b instanceof TappableWoodBlock w)
+                            {
+                                BlockModelBuilder vert = models().cubeColumn(name(w),
+                                        blockTexture(set.getBaseLog().get()),
+                                        getTopTex(blockTexture(set.getBaseLog().get())));
+                                BlockModelBuilder horiz = models().cubeColumnHorizontal(name(w) + "_horiz",
+                                        blockTexture(set.getBaseLog().get()),
+                                        getTopTex(blockTexture(set.getBaseLog().get())));
+
+                                String path = "block/tapped/" + w.tapOutput.name().toLowerCase();
+
+                                BlockModelBuilder tappedN =
+                                        models().withExistingParent(name(w) + "_tap_n","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .element().face(Direction.NORTH).texture("#tap").end().end();
+                                BlockModelBuilder tappedS =
+                                        models().withExistingParent(name(w) + "_tap_s","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .element().face(Direction.SOUTH).texture("#tap").end().end();
+                                BlockModelBuilder tappedE =
+                                        models().withExistingParent(name(w) + "_tap_e","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .element().face(Direction.EAST).texture("#tap").end().end();
+                                BlockModelBuilder tappedW =
+                                        models().withExistingParent(name(w) + "_tap_w","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .element().face(Direction.WEST).texture("#tap").end().end();
+
+                                getMultipartBuilder(w)
+                                        .part().modelFile(vert).addModel()
+                                        .condition(TappableWoodBlock.AXIS, Direction.Axis.Y).end()
+                                        .part().modelFile(horiz).rotationX(90).addModel()
+                                        .condition(TappableWoodBlock.AXIS, Direction.Axis.Z).end()
+                                        .part().modelFile(horiz).rotationX(90).rotationY(90).addModel()
+                                        .condition(TappableWoodBlock.AXIS, Direction.Axis.X).end()
+                                        .part().modelFile(tappedN).addModel()
+                                        .condition(TappableWoodBlock.NORTH, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end()
+                                        .part().modelFile(tappedS).addModel()
+                                        .condition(TappableWoodBlock.SOUTH, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end()
+                                        .part().modelFile(tappedE).addModel()
+                                        .condition(TappableWoodBlock.EAST, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end()
+                                        .part().modelFile(tappedW).addModel()
+                                        .condition(TappableWoodBlock.WEST, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end();
+                            }
+                            else logBlock((RotatedPillarBlock) b);
+                        }
+                        case WOOD, STRIPPED_WOOD ->
+                        {
+                            if (b instanceof TappableWoodBlock w)
+                            {
+                                BlockModelBuilder vert = models().cubeColumn(name(w),
+                                        blockTexture(set.getBaseLog().get()),
+                                        blockTexture(set.getBaseLog().get()));
+                                BlockModelBuilder horiz = models().cubeColumnHorizontal(name(w) + "_horiz",
+                                        blockTexture(set.getBaseLog().get()),
+                                        blockTexture(set.getBaseLog().get()));
+
+                                String path = "block/tapped/" + w.tapOutput.name().toLowerCase();
+
+                                BlockModelBuilder tappedN =
+                                        models().withExistingParent(name(w) + "_tap_n","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .renderType(renTranslucent)
+                                                .element().face(Direction.NORTH).texture("#tap").end().end();
+                                BlockModelBuilder tappedS =
+                                        models().withExistingParent(name(w) + "_tap_s","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .renderType(renTranslucent)
+                                                .element().face(Direction.SOUTH).texture("#tap").end().end();
+                                BlockModelBuilder tappedE =
+                                        models().withExistingParent(name(w) + "_tap_e","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .renderType(renTranslucent)
+                                                .element().face(Direction.EAST).texture("#tap").end().end();
+                                BlockModelBuilder tappedW =
+                                        models().withExistingParent(name(w) + "_tap_w","cube")
+                                        .texture("tap", RLUtility.makeRL(path))
+                                                .renderType(renTranslucent)
+                                                .element().face(Direction.WEST).texture("#tap").end().end();
+
+                                getMultipartBuilder(w)
+                                        .part().modelFile(vert).addModel()
+                                        .condition(TappableWoodBlock.AXIS, Direction.Axis.Y).end()
+                                        .part().modelFile(horiz).rotationX(90).addModel()
+                                        .condition(TappableWoodBlock.AXIS, Direction.Axis.Z).end()
+                                        .part().modelFile(horiz).rotationX(90).rotationY(90).addModel()
+                                        .condition(TappableWoodBlock.AXIS, Direction.Axis.X).end()
+                                        .part().modelFile(tappedN).addModel()
+                                        .condition(TappableWoodBlock.NORTH, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end()
+                                        .part().modelFile(tappedS).addModel()
+                                        .condition(TappableWoodBlock.SOUTH, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end()
+                                        .part().modelFile(tappedE).addModel()
+                                        .condition(TappableWoodBlock.EAST, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end()
+                                        .part().modelFile(tappedW).addModel()
+                                        .condition(TappableWoodBlock.WEST, true)
+                                        .condition(TappableWoodBlock.TAPPED, true).end();
+                            }
+                            else axisBlock((RotatedPillarBlock) b, blockTexture(set.getBaseLog().get()),
+                                    blockTexture(set.getBaseLog().get()));
+                        }
+                        case SAPLING ->
+                            getVariantBuilder(b).partialState().setModels(
+                                    new ConfiguredModel(models().cross(setName + saplingFix,
+                                            RLUtility.makeRL("block/" + setName + saplingFix))));
+                        case LEAVES ->
+                            getVariantBuilder(b).partialState().setModels(
+                                    new ConfiguredModel(models().leaves(setName + leavesFix,
+                                            RLUtility.makeRL("block/" + setName + leavesFix))));
+                    }
+                }
+            }
+        }
+
+        for (PlankBlockSubType t : PlankBlockSubType.values())
+        {
+            if (set.bulkData().planks().get(t) != null)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().planks().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+
+                if (!isVanilla)
+                {
+                    Block b = set.bulkData().planks().get(t).getBlock().get();
+                    Block bFull = set.bulkData().planks().get(PlankBlockSubType.BLOCK).getBlock().get();
+
+                    List<BlockModelBuilder> builders = new ArrayList<>();
+
+                    switch (t)
+                    {
+                        case STAIRS ->
+                        {
+                            builders.add(models().stairs(name(b), blockTexture(bFull),
+                                    blockTexture(bFull), blockTexture(bFull)));
+                            builders.add(models().stairsInner(name(b) + "_inner", blockTexture(bFull),
+                                    blockTexture(bFull), blockTexture(bFull)));
+                            builders.add(models().stairsOuter(name(b) + "_outer", blockTexture(bFull),
+                                    blockTexture(bFull), blockTexture(bFull)));
+                            stairsBuilder(b, builders);
+                        }
+                        case SLAB ->
+                        {
+                            builders.add(models().slab(name(b), blockTexture(bFull),
+                                    blockTexture(bFull), blockTexture(bFull)));
+                            builders.add(models().slabTop(name(b) + "_top", blockTexture(bFull),
+                                    blockTexture(bFull), blockTexture(bFull)));
+                            builders.add(finder(name(b) + "_double", SpiroMod.MOD_ID, "block/" + name(bFull)));
+                            getVariantBuilder(b)
+                                    .partialState().with(SlabBlock.TYPE, SlabType.BOTTOM)
+                                    .setModels(new ConfiguredModel(builders.getFirst()))
+                                    .partialState().with(SlabBlock.TYPE, SlabType.TOP)
+                                    .setModels(new ConfiguredModel(builders.get(1)))
+                                    .partialState().with(SlabBlock.TYPE, SlabType.DOUBLE)
+                                    .setModels(new ConfiguredModel(builders.get(2)));
+                        }
+                        case BUTTON ->
+                        {
+                            builders.add(models().button(name(b), blockTexture(bFull)));
+                            builders.add(models().buttonPressed(name(b) + "_pressed", blockTexture(bFull)));
+                            builders.add(models().buttonInventory(name(b) + "_inv", blockTexture(bFull)));
+                            buttonsBuilder(b, builders);
+                        }
+                        case PRESSURE_PLATE ->
+                        {
+                            builders.add(models().pressurePlate(name(b), blockTexture(bFull)));
+                            builders.add(models().pressurePlateDown(name(b) + "_pressed", blockTexture(bFull)));
+                            getVariantBuilder(b).partialState()
+                                .with(PressurePlateBlock.POWERED, Boolean.FALSE)
+                                    .setModels(new ConfiguredModel(builders.getFirst()))
+                                .partialState()
+                                .with(PressurePlateBlock.POWERED, Boolean.TRUE)
+                                    .setModels(new ConfiguredModel(builders.getLast()));
+                        }
+                        case FENCE -> fenceBlock((FenceBlock) b, blockTexture(bFull));
+                        case FENCE_GATE -> fenceGateBlock((FenceGateBlock) b, blockTexture(bFull));
+
+                        default -> cubeAll(set.bulkData().planks().get(t).getBlock().get());
+                    }
+                }
+            }
+        }
+
+        for (ManufacturedWoodType t : ManufacturedWoodType.values())
+        {
+            if (set.bulkData().manufacturables().get(t) != null)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().manufacturables().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+
+                if (!isVanilla)
+                {
+                    Block b = set.bulkData().manufacturables().get(t).getBlock().get();
+
+                    switch(t)
+                    {
+                        case CRAFTING_TABLE ->
+                        {
+                            BlockModelBuilder builder = models().withExistingParent(name(b), "cube")
+                                    .texture("f", safeGetFrontTex(blockTexture(b), eFH))
+                                    .texture("s", safeGetSideTex(blockTexture(b), eFH))
+                                    .texture("t", safeGetTopTex(blockTexture(b), eFH))
+                                    .texture("b", blockTexture(
+                                            set.bulkData().planks().get(PlankBlockSubType.BLOCK).getBlock().get()))
+                                    .texture("particle", safeGetFrontTex(blockTexture(b), eFH))
+                                    .element()
+                                        .face(Direction.UP).texture("#t").end()
+                                        .face(Direction.DOWN).texture("#b").end()
+                                        .face(Direction.NORTH).texture("#f").end()
+                                        .face(Direction.SOUTH).texture("#s").end()
+                                        .face(Direction.EAST).texture("#s").end()
+                                        .face(Direction.WEST).texture("#f").end()
+                                    .end();
+
+                            getVariantBuilder(b).partialState().setModels(new ConfiguredModel(builder));
+                        }
+                        case BARREL ->
+                        {
+                            BlockModelBuilder model = models().cubeBottomTop(name(b),
+                                    getSideTex(blockTexture(b)), getBottomTex(blockTexture(b)),
+                                    getTopTex(blockTexture(b)));
+
+                            BlockModelBuilder modelOpen = models().cubeBottomTop(name(b),
+                                    getSideTex(blockTexture(b)), getBottomTex(blockTexture(b)),
+                                    RLUtility.makeRL(getTopTex(blockTexture(b)).getPath() + "_open"));
+
+                            getVariantBuilder(b)
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.DOWN)
+                                    .with(BarrelBlock.OPEN, false)
+                                    .setModels(new ConfiguredModel(model, 180, 0, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.DOWN)
+                                    .with(BarrelBlock.OPEN, true)
+                                    .setModels(new ConfiguredModel(modelOpen, 180, 0, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.EAST)
+                                    .with(BarrelBlock.OPEN, false)
+                                    .setModels(new ConfiguredModel(model, 90, 90, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.EAST)
+                                    .with(BarrelBlock.OPEN, true)
+                                    .setModels(new ConfiguredModel(modelOpen, 90, 90, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.NORTH)
+                                    .with(BarrelBlock.OPEN, false)
+                                    .setModels(new ConfiguredModel(model, 90, 0, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.NORTH)
+                                    .with(BarrelBlock.OPEN, true)
+                                    .setModels(new ConfiguredModel(modelOpen, 90, 0, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.SOUTH)
+                                    .with(BarrelBlock.OPEN, false)
+                                    .setModels(new ConfiguredModel(model, 90, 180, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.SOUTH)
+                                    .with(BarrelBlock.OPEN, true)
+                                    .setModels(new ConfiguredModel(modelOpen, 90, 180, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.UP)
+                                    .with(BarrelBlock.OPEN, false)
+                                    .setModels(new ConfiguredModel(model))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.UP)
+                                    .with(BarrelBlock.OPEN, true)
+                                    .setModels(new ConfiguredModel(modelOpen))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.WEST)
+                                    .with(BarrelBlock.OPEN, false)
+                                    .setModels(new ConfiguredModel(model, 90, 270, false))
+                                    .partialState()
+                                    .with(BarrelBlock.FACING, Direction.WEST)
+                                    .with(BarrelBlock.OPEN, true)
+                                    .setModels(new ConfiguredModel(modelOpen, 90, 270, false));
+                        }
+                        case TRAPDOOR -> trapdoorBlock((TrapDoorBlock) b, blockTexture(b), true);
+                        case DOOR -> doorBlock((DoorBlock) b,
+                                safeGetTopTex(blockTexture(b), eFH),
+                                safeGetBottomTex(blockTexture(b), eFH));
+                        default -> {} // Do nothing for specific types of blocks which have their own renderers
+                    }
+                }
+            }
+        }
+    }
 
     private void grassSetDesign(GrassLikeCollection set)
     {

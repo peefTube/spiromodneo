@@ -36,6 +36,10 @@ public class BiomeModifiersData
     public static final ResourceKey<BiomeModifier> COLD_NETHER_WATER = key("cold_nether_water_features");
     public static final ResourceKey<BiomeModifier> LIMBO_GARDEN_FOLIAGE = key("limbo_garden_foliage");
 
+    public static final ResourceKey<BiomeModifier> MAPLE_IN_FOREST = key("maple_trees_in_vanilla_forests");
+
+    public static final ResourceKey<BiomeModifier> RUBBER_IN_JUNGLE = key("rubber_trees_in_vanilla_jungles");
+
     public static void bootstrap(final BootstrapContext<BiomeModifier> context)
     {
         final var biomes   = context.lookup(Registries.BIOME);
@@ -116,6 +120,20 @@ public class BiomeModifiersData
                 features(features,
                         PlacedFeaturesData.ASHEN_TREES, PlacedFeaturesData.NETHER_OVERWORLD_GRASS,
                         PlacedFeaturesData.NETHER_OVERWORLD_FLOWERS),
+                GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
+
+        context.register(MAPLE_IN_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
+                tag(biomes, SpiroTags.Biomes.IS_VANILLA_AND_CAN_HAVE_MAPLE),
+                features(features,
+                        PlacedFeaturesData.MAPLE_TREES_01),
+                GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
+
+        context.register(RUBBER_IN_JUNGLE, new BiomeModifiers.AddFeaturesBiomeModifier(
+                tag(biomes, SpiroTags.Biomes.IS_VANILLA_AND_CAN_HAVE_RUBBER_01),
+                features(features,
+                        PlacedFeaturesData.RUBBER_TREES_01),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
     }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "spiromodneo:block/ashen_oak_leaves"
+  }
+}

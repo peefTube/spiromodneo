@@ -82,8 +82,7 @@ public class BlockLootTables extends BlockLootSubProvider
 
         for (ManufacturedWoodType t : ManufacturedWoodType.values())
         {
-            boolean isGenericCraftingTable = mat == WoodMaterial.OAK;
-            boolean isGenericChest = mat == WoodMaterial.ACACIA;
+            boolean isGenericCraftingTableOrChest = mat == WoodMaterial.OAK;
             boolean isGenericBarrel = mat == WoodMaterial.SPRUCE;
 
             boolean isNormalSignType = t == ManufacturedWoodType.SIGN || t == ManufacturedWoodType.WALL_SIGN;
@@ -92,8 +91,6 @@ public class BlockLootTables extends BlockLootSubProvider
 
             switch(t)
             {
-                case CHEST, TRAPPED_CHEST ->
-                { if (!isGenericChest) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
                 case SIGN, WALL_SIGN, HANGING_SIGN, WALL_HANGING_SIGN ->
                 {
                     if (!isVanillaWood)
@@ -108,8 +105,8 @@ public class BlockLootTables extends BlockLootSubProvider
                 }
                 case BARREL ->
                 { if (!isGenericBarrel) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
-                case CRAFTING_TABLE ->
-                { if (!isGenericCraftingTable) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
+                case CRAFTING_TABLE, CHEST, TRAPPED_CHEST ->
+                { if (!isGenericCraftingTableOrChest) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
                 default ->
                 { if (!isVanillaWood) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
             }

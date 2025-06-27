@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spiromodneo:is_vanilla_and_can_have_maple",
+  "features": "spiromodneo:maple_trees_01",
+  "step": "vegetal_decoration"
+}

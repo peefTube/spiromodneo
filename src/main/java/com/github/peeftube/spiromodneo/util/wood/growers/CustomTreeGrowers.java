@@ -22,4 +22,19 @@ public class CustomTreeGrowers
             Optional.of(ConfigFeaturesData.ASHEN_BIRCH),
             Optional.of(ConfigFeaturesData.ASHEN_BIRCH_BEES)
     );
+    public static TreeGrower MAPLE = new TreeGrower(
+            "maple", 0.1F,
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(ConfigFeaturesData.MAPLE),
+            Optional.of(ConfigFeaturesData.MAPLE_FANCY),
+            Optional.of(ConfigFeaturesData.MAPLE_BEES),
+            Optional.of(ConfigFeaturesData.MAPLE_FANCY_BEES)
+    );
+    public static TreeGrower RUBBERWOOD = new TreeGrower(
+            "rubberwood",
+            Optional.of(ConfigFeaturesData.RUBBERWOOD_HUGE),
+            Optional.of(ConfigFeaturesData.RUBBERWOOD),
+            Optional.empty()
+    );
 }

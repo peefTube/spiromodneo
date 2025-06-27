@@ -271,6 +271,11 @@ public class Registrar
     public static final WoodCollection ASHEN_OAK_WOOD = WoodCollection.registerCollection(WoodMaterial.ASHEN_OAK);
     public static final WoodCollection ASHEN_BIRCH_WOOD = WoodCollection.registerCollection(WoodMaterial.ASHEN_BIRCH);
 
+    public static final TappableWoodCollection RUBBER_WOOD =
+            TappableWoodCollection.registerCollection(TappableWoodMaterial.RUBBERWOOD);
+    public static final TappableWoodCollection MAPLE_WOOD =
+            TappableWoodCollection.registerCollection(TappableWoodMaterial.MAPLE);
+
     // Language key for creative tabs
     public static final String TAB_TITLE_KEY_FORMULAIC = "itemGroup." + SpiroMod.MOD_ID;
 

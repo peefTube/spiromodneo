@@ -1,7 +1,7 @@
 package com.github.peeftube.spiromodneo.util.wood;
 
 import com.github.peeftube.spiromodneo.core.init.Registrar;
-import com.github.peeftube.spiromodneo.core.init.content.blocks.TappableWoodBlock;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.*;
 import com.github.peeftube.spiromodneo.core.init.registry.data.Tappable;
 import com.github.peeftube.spiromodneo.core.init.registry.data.WoodMaterial;
 import com.github.peeftube.spiromodneo.util.GenericBlockItemCoupling;
@@ -73,7 +73,7 @@ public interface WoodUtilities
                             if (!isTappable.containsKey(true))
                             {
                                 b = Registrar.regBlock(nameParse + "_log",
-                                        () -> new RotatedPillarBlock(
+                                        () -> new WoodBlock(
                                     BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
@@ -124,7 +124,7 @@ public interface WoodUtilities
                             if (!isTappable.containsKey(true))
                             {
                                 b = Registrar.regBlock("stripped_" + nameParse + "_log",
-                                        () -> new RotatedPillarBlock(
+                                        () -> new WoodBlock(
                                     BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
@@ -175,7 +175,7 @@ public interface WoodUtilities
                             if (!isTappable.containsKey(true))
                             {
                                 b = Registrar.regBlock(nameParse + "_wood",
-                                        () -> new RotatedPillarBlock(
+                                        () -> new WoodBlock(
                                     BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
@@ -226,7 +226,7 @@ public interface WoodUtilities
                             if (!isTappable.containsKey(true))
                             {
                                 b = Registrar.regBlock("stripped_" + nameParse + "_wood",
-                                        () -> new RotatedPillarBlock(
+                                        () -> new WoodBlock(
                                     BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
@@ -357,6 +357,16 @@ public interface WoodUtilities
                 }
             }
         }
+
+        String logTagKey = nameParse + (mat.isLikeNetherFungus() ? "_stems" : "_logs");
+        TagKey<Block> lBTag = SpiroTags.Blocks.tag(logTagKey);
+        TagKey<Item> lITag = SpiroTags.Items.tag(logTagKey);
+        TagCoupling logTags = new TagCoupling(lBTag, lITag);
+
+        String leafTagKey = nameParse + (mat.isLikeNetherFungus() ? "_wart_blocks" : "_leaves");
+        TagKey<Block> leBTag = SpiroTags.Blocks.tag(leafTagKey);
+        TagKey<Item> leITag = SpiroTags.Items.tag(leafTagKey);
+        TagCoupling leafTags = new TagCoupling(leBTag, leITag);
 
         String aliveTagKey = "spiro_living_wood_of_type_" + nameParse;
         TagKey<Block> aBTag = SpiroTags.Blocks.tag(aliveTagKey);
@@ -754,9 +764,7 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(
                                     nameParse + "_chest",
-                                    () -> new ChestBlock(BlockBehaviour.Properties.of()
-                                        .sound(baseWoodSound).lightLevel(s -> li),
-                                            () -> BlockEntityType.CHEST));
+                                    () -> new ExtensibleChestBlock(nameParse));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -775,8 +783,7 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(
                                     "trapped_" + nameParse + "_chest",
-                                    () -> new TrappedChestBlock(BlockBehaviour.Properties.of()
-                                      .sound(baseWoodSound).lightLevel(s -> li)));
+                                    () -> new ExtensibleTrappedChestBlock(nameParse));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -797,8 +804,7 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(
                                     nameParse + "_barrel",
-                                    () -> new BarrelBlock(BlockBehaviour.Properties.of()
-                                    .sound(baseWoodSound).lightLevel(s -> li)));
+                                    ExtensibleBarrelBlock::new);
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -961,7 +967,7 @@ public interface WoodUtilities
             }
         }
 
-        return new WoodData(mat.getName(), livingDataContent, aliveTags,
+        return new WoodData(mat.getName(), livingDataContent, logTags, leafTags, aliveTags,
                 plankDataContent, plankTags,
                 manufacturableContent);
     }

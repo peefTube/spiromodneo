@@ -8,6 +8,9 @@ import com.github.peeftube.spiromodneo.util.RLUtility;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.features.VegetationFeatures;
+import net.minecraft.data.worldgen.placement.TreePlacements;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -23,10 +26,15 @@ import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaJungleFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.BeehiveDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.CocoaDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TrunkVineDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -89,6 +97,18 @@ public class ConfigFeaturesData
     public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_BIRCH_BEES = registerKey("ashen_birch_bees");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_TREES = registerKey("ashen_trees");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE = registerKey("maple");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_FANCY = registerKey("maple_fancy");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_BEES = registerKey("maple_bees");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_FANCY_BEES = registerKey("maple_fancy_bees");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RUBBERWOOD = registerKey("rubberwood");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RUBBERWOOD_HUGE = registerKey("rubberwood_huge");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_TREES_01 = registerKey("maple_trees_01");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RUBBER_TREES_01 = registerKey("rubber_trees_01");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context)
     {
@@ -225,6 +245,92 @@ public class ConfigFeaturesData
                         new WeightedPlacedFeature(
                                 placedFeatures.getOrThrow(PlacedFeaturesData.ASHEN_BIRCH_BEES), 0.2F)),
                         placedFeatures.getOrThrow(PlacedFeaturesData.ASHEN_OAK_BEES)));
+        
+        register(context, MAPLE, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLog().get()),
+                        new StraightTrunkPlacer(4, 2, 0),
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLeaves().get()),
+                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Blocks.DIRT))
+                .ignoreVines().build());
+        register(context, MAPLE_FANCY, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLog().get()),
+                        new FancyTrunkPlacer(3, 11, 0),
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLeaves().get()),
+                        new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Blocks.DIRT))
+                .ignoreVines().build());
+        register(context, MAPLE_BEES, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLog().get()),
+                        new StraightTrunkPlacer(4, 2, 0),
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLeaves().get()),
+                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Blocks.DIRT))
+                .decorators(List.of(new BeehiveDecorator(0.02F)))
+                .ignoreVines().build());
+        register(context, MAPLE_FANCY_BEES, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLog().get()),
+                        new FancyTrunkPlacer(3, 11, 0),
+                        BlockStateProvider.simple(Registrar.MAPLE_WOOD.wood().getBaseLeaves().get()),
+                        new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Blocks.DIRT))
+                .decorators(List.of(new BeehiveDecorator(0.05F)))
+                .ignoreVines().build());
+
+        register(context, MAPLE_TREES_01, Feature.RANDOM_SELECTOR,
+                new RandomFeatureConfiguration(List.of(
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(PlacedFeaturesData.MAPLE_FANCY_BEES), 0.05F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(PlacedFeaturesData.MAPLE_BEES), 0.1F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(TreePlacements.FANCY_OAK_BEES_002), 0.1F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(TreePlacements.BIRCH_BEES_0002_PLACED), 0.2F)),
+                        placedFeatures.getOrThrow(TreePlacements.OAK_BEES_0002)));
+
+        register(context, RUBBERWOOD, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.RUBBER_WOOD.wood().getBaseLog().get()),
+                        new StraightTrunkPlacer(4, 8, 0),
+                        BlockStateProvider.simple(Registrar.RUBBER_WOOD.wood().getBaseLeaves().get()),
+                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                        new TwoLayersFeatureSize(1, 0, 1))
+                .dirt(BlockStateProvider.simple(Blocks.DIRT))
+                .decorators(List.of(new TrunkVineDecorator(), new LeaveVineDecorator(0.25F)))
+                .ignoreVines().build());
+        register(context, RUBBERWOOD_HUGE, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(Registrar.RUBBER_WOOD.wood().getBaseLog().get()),
+                        new MegaJungleTrunkPlacer(10, 2, 19),
+                        BlockStateProvider.simple(Registrar.RUBBER_WOOD.wood().getBaseLeaves().get()),
+                        new MegaJungleFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 2),
+                        new TwoLayersFeatureSize(1, 1, 2))
+                .dirt(BlockStateProvider.simple(Blocks.DIRT))
+                .decorators(List.of(new TrunkVineDecorator(), new LeaveVineDecorator(0.25F)))
+                .build());
+
+        register(context, RUBBER_TREES_01, Feature.RANDOM_SELECTOR,
+                new RandomFeatureConfiguration(List.of(
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(TreePlacements.FANCY_OAK_CHECKED), 0.1F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(TreePlacements.JUNGLE_BUSH), 0.5F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(PlacedFeaturesData.RUBBERWOOD_HUGE), 0.025F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(PlacedFeaturesData.RUBBERWOOD), 0.125F),
+                        new WeightedPlacedFeature(
+                                placedFeatures.getOrThrow(TreePlacements.MEGA_JUNGLE_TREE_CHECKED), (float) 1 / 3)),
+                        placedFeatures.getOrThrow(TreePlacements.JUNGLE_TREE_CHECKED)));
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name)

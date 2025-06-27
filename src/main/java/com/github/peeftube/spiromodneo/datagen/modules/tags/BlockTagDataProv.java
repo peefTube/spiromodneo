@@ -5,6 +5,8 @@ import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
+import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -50,6 +52,19 @@ public class BlockTagDataProv extends BlockTagsProvider
         // Grass & soil
         for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassTags(grass); }
 
+        // Tappable wood handler is pretty easy to do so it's separate from normal wood
+        for (TappableWoodCollection tapWood : TappableWoodCollection.TAPPABLE_WOOD_COLLECTIONS)
+        {
+            tag(SpiroTags.Blocks.SUPPORTS_TAPPER)
+                    .add(tapWood.wood().bulkData().livingWood().get(LivingWoodBlockType.LOG).getBlock().get())
+                    .add(tapWood.wood().bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get())
+                    .add(tapWood.wood().bulkData().livingWood().get(LivingWoodBlockType.WOOD).getBlock().get())
+                    .add(tapWood.wood().bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_WOOD).getBlock().get());
+        }
+
+        // Wood
+        for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodTags(wood); }
+
         // Tool level setup
         tag(SpiroTags.Blocks.INCORRECT_FOR_COPPER)
                 .addTag(BlockTags.NEEDS_IRON_TOOL)
@@ -68,6 +83,33 @@ public class BlockTagDataProv extends BlockTagsProvider
                 .addTag(SpiroTags.Blocks.NEEDS_STEEL_TOOL);
         tag(SpiroTags.Blocks.INCORRECT_FOR_STEEL)
                 .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+    }
+
+    private void woodTags(WoodCollection set)
+    {
+        TagKey<Block> tagForLivingWood = set.bulkData().aliveTags().getBlockTag();
+        TagKey<Block> tagForPlanks = set.bulkData().plankTags().getBlockTag();
+
+        tag(tagForPlanks)
+                .add(set.bulkData().planks().get(PlankBlockSubType.BLOCK).getBlock().get());
+        tag(BlockTags.PLANKS)
+                .addTag(tagForPlanks);
+        
+        tag(set.bulkData().logTags().getBlockTag())
+                .add(set.bulkData().livingWood().get(LivingWoodBlockType.LOG).getBlock().get())
+                .add(set.bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get())
+                .add(set.bulkData().livingWood().get(LivingWoodBlockType.WOOD).getBlock().get())
+                .add(set.bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_WOOD).getBlock().get());
+        tag(set.bulkData().leafTags().getBlockTag())
+                .add(set.bulkData().livingWood().get(LivingWoodBlockType.LEAVES).getBlock().get());
+        tag(set.type().isLikeNetherFungus() ? BlockTags.LOGS : BlockTags.LOGS_THAT_BURN)
+                .addTag(set.bulkData().logTags().getBlockTag());
+        if (!set.type().isLikeNetherFungus())
+        { tag(BlockTags.LEAVES).addTag(set.bulkData().leafTags().getBlockTag()); }
+
+        for (LivingWoodBlockType t : LivingWoodBlockType.values())
+        { if (set.bulkData().livingWood().get(t) != null)
+            tag(tagForLivingWood).add(set.bulkData().livingWood().get(t).getBlock().get()); }
     }
 
     private void grassTags(GrassLikeCollection set)
