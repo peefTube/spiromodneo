@@ -21,8 +21,8 @@ public enum WoodMaterial
     ASHEN_BIRCH("ashen_birch", CustomTreeGrowers.ASHEN_BIRCH),
 
     // Modded tappables
-    RUBBERWOOD("rubberwood", CustomTreeGrowers.ASHEN_BIRCH),
-    MAPLE("maple", CustomTreeGrowers.ASHEN_BIRCH);
+    RUBBERWOOD("rubberwood", CustomTreeGrowers.RUBBERWOOD),
+    MAPLE("maple", CustomTreeGrowers.MAPLE);
 
     private final String name;
     private final boolean netherFungusLike;

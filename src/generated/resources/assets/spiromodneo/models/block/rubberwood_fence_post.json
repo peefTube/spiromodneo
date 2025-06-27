@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "spiromodneo:block/rubberwood_planks"
+  }
+}

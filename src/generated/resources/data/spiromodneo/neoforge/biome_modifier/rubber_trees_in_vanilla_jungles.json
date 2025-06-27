@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spiromodneo:is_vanilla_and_can_have_rubber_01",
+  "features": "spiromodneo:rubber_trees_01",
+  "step": "vegetal_decoration"
+}

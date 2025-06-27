@@ -1,7 +1,9 @@
 package com.github.peeftube.spiromodneo;
 
+import com.github.peeftube.spiromodneo.client.renderer.blockentity.ExtensibleChestRenderer;
 import com.github.peeftube.spiromodneo.core.init.InitializeBlockRenderTypes;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.StorageBET;
 import com.github.peeftube.spiromodneo.core.init.content.worldgen.region.NetherColdRegion;
 import com.github.peeftube.spiromodneo.core.init.registry.data.Soil;
 import com.github.peeftube.spiromodneo.core.screens.ManualCrusherScreen;
@@ -12,8 +14,10 @@ import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.jetbrains.annotations.Nullable;
@@ -150,6 +154,24 @@ public class SpiroMod
                             Registrar.VITALIUM_TYPE.bulkData().get(s).getBlock().get());
                 }
             }
+
+            event.register((st, l, p, i) ->
+            { return FoliageColor.getBirchColor(); }, Registrar.ASHEN_BIRCH_WOOD.getBaseLeaves().get());
+
+            event.register((st, l, p, i) ->
+                    {
+                        if (l != null && p != null) { return BiomeColors.getAverageFoliageColor(l, p); }
+                        else { return FoliageColor.getDefaultColor(); }
+                    },
+                    Registrar.ASHEN_OAK_WOOD.getBaseLeaves().get(),
+                    Registrar.RUBBER_WOOD.wood().getBaseLeaves().get());
+        }
+
+        @SubscribeEvent
+        public static void onRegisterBERs(EntityRenderersEvent.RegisterRenderers event)
+        {
+            event.registerBlockEntityRenderer(StorageBET.CHEST.get(), ExtensibleChestRenderer::new);
+            event.registerBlockEntityRenderer(StorageBET.TRAPPED_CHEST.get(), ExtensibleChestRenderer::new);
         }
     }
 }

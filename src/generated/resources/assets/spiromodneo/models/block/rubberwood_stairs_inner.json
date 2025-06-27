@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "spiromodneo:block/rubberwood_planks",
+    "side": "spiromodneo:block/rubberwood_planks",
+    "top": "spiromodneo:block/rubberwood_planks"
+  }
+}

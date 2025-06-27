@@ -9,6 +9,9 @@ import com.github.peeftube.spiromodneo.util.equipment.ArmorSet;
 import com.github.peeftube.spiromodneo.util.equipment.ToolSet;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
+import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
+import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -44,6 +47,8 @@ public class ItemModelDataProv extends ItemModelProvider
         itemParser(Registrar.STEEL_MIXTURE);
         itemParser(Registrar.WEAK_STEEL_MIXTURE);
         itemParser(Registrar.CRUSHED_CARBON);
+        itemParser(Registrar.CAOUTCHOUC);
+        itemParser(Registrar.MAPLE_SAP);
         for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS) { equipmentSetDesign(equip); }
 
         // ============================================================================================================
@@ -52,7 +57,52 @@ public class ItemModelDataProv extends ItemModelProvider
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneSetDesign(stone); }
         for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassSetDesign(grass); }
+        for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodSetDesign(wood); }
         blockParser(Registrar.MANUAL_CRUSHER_ITEM);
+        itemParser(Registrar.TAPPER_ITEM); // This is parsed as an item because it has an item texture.
+    }
+
+    private void woodSetDesign(WoodCollection set)
+    {
+        for (LivingWoodBlockType t : LivingWoodBlockType.values())
+        {
+            if (set.bulkData().livingWood().get(t) != null)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().livingWood().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+
+                if (!isVanilla)
+                { couplingParser((DeferredBlock<Block>) set.bulkData().livingWood().get(t).getBlock(),
+                        (DeferredItem<Item>) set.bulkData().livingWood().get(t).getItem()); }
+            }
+        }
+
+        for (PlankBlockSubType t : PlankBlockSubType.values())
+        {
+            if (set.bulkData().planks().get(t) != null)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().planks().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+
+                if (!isVanilla)
+                { couplingParser((DeferredBlock<Block>) set.bulkData().planks().get(t).getBlock(),
+                        (DeferredItem<Item>) set.bulkData().planks().get(t).getItem()); }
+            }
+        }
+
+        for (ManufacturedWoodType t : ManufacturedWoodType.values())
+        {
+            if (set.bulkData().manufacturables().get(t) != null && t != ManufacturedWoodType.CHEST &&
+            t != ManufacturedWoodType.TRAPPED_CHEST)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().manufacturables().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+
+                if (!isVanilla)
+                { couplingParser((DeferredBlock<Block>) set.bulkData().manufacturables().get(t).getBlock(),
+                        (DeferredItem<Item>) set.bulkData().manufacturables().get(t).getItem()); }
+            }
+        }
     }
 
     private void grassSetDesign(GrassLikeCollection set)

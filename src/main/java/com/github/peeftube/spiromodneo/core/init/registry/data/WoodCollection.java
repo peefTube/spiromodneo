@@ -1,9 +1,13 @@
 package com.github.peeftube.spiromodneo.core.init.registry.data;
 
+import com.github.peeftube.spiromodneo.core.init.content.blocks.WoodBlock;
 import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
 import com.github.peeftube.spiromodneo.util.wood.WoodData;
 import com.github.peeftube.spiromodneo.util.wood.WoodUtilities;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,4 +46,28 @@ public record WoodCollection(WoodMaterial type, WoodData bulkData) implements Wo
     { return this.bulkData.livingWood().get(LivingWoodBlockType.LEAVES).getBlock(); }
     public Supplier<? extends Block> getBaseSapling()
     { return this.bulkData.livingWood().get(LivingWoodBlockType.SAPLING).getBlock(); }
+
+    public Supplier<? extends Block> getChest()
+    { return this.bulkData.manufacturables().get(ManufacturedWoodType.CHEST).getBlock(); }
+    public Supplier<? extends Block> getTrappedChest()
+    { return this.bulkData.manufacturables().get(ManufacturedWoodType.TRAPPED_CHEST).getBlock(); }
+    public Supplier<? extends Block> getBarrel()
+    { return this.bulkData.manufacturables().get(ManufacturedWoodType.BARREL).getBlock(); }
+
+    public Block getChestAsBlock() { return this.getChest().get(); }
+    public Block getTrappedChestAsBlock() { return this.getTrappedChest().get(); }
+    public Block getBarrelAsBlock() { return this.getBarrel().get(); }
+
+    public BlockState getStrippedOrElseOriginal(BlockState toStrip)
+    {
+        if (toStrip.is(this.getBaseLog().get()))
+        { return this.bulkData.livingWood().get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get()
+                .defaultBlockState().setValue(WoodBlock.AXIS, toStrip.getValue(WoodBlock.AXIS)); }
+
+        if (toStrip.is(this.bulkData.livingWood().get(LivingWoodBlockType.WOOD).getBlock().get()))
+        { return this.bulkData.livingWood().get(LivingWoodBlockType.STRIPPED_WOOD).getBlock().get()
+                .defaultBlockState().setValue(WoodBlock.AXIS, toStrip.getValue(WoodBlock.AXIS)); }
+
+        return toStrip;
+    }
 }

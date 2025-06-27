@@ -4,8 +4,11 @@ import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
+import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 
@@ -21,6 +24,40 @@ public class InitializeBlockRenderTypes
 
         // Grass handling.
         for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassSettings(grass); }
+
+        // Wood set handling.
+        for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodSettings(wood); }
+    }
+
+    protected static void woodSettings(WoodCollection set)
+    {
+        for (LivingWoodBlockType t : LivingWoodBlockType.values())
+        {
+            if (set.bulkData().livingWood().get(t) != null)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().livingWood().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+                if (!isVanilla && (t == LivingWoodBlockType.LEAVES || t == LivingWoodBlockType.ROOTS ||
+                        t == LivingWoodBlockType.SAPLING))
+                {
+                    ItemBlockRenderTypes.setRenderLayer(
+                            set.bulkData().livingWood().get(t).getBlock().get(),
+                            ChunkRenderTypeSet.of(RenderType.TRANSLUCENT));
+                }
+            }
+        }
+
+        for (ManufacturedWoodType t : ManufacturedWoodType.values())
+        {
+            boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().manufacturables().get(t).getBlock().get())
+                                                       .getNamespace().equalsIgnoreCase("minecraft");
+            if (!isVanilla && (t == ManufacturedWoodType.DOOR || t == ManufacturedWoodType.TRAPDOOR))
+            {
+                ItemBlockRenderTypes.setRenderLayer(
+                        set.bulkData().manufacturables().get(t).getBlock().get(),
+                        ChunkRenderTypeSet.of(RenderType.TRANSLUCENT));
+            }
+        }
     }
 
     protected static void grassSettings(GrassLikeCollection set)

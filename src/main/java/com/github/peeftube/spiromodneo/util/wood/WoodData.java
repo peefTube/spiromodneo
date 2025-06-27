@@ -7,7 +7,7 @@ import java.util.Map;
 
 public record WoodData(String name,
                        Map<LivingWoodBlockType, GenericBlockItemCoupling> livingWood,
-                       TagCoupling aliveTags,
+                       TagCoupling logTags, TagCoupling leafTags, TagCoupling aliveTags,
                        Map<PlankBlockSubType, GenericBlockItemCoupling> planks,
                        TagCoupling plankTags,
                        Map<ManufacturedWoodType, GenericBlockItemCoupling> manufacturables /*, TODO: add support for boats

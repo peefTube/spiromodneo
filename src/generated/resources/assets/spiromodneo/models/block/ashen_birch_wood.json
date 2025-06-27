@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "spiromodneo:block/ashen_birch_log",
+    "side": "spiromodneo:block/ashen_birch_log"
+  }
+}

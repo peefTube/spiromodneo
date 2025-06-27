@@ -34,5 +34,13 @@ public class BiomeTagDataProv extends BiomeTagsProvider
                 .addTags(SpiroTags.Biomes.getColdNetherTag());
         tag(BiomeTags.IS_NETHER)
                 .addTags(SpiroTags.Biomes.IS_CUSTOM_NETHER);
+
+        tag(SpiroTags.Biomes.IS_VANILLA_AND_CAN_HAVE_MAPLE)
+                .add(Biomes.FOREST)
+                .add(Biomes.FLOWER_FOREST)
+                .add(Biomes.WINDSWEPT_FOREST);
+
+        tag(SpiroTags.Biomes.IS_VANILLA_AND_CAN_HAVE_RUBBER_01)
+                .add(Biomes.JUNGLE);
     }
 }

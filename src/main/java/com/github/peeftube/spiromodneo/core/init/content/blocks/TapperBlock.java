@@ -13,7 +13,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 public class TapperBlock extends HorizontalDirectionalBlock
@@ -33,7 +36,7 @@ public class TapperBlock extends HorizontalDirectionalBlock
 
     public TapperBlock(Properties properties)
     {
-        super(properties);
+        super(properties.randomTicks());
         this.registerDefaultState(this.stateDefinition.any()
           .setValue(FACING, Direction.NORTH)
           .setValue(FILL, 0)
@@ -68,8 +71,11 @@ public class TapperBlock extends HorizontalDirectionalBlock
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
+        // Make sure the block can at least survive
+        if (!canSurvive(state, level, pos)) { destroy(level, pos, state); }
+
         if (!level.isAreaLoaded(pos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
 
         // First we should check if the tapper is empty. Just to be safe, we'll set the material to empty too.
@@ -82,18 +88,51 @@ public class TapperBlock extends HorizontalDirectionalBlock
                 toCheck == Direction.EAST ? BlockStateProperties.WEST : BlockStateProperties.EAST;
 
         BlockState checked = level.getBlockState(pos.offset(toCheck.getNormal()));
-        if (checked.is(SpiroTags.Blocks.SUPPORTS_TAPPER) && random.nextInt(7) == 0)
+        if (checked.is(SpiroTags.Blocks.SUPPORTS_TAPPER))
         {
             Block tapSupporter = checked.getBlock();
             if (tapSupporter instanceof TappableWoodBlock woodTapped)
             {
-                if (state.getValue(FILL) == 0) { state.setValue(OUTPUT, woodTapped.tapOutput); }
-                state.setValue(FILL, state.getValue(FILL) == 3 ? 3 : state.getValue(FILL) + 1);
+                if (random.nextInt(7) == 0)
+                {
+                    if (state.getValue(FILL) == 0) { state.setValue(OUTPUT, woodTapped.tapOutput); }
+                    state.setValue(FILL, state.getValue(FILL) == 3 ? 3 : state.getValue(FILL) + 1);
+                }
 
                 checked.setValue(propertyForInverseOfCheck, true)
                        .setValue(TappableWoodBlock.TAPPED, true);
             }
         }
+    }
+
+    // Copied from FaceAttachedHorizontalDirectionalBlock.java
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
+    { return canAttach(level, pos, state.getValue(FACING).getOpposite()); }
+
+    // Copied from FaceAttachedHorizontalDirectionalBlock.java
+    public static boolean canAttach(LevelReader reader, BlockPos pos, Direction direction)
+    {
+        BlockPos blockpos = pos.relative(direction);
+        return reader.getBlockState(blockpos).isFaceSturdy(reader, blockpos, direction.getOpposite());
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context)
+    {
+        for (Direction direction : context.getNearestLookingDirections())
+        {
+            BlockState blockstate;
+            if (direction.getAxis() == Direction.Axis.Y)
+            { blockstate = this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()); }
+            else { blockstate = this.defaultBlockState().setValue(FACING, direction.getOpposite()); }
+
+            if (blockstate.canSurvive(context.getLevel(), context.getClickedPos()))
+            { return blockstate; }
+        }
+
+        return null;
     }
 
     @Override
