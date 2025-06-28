@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo.core.init;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.TappableWoodBlock;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
@@ -43,6 +44,16 @@ public class InitializeBlockRenderTypes
                     ItemBlockRenderTypes.setRenderLayer(
                             set.bulkData().livingWood().get(t).getBlock().get(),
                             ChunkRenderTypeSet.of(RenderType.TRANSLUCENT));
+                }
+
+                if (!isVanilla && (t == LivingWoodBlockType.LOG || t == LivingWoodBlockType.STRIPPED_LOG ||
+                        t == LivingWoodBlockType.WOOD || t == LivingWoodBlockType.STRIPPED_WOOD))
+                {
+                    if (set.bulkData().livingWood().get(t).getBlock().get() instanceof TappableWoodBlock)
+                    {
+                        ItemBlockRenderTypes.setRenderLayer(set.bulkData().livingWood().get(t).getBlock().get(),
+                                RenderType.translucent());
+                    }
                 }
             }
         }

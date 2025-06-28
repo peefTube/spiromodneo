@@ -149,12 +149,16 @@ public class BlockstateDataProv extends BlockStateProvider
                         {
                             if (b instanceof TappableWoodBlock w)
                             {
+                                boolean strip = t == LivingWoodBlockType.STRIPPED_LOG;
+                                Block log = strip ?
+                                        set.bulkData().livingWood()
+                                           .get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get() :
+                                        set.getBaseLog().get();
+
                                 BlockModelBuilder vert = models().cubeColumn(name(w),
-                                        blockTexture(set.getBaseLog().get()),
-                                        getTopTex(blockTexture(set.getBaseLog().get())));
+                                        blockTexture(log), getTopTex(blockTexture(log)));
                                 BlockModelBuilder horiz = models().cubeColumnHorizontal(name(w) + "_horiz",
-                                        blockTexture(set.getBaseLog().get()),
-                                        getTopTex(blockTexture(set.getBaseLog().get())));
+                                        blockTexture(log), getTopTex(blockTexture(log)));
 
                                 String path = "block/tapped/" + w.tapOutput.name().toLowerCase();
 
@@ -201,12 +205,16 @@ public class BlockstateDataProv extends BlockStateProvider
                         {
                             if (b instanceof TappableWoodBlock w)
                             {
+                                boolean strip = t == LivingWoodBlockType.STRIPPED_WOOD;
+                                Block log = strip ?
+                                        set.bulkData().livingWood()
+                                           .get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get() :
+                                        set.getBaseLog().get();
+
                                 BlockModelBuilder vert = models().cubeColumn(name(w),
-                                        blockTexture(set.getBaseLog().get()),
-                                        blockTexture(set.getBaseLog().get()));
+                                        blockTexture(log), blockTexture(log));
                                 BlockModelBuilder horiz = models().cubeColumnHorizontal(name(w) + "_horiz",
-                                        blockTexture(set.getBaseLog().get()),
-                                        blockTexture(set.getBaseLog().get()));
+                                        blockTexture(log), blockTexture(log));
 
                                 String path = "block/tapped/" + w.tapOutput.name().toLowerCase();
 
@@ -214,22 +222,22 @@ public class BlockstateDataProv extends BlockStateProvider
                                         models().withExistingParent(name(w) + "_tap_n","cube")
                                         .texture("tap", RLUtility.makeRL(path))
                                                 .renderType(renTranslucent)
-                                                .element().face(Direction.NORTH).texture("#tap").end().end();
+                                                .element().face(Direction.SOUTH).texture("#tap").end().end();
                                 BlockModelBuilder tappedS =
                                         models().withExistingParent(name(w) + "_tap_s","cube")
                                         .texture("tap", RLUtility.makeRL(path))
                                                 .renderType(renTranslucent)
-                                                .element().face(Direction.SOUTH).texture("#tap").end().end();
+                                                .element().face(Direction.NORTH).texture("#tap").end().end();
                                 BlockModelBuilder tappedE =
                                         models().withExistingParent(name(w) + "_tap_e","cube")
                                         .texture("tap", RLUtility.makeRL(path))
                                                 .renderType(renTranslucent)
-                                                .element().face(Direction.EAST).texture("#tap").end().end();
+                                                .element().face(Direction.WEST).texture("#tap").end().end();
                                 BlockModelBuilder tappedW =
                                         models().withExistingParent(name(w) + "_tap_w","cube")
                                         .texture("tap", RLUtility.makeRL(path))
                                                 .renderType(renTranslucent)
-                                                .element().face(Direction.WEST).texture("#tap").end().end();
+                                                .element().face(Direction.EAST).texture("#tap").end().end();
 
                                 getMultipartBuilder(w)
                                         .part().modelFile(vert).addModel()

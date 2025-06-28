@@ -3,7 +3,7 @@
   "elements": [
     {
       "faces": {
-        "south": {
+        "north": {
           "texture": "#tap"
         }
       },
