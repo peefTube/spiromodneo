@@ -164,7 +164,8 @@ public class SpiroMod
                         else { return FoliageColor.getDefaultColor(); }
                     },
                     Registrar.ASHEN_OAK_WOOD.getBaseLeaves().get(),
-                    Registrar.RUBBER_WOOD.wood().getBaseLeaves().get());
+                    Registrar.RUBBER_WOOD.wood().getBaseLeaves().get(),
+                    Registrar.MAPLE_WOOD.wood().getBaseLeaves().get());
         }
 
         @SubscribeEvent

@@ -432,7 +432,7 @@ public class PlacedFeaturesData
                         BiomeFilter.biome(),
                         SurfaceWaterDepthFilter.forMaxDepth(0),
                         PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
-                        PlacementUtils.countExtra(10, 0.1F, 1)
+                        PlacementUtils.countExtra(50, 0.1F, 1)
                 ));
     }
 

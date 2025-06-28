@@ -50,42 +50,46 @@ public class TapperBlock extends HorizontalDirectionalBlock
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hitResult)
-    { return doUse(state, player) ? ItemInteractionResult.SUCCESS : ItemInteractionResult.FAIL; }
+    { return doUse(state, level, pos, player) ? ItemInteractionResult.SUCCESS : ItemInteractionResult.FAIL; }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hitResult)
-    { return doUse(state, player) ? InteractionResult.SUCCESS : InteractionResult.FAIL; }
+    { return doUse(state, level, pos, player) ? InteractionResult.SUCCESS : InteractionResult.FAIL; }
 
-    private boolean doUse(BlockState state, Player player)
+    private boolean doUse(BlockState state, Level level, BlockPos pos, Player player)
     {
         if (state.getValue(FILL) == 0) { return false; }
         else
         {
             Tappable value = state.getValue(OUTPUT);
             if (value == Tappable.EMPTY) { return false; }
-            else { player.addItem(new ItemStack(value.getItem(), state.getValue(FILL))); }
+            else
+            {
+                player.addItem(new ItemStack(value.getItem(), state.getValue(FILL)));
+                level.setBlock(pos, state.setValue(FILL, 0), 0);
+            }
         }
 
         return true;
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         // Make sure the block can at least survive
-        if (!canSurvive(state, level, pos)) { destroy(level, pos, state); }
+        if (!canSurvive(state, level, pos)) { level.destroyBlock(pos, true); }
 
         if (!level.isAreaLoaded(pos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
 
         // First we should check if the tapper is empty. Just to be safe, we'll set the material to empty too.
-        if (state.getValue(FILL) == 0) { state.setValue(OUTPUT, Tappable.EMPTY); }
+        if (state.getValue(FILL) == 0) { state = state.setValue(OUTPUT, Tappable.EMPTY); }
 
         Direction toCheck = state.getValue(FACING);
-        BooleanProperty propertyForInverseOfCheck =
-                toCheck == Direction.NORTH ? BlockStateProperties.SOUTH :
-                toCheck == Direction.SOUTH ? BlockStateProperties.NORTH :
-                toCheck == Direction.EAST ? BlockStateProperties.WEST : BlockStateProperties.EAST;
+        BooleanProperty propertyForCheck =
+                toCheck == Direction.NORTH ? BlockStateProperties.NORTH :
+                toCheck == Direction.SOUTH ? BlockStateProperties.SOUTH :
+                toCheck == Direction.EAST ? BlockStateProperties.EAST : BlockStateProperties.WEST;
 
         BlockState checked = level.getBlockState(pos.offset(toCheck.getNormal()));
         if (checked.is(SpiroTags.Blocks.SUPPORTS_TAPPER))
@@ -96,13 +100,15 @@ public class TapperBlock extends HorizontalDirectionalBlock
                 if (random.nextInt(7) == 0)
                 {
                     if (state.getValue(FILL) == 0) { state.setValue(OUTPUT, woodTapped.tapOutput); }
-                    state.setValue(FILL, state.getValue(FILL) == 3 ? 3 : state.getValue(FILL) + 1);
+                    state = state.setValue(FILL, state.getValue(FILL) == 3 ? 3 : state.getValue(FILL) + 1);
                 }
 
-                checked.setValue(propertyForInverseOfCheck, true)
+                checked = checked.setValue(propertyForCheck, true)
                        .setValue(TappableWoodBlock.TAPPED, true);
             }
         }
+
+        super.randomTick(state, level, pos, random);
     }
 
     // Copied from FaceAttachedHorizontalDirectionalBlock.java
@@ -114,7 +120,8 @@ public class TapperBlock extends HorizontalDirectionalBlock
     public static boolean canAttach(LevelReader reader, BlockPos pos, Direction direction)
     {
         BlockPos blockpos = pos.relative(direction);
-        return reader.getBlockState(blockpos).isFaceSturdy(reader, blockpos, direction.getOpposite());
+        return reader.getBlockState(blockpos).isFaceSturdy(reader, blockpos, direction.getOpposite()) &&
+                reader.getBlockState(blockpos).is(SpiroTags.Blocks.SUPPORTS_TAPPER);
     }
 
     @Nullable
@@ -133,6 +140,16 @@ public class TapperBlock extends HorizontalDirectionalBlock
         }
 
         return null;
+    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos,
+            Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+    {
+        // Make sure the block can at least survive
+        if (!canSurvive(state, level, pos)) { level.destroyBlock(pos, true); }
+
+        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
     }
 
     @Override
