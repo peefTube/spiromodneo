@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_crimsonite_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "spiromodneo:crimsonite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "spiromodneo:spiro_crimsonite_block_from_ingots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_crimsonite_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spiromodneo:spiro_crimsonite_block_from_ingots"
+    ]
+  }
+}

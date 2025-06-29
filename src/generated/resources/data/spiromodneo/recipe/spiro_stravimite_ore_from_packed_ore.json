@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "spiromodneo:raw_stravimite_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "spiromodneo:raw_stravimite"
+  }
+}

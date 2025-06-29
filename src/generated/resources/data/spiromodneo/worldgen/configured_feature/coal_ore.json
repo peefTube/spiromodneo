@@ -87,6 +87,15 @@
       },
       {
         "state": {
+          "Name": "spiromodneo:limbipetra_coal_ore"
+        },
+        "target": {
+          "block": "spiromodneo:limbipetra",
+          "predicate_type": "minecraft:block_match"
+        }
+      },
+      {
+        "state": {
           "Name": "spiromodneo:basalt_coal_ore"
         },
         "target": {

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/door_top_right_open",
   "textures": {
-    "bottom": "spiromodneo:block/maple_door_top",
-    "top": "spiromodneo:block/maple_door_bottom"
+    "bottom": "spiromodneo:block/maple_door_bottom",
+    "top": "spiromodneo:block/maple_door_top"
   }
 }

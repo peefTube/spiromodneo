@@ -61,6 +61,9 @@ public class SpiroTags
         public static TagKey<Biome> TEMPERATE_OR_COLD_NETHER_BIOMES = tag("temperate_or_cold_nether_biomes");
         public static TagKey<Biome> IS_CUSTOM_NETHER = tag("is_custom_nether_biome");
 
+        public static TagKey<Biome> IS_CRIMSON_NETHER = tag("is_crimson_nether_biome");
+        public static TagKey<Biome> IS_WARPED_NETHER = tag("is_warped_nether_biome");
+
         public static TagKey<Biome> IS_VANILLA_AND_CAN_HAVE_MAPLE = tag("is_vanilla_and_can_have_maple");
         public static TagKey<Biome> IS_VANILLA_AND_CAN_HAVE_RUBBER_01 = tag("is_vanilla_and_can_have_rubber_01");
 

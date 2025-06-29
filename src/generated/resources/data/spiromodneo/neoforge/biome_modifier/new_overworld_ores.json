@@ -23,7 +23,9 @@
     "spiromodneo:lead_ore_small",
     "spiromodneo:lead_ore_mid",
     "spiromodneo:lead_ore_upper",
-    "spiromodneo:methane_ore_overworld"
+    "spiromodneo:methane_ore_overworld",
+    "spiromodneo:deep_crimsonite_ore",
+    "spiromodneo:deep_stravimite_ore"
   ],
   "step": "underground_ores"
 }

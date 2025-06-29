@@ -24,13 +24,23 @@ public enum BaseStone
     DRIPSTONE("dripstone_", DRIPSTONE_BASED_ORE, () -> Blocks.DRIPSTONE_BLOCK, true),
     NETHERRACK("nether_", NETHER_BASED_ORE, () -> Blocks.NETHERRACK, true),
     BASALT("basalt_", BASALT_BASED_ORE, () -> Blocks.SMOOTH_BASALT, () -> Blocks.BASALT, true),
-    ENDSTONE("end_", STONE_BASED_ORE, () -> Blocks.END_STONE, true);
+    ENDSTONE("end_", STONE_BASED_ORE, () -> Blocks.END_STONE, true),
+
+    // Modded stone types.
+    LIMBIPETRA("limbipetra_", TUFF_BASED_ORE, 15);
 
     private final String                    name;
     private final BlockBehaviour.Properties props;
     private final boolean                   prePopulated;
     private Supplier<? extends Block>           oreBase;
     private Supplier<? extends Block>           defaultBase;
+    private int lightLevel = 0;
+
+    BaseStone(String name, BlockBehaviour.Properties props)
+    { this.name = name; this.props = props; this.prePopulated = false; }
+
+    BaseStone(String name, BlockBehaviour.Properties props, int li)
+    { this.name = name; this.props = props; this.prePopulated = false; this.lightLevel = Math.max(0, Math.min(li, 15)); }
 
     BaseStone(String name, BlockBehaviour.Properties props, Supplier<? extends Block> oreBase, boolean isPopulated)
     { this.name = name; this.props = props; this.oreBase = oreBase; this.defaultBase = oreBase; this.prePopulated = isPopulated; }
@@ -63,4 +73,6 @@ public enum BaseStone
 
     public Supplier<? extends Block> getDefault()
     { return defaultBase; }
+
+    public int getLightLevel() { return lightLevel; }
 }

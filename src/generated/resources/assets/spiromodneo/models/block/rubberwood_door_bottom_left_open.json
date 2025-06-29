@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/door_bottom_left_open",
   "textures": {
-    "bottom": "spiromodneo:block/rubberwood_door_top",
-    "top": "spiromodneo:block/rubberwood_door_bottom"
+    "bottom": "spiromodneo:block/rubberwood_door_bottom",
+    "top": "spiromodneo:block/rubberwood_door_top"
   }
 }

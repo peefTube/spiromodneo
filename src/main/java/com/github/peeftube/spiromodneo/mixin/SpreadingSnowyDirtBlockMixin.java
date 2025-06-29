@@ -1,5 +1,6 @@
 package com.github.peeftube.spiromodneo.mixin;
 
+import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.GrassLikeCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.Soil;
 import net.minecraft.core.BlockPos;
@@ -7,12 +8,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SpreadingSnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.lighting.LightEngine;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -65,9 +68,9 @@ public abstract class SpreadingSnowyDirtBlockMixin
         else
         {
             if (!level.isAreaLoaded(pos, 3)) return;
-            if (level.getMaxLocalRawBrightness(pos.above()) >= 9)
+            if (level.dimension() == ServerLevel.OVERWORLD ? level.getMaxLocalRawBrightness(pos.above()) >= 9
+            : (level.dimension() == ServerLevel.NETHER || level.dimension() == Level.END))
             {
-
                 for (int i = 0; i < 4; i++)
                 {
                     BlockPos blockpos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3,
@@ -85,8 +88,19 @@ public abstract class SpreadingSnowyDirtBlockMixin
 
                     if (isSupportedBlock && canPropagate(bState, level, blockpos))
                     {
-                        for (GrassLikeCollection g : GrassLikeCollection.GRASS_COLLECTIONS)
-                        { bState = g.bulkData().get(soilToSave).getBlock().get().defaultBlockState(); }
+                        GrassLikeCollection toSpread =
+                                state.toString().toLowerCase().contains("grass") ?
+                                        Registrar.GRASS_TYPE :
+                                state.toString().toLowerCase().contains("crimson_nylium") ?
+                                        Registrar.CRIMSON_NYLIUM_TYPE :
+                                state.toString().toLowerCase().contains("warped_nylium") ?
+                                        Registrar.WARPED_NYLIUM_TYPE :
+                                state.toString().toLowerCase().contains("mycelium") ?
+                                        Registrar.MYCELIUM_TYPE :
+                                state.toString().toLowerCase().contains("vitalium") ?
+                                        Registrar.VITALIUM_TYPE : Registrar.GRASS_TYPE;
+
+                        bState = toSpread.bulkData().get(soilToSave).getBlock().get().defaultBlockState();
 
                         level.setBlockAndUpdate(
                                 blockpos, bState.setValue(SnowyDirtBlock.SNOWY,

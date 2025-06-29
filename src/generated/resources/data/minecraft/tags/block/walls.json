@@ -88,6 +88,14 @@
     "spiromodneo:mossy_endstone_brick_wall",
     "spiromodneo:cracked_endstone_brick_wall",
     "spiromodneo:endstone_tile_wall",
-    "spiromodneo:cracked_endstone_tile_wall"
+    "spiromodneo:cracked_endstone_tile_wall",
+    "spiromodneo:limbipetra_wall",
+    "spiromodneo:cobbled_limbipetra_wall",
+    "spiromodneo:mossy_cobbled_limbipetra_wall",
+    "spiromodneo:limbipetra_brick_wall",
+    "spiromodneo:mossy_limbipetra_brick_wall",
+    "spiromodneo:cracked_limbipetra_brick_wall",
+    "spiromodneo:limbipetra_tile_wall",
+    "spiromodneo:cracked_limbipetra_tile_wall"
   ]
 }

@@ -86,6 +86,14 @@ public class ConfigFeaturesData
     public static final ResourceKey<ConfiguredFeature<?, ?>> NETHER_METHANE_ICE = registerKey("methane_ice_ore_nether");
     public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_NETHER_METHANE_ICE = registerKey("methane_ice_ore_mega_nether");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TRACE_CRIMSONITE = registerKey("trace_crimsonite_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CRIMSONITE = registerKey("crimsonite_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_CRIMSONITE = registerKey("mega_crimsonite_ore");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TRACE_STRAVIMITE = registerKey("trace_stravimite_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> STRAVIMITE = registerKey("stravimite_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_STRAVIMITE = registerKey("mega_stravimite_ore");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> NETHER_WATER_LAKE = registerKey("nether_water_lake");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ASHEN_OAK = registerKey("ashen_oak");
@@ -175,9 +183,23 @@ public class ConfigFeaturesData
         register(context, MEGA_NETHER_METHANE_ICE, Feature.ORE,
                 new OreConfiguration(TargetRuleData.OreTargets.METHANE_ICE_ORE_TARGETS.get(), 18, 0.9F));
 
+        register(context, TRACE_CRIMSONITE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.CRIMSONITE_ORE_TARGETS.get(), 4, 0.1F));
+        register(context, CRIMSONITE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.CRIMSONITE_ORE_TARGETS.get(), 12));
+        register(context, MEGA_CRIMSONITE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.CRIMSONITE_ORE_TARGETS.get(), 28, 0.7F));
+
+        register(context, TRACE_STRAVIMITE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.STRAVIMITE_ORE_TARGETS.get(), 4, 0.1F));
+        register(context, STRAVIMITE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.STRAVIMITE_ORE_TARGETS.get(), 12));
+        register(context, MEGA_STRAVIMITE, Feature.ORE,
+                new OreConfiguration(TargetRuleData.OreTargets.STRAVIMITE_ORE_TARGETS.get(), 28, 0.7F));
+
         register(context, NETHER_WATER_LAKE, Feature.LAKE,
                 new LakeFeature.Configuration(BlockStateProvider.simple(Blocks.WATER.defaultBlockState()),
-                        BlockStateProvider.simple(Blocks.SMOOTH_BASALT.defaultBlockState())));
+                        BlockStateProvider.simple(Blocks.CALCITE.defaultBlockState())));
 
         register(context, ASHEN_OAK, Feature.TREE,
                 new TreeConfiguration.TreeConfigurationBuilder(

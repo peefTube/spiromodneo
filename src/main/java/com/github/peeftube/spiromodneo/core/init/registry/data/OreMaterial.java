@@ -27,7 +27,9 @@ public enum OreMaterial
     // Modded.
     RUBY("ruby", true, null, null),
     LEAD("lead", false, null, Registrar.LEAD_METAL.ingotData().getIngot()),
-    METHANE_ICE("methane_ice", true, null, null);
+    METHANE_ICE("methane_ice", true, null, null),
+    CRIMSONITE("crimsonite", false, null, Registrar.CRIMSONITE_METAL.ingotData().getIngot()),
+    STRAVIMITE("stravimite", false, null, Registrar.STRAVIMITE_METAL.ingotData().getIngot());
 
     private final String name;
 

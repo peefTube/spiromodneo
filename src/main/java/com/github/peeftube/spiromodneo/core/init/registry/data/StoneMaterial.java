@@ -19,7 +19,10 @@ public enum StoneMaterial
     DRIPSTONE("dripstone", BaseStone.DRIPSTONE),
     NETHERRACK("netherrack", BaseStone.NETHERRACK),
     BASALT("basalt", BaseStone.BASALT),
-    ENDSTONE("endstone", BaseStone.ENDSTONE);
+    ENDSTONE("endstone", BaseStone.ENDSTONE),
+
+    // Modded stone types!
+    LIMBIPETRA("limbipetra", BaseStone.LIMBIPETRA);
 
     private final String name;
     /** This has been coded in to force any additions to this enum to also have additions

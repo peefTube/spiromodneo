@@ -1,0 +1,9 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spiromodneo:is_crimson_nether_biome",
+  "features": [
+    "spiromodneo:stravimite_ore",
+    "spiromodneo:mega_stravimite_ore"
+  ],
+  "step": "underground_ores"
+}

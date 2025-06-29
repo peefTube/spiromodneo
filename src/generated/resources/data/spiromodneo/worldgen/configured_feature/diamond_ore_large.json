@@ -87,6 +87,15 @@
       },
       {
         "state": {
+          "Name": "spiromodneo:limbipetra_diamond_ore"
+        },
+        "target": {
+          "block": "spiromodneo:limbipetra",
+          "predicate_type": "minecraft:block_match"
+        }
+      },
+      {
+        "state": {
           "Name": "spiromodneo:basalt_diamond_ore"
         },
         "target": {

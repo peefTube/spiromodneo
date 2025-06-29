@@ -87,6 +87,15 @@
       },
       {
         "state": {
+          "Name": "spiromodneo:limbipetra_emerald_ore"
+        },
+        "target": {
+          "block": "spiromodneo:limbipetra",
+          "predicate_type": "minecraft:block_match"
+        }
+      },
+      {
+        "state": {
           "Name": "spiromodneo:basalt_emerald_ore"
         },
         "target": {

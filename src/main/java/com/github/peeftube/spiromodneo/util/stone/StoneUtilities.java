@@ -5,11 +5,9 @@ import com.github.peeftube.spiromodneo.core.init.registry.data.StoneMaterial;
 import com.github.peeftube.spiromodneo.util.GenericBlockItemCoupling;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +42,7 @@ public interface StoneUtilities
                         {
                             String kv = ExistingStoneCouplings.getKey(mat, set, variant, subSet);
                             variantMappings.put(subSet, findIfExistsElseCreate(kv, mat,
-                                    StoneSubBlockType.DEFAULT, variantMappings));
+                                    StoneSubBlockType.DEFAULT, variantMappings, mat.getOreBase().getLightLevel()));
                         }
                     }
                 }
@@ -143,14 +141,15 @@ public interface StoneUtilities
     }
 
     static GenericBlockItemCoupling findIfExistsElseCreate(String kv, StoneMaterial mat,
-            StoneSubBlockType mappingParser, Map<StoneSubBlockType, GenericBlockItemCoupling> mappings)
+            StoneSubBlockType mappingParser, Map<StoneSubBlockType, GenericBlockItemCoupling> mappings,
+            int li)
     {
         Map<String, GenericBlockItemCoupling> presets = StoneSetPresets.getPresets();
 
         if (presets.containsKey(kv)) { return presets.get(kv); }
         else
         {
-            Properties props = mat.getOreBase().getProps();
+            Properties props = mat.getOreBase().getProps().lightLevel(s -> li);
 
             // This should default to 1s or 20t.
             int buttonPressTickSetting = (int) (20 * (props.destroyTime / 3F));

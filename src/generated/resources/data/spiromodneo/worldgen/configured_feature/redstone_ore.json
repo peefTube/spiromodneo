@@ -114,6 +114,18 @@
       },
       {
         "state": {
+          "Name": "spiromodneo:limbipetra_redstone_ore",
+          "Properties": {
+            "lit": "false"
+          }
+        },
+        "target": {
+          "block": "spiromodneo:limbipetra",
+          "predicate_type": "minecraft:block_match"
+        }
+      },
+      {
+        "state": {
           "Name": "spiromodneo:basalt_redstone_ore",
           "Properties": {
             "lit": "false"

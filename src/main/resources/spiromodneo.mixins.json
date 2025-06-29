@@ -5,10 +5,12 @@
   "mixins": [
     "BucketItemMixin",
     "BushBlockMixin",
+    "CraftingMenuMixin",
     "FluidTypeMixin",
     "FungusBlockMixin",
     "NoiseChunkMixin",
-    "SpreadingSnowyDirtBlockMixin"
+    "SpreadingSnowyDirtBlockMixin",
+    "TrunkPlacerMixin"
   ],
   "client": [
   ],

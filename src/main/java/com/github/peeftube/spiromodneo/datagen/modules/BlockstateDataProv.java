@@ -337,7 +337,8 @@ public class BlockstateDataProv extends BlockStateProvider
                         case FENCE -> fenceBlock((FenceBlock) b, blockTexture(bFull));
                         case FENCE_GATE -> fenceGateBlock((FenceGateBlock) b, blockTexture(bFull));
 
-                        default -> cubeAll(set.bulkData().planks().get(t).getBlock().get());
+                        default -> getVariantBuilder(b).partialState().setModels(
+                                new ConfiguredModel(cubeAll(set.bulkData().planks().get(t).getBlock().get())));
                     }
                 }
             }
@@ -438,8 +439,8 @@ public class BlockstateDataProv extends BlockStateProvider
                         }
                         case TRAPDOOR -> trapdoorBlock((TrapDoorBlock) b, blockTexture(b), true);
                         case DOOR -> doorBlock((DoorBlock) b,
-                                safeGetTopTex(blockTexture(b), eFH),
-                                safeGetBottomTex(blockTexture(b), eFH));
+                                safeGetBottomTex(blockTexture(b), eFH),
+                                safeGetTopTex(blockTexture(b), eFH));
                         default -> {} // Do nothing for specific types of blocks which have their own renderers
                     }
                 }

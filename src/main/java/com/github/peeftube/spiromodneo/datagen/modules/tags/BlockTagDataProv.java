@@ -1,11 +1,13 @@
 package com.github.peeftube.spiromodneo.datagen.modules.tags;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
 import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
 import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -48,6 +50,7 @@ public class BlockTagDataProv extends BlockTagsProvider
 
         // Stone collections
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneTags(stone); }
+        tag(BlockTags.PIGLIN_REPELLENTS).addTag(Registrar.LIMBIPETRA_SET.tags().getBlockTag());
 
         // Grass & soil
         for (GrassLikeCollection grass : GrassLikeCollection.GRASS_COLLECTIONS) { grassTags(grass); }
@@ -110,6 +113,9 @@ public class BlockTagDataProv extends BlockTagsProvider
         for (LivingWoodBlockType t : LivingWoodBlockType.values())
         { if (set.bulkData().livingWood().get(t) != null)
             tag(tagForLivingWood).add(set.bulkData().livingWood().get(t).getBlock().get()); }
+
+        tag(Tags.Blocks.PLAYER_WORKSTATIONS_CRAFTING_TABLES)
+                .add(set.bulkData().manufacturables().get(ManufacturedWoodType.CRAFTING_TABLE).getBlock().get());
     }
 
     private void grassTags(GrassLikeCollection set)
@@ -123,6 +129,7 @@ public class BlockTagDataProv extends BlockTagsProvider
 
             tag(s.getTag()).add(set.bulkData().get(s).getBlock().get());
             tag(tag).add(set.bulkData().get(s).getBlock().get());
+            tag(BlockTags.ANIMALS_SPAWNABLE_ON).add(set.bulkData().get(s).getBlock().get());
         }
     }
 
@@ -177,7 +184,7 @@ public class BlockTagDataProv extends BlockTagsProvider
             switch(m)
             {
                 case COPPER, IRON, LEAD, LAPIS -> { tag(BlockTags.NEEDS_STONE_TOOL).add(o); }
-                case GOLD, REDSTONE -> { tag(BlockTags.NEEDS_IRON_TOOL).add(o); }
+                case GOLD, REDSTONE, CRIMSONITE -> { tag(BlockTags.NEEDS_IRON_TOOL).add(o); }
                 case RUBY, EMERALD ->
                 {
                     tag(BlockTags.NEEDS_IRON_TOOL).remove(o);
@@ -188,7 +195,7 @@ public class BlockTagDataProv extends BlockTagsProvider
                     tag(BlockTags.NEEDS_IRON_TOOL).remove(o);
                     tag(SpiroTags.Blocks.NEEDS_STEEL_TOOL).add(o);
                 }
-                case METHANE_ICE ->
+                case METHANE_ICE, STRAVIMITE ->
                 {
                     tag(BlockTags.NEEDS_IRON_TOOL).add(o);
                     tag(BlockTags.PIGLIN_REPELLENTS).add(o);
@@ -202,6 +209,7 @@ public class BlockTagDataProv extends BlockTagsProvider
         switch(m)
         {
             case LEAD -> { tag(BlockTags.NEEDS_STONE_TOOL).add(b); }
+            case CRIMSONITE -> { tag(BlockTags.NEEDS_IRON_TOOL).add(b); }
             case RUBY, EMERALD ->
             {
                 tag(BlockTags.NEEDS_IRON_TOOL).remove(b);
@@ -212,7 +220,7 @@ public class BlockTagDataProv extends BlockTagsProvider
                 tag(BlockTags.NEEDS_IRON_TOOL).remove(b);
                 tag(SpiroTags.Blocks.NEEDS_STEEL_TOOL).add(b);
             }
-            case METHANE_ICE ->
+            case METHANE_ICE, STRAVIMITE ->
             {
                 tag(BlockTags.NEEDS_IRON_TOOL).add(b);
                 tag(BlockTags.PIGLIN_REPELLENTS).add(b);

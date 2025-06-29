@@ -1,12 +1,5 @@
 {
   "type": "minecraft:block",
-  "functions": [
-    {
-      "add": false,
-      "count": 1.0,
-      "function": "minecraft:set_count"
-    }
-  ],
   "pools": [
     {
       "bonus_rolls": 0.0,
@@ -69,6 +62,13 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:air"
+        }
+      ],
+      "functions": [
+        {
+          "add": false,
+          "count": 1.0,
+          "function": "minecraft:set_count"
         }
       ],
       "rolls": {

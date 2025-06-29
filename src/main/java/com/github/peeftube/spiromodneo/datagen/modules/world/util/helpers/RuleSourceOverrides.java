@@ -89,6 +89,7 @@ public interface RuleSourceOverrides
     // Original block replacement rules
     SurfaceRules.RuleSource SMOOTH_BASALT = makeStateRule(Blocks.SMOOTH_BASALT);
     SurfaceRules.RuleSource VITALIUM = makeStateRule(Registrar.VITALIUM_TYPE.bulkData().get(Soil.SOUL_SOIL).getBlock().get());
+    SurfaceRules.RuleSource LIMBIPETRA = makeStateRule(Registrar.LIMBIPETRA_SET.getBaseStone().get());
 
     /** Copied from SurfaceRuleData.java */
     static SurfaceRules.RuleSource makeStateRule(Block block)

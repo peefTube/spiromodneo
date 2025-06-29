@@ -36,6 +36,9 @@ public class BiomeModifiersData
     public static final ResourceKey<BiomeModifier> COLD_NETHER_WATER = key("cold_nether_water_features");
     public static final ResourceKey<BiomeModifier> LIMBO_GARDEN_FOLIAGE = key("limbo_garden_foliage");
 
+    public static final ResourceKey<BiomeModifier> STRAVIMITE_IN_CRIMSON = key("stravimite_crimson_placements");
+    public static final ResourceKey<BiomeModifier> CRIMSONITE_IN_WARPED = key("crimsonite_warped_placements");
+
     public static final ResourceKey<BiomeModifier> MAPLE_IN_FOREST = key("maple_trees_in_vanilla_forests");
 
     public static final ResourceKey<BiomeModifier> RUBBER_IN_JUNGLE = key("rubber_trees_in_vanilla_jungles");
@@ -79,7 +82,8 @@ public class BiomeModifiersData
                         PlacedFeaturesData.LAPIS_ORE, PlacedFeaturesData.LAPIS_ORE_BURIED,
                         PlacedFeaturesData.REDSTONE_ORE, PlacedFeaturesData.REDSTONE_ORE_LOWER,
                         PlacedFeaturesData.LEAD_ORE_SMALL, PlacedFeaturesData.LEAD_ORE_MID, PlacedFeaturesData.LEAD_ORE_UPPER,
-                        PlacedFeaturesData.METHANE_ICE_ORE_OVERWORLD),
+                        PlacedFeaturesData.METHANE_ICE_ORE_OVERWORLD, PlacedFeaturesData.TRACE_OVERWORLD_CRIMSONITE,
+                        PlacedFeaturesData.TRACE_OVERWORLD_STRAVIMITE),
                 GenerationStep.Decoration.UNDERGROUND_ORES
         ));
 
@@ -90,7 +94,8 @@ public class BiomeModifiersData
                         PlacedFeaturesData.METHANE_ICE_ORE_NETHER, PlacedFeaturesData.METHANE_ICE_ORE_MEGA_NETHER,
                         PlacedFeaturesData.IRON_ORE_NETHER, PlacedFeaturesData.IRON_ORE_NETHER_LARGE,
                         PlacedFeaturesData.LEAD_ORE_NETHER, PlacedFeaturesData.LEAD_ORE_NETHER_LARGE,
-                        PlacedFeaturesData.COPPER_ORE_NETHER),
+                        PlacedFeaturesData.COPPER_ORE_NETHER, PlacedFeaturesData.TRACE_CRIMSONITE,
+                        PlacedFeaturesData.TRACE_STRAVIMITE),
                 GenerationStep.Decoration.UNDERGROUND_ORES
         ));
 
@@ -121,6 +126,20 @@ public class BiomeModifiersData
                         PlacedFeaturesData.ASHEN_TREES, PlacedFeaturesData.NETHER_OVERWORLD_GRASS,
                         PlacedFeaturesData.NETHER_OVERWORLD_FLOWERS),
                 GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
+
+        context.register(CRIMSONITE_IN_WARPED, new BiomeModifiers.AddFeaturesBiomeModifier(
+                tag(biomes, SpiroTags.Biomes.IS_WARPED_NETHER),
+                features(features,
+                        PlacedFeaturesData.CRIMSONITE, PlacedFeaturesData.MEGA_CRIMSONITE),
+                GenerationStep.Decoration.UNDERGROUND_ORES
+        ));
+
+        context.register(STRAVIMITE_IN_CRIMSON, new BiomeModifiers.AddFeaturesBiomeModifier(
+                tag(biomes, SpiroTags.Biomes.IS_CRIMSON_NETHER),
+                features(features,
+                        PlacedFeaturesData.STRAVIMITE, PlacedFeaturesData.MEGA_STRAVIMITE),
+                GenerationStep.Decoration.UNDERGROUND_ORES
         ));
 
         context.register(MAPLE_IN_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(

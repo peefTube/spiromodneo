@@ -1,6 +1,0 @@
-{
-  "type": "neoforge:remove_features",
-  "biomes": "#spiromodneo:is_vanilla_and_can_have_maple",
-  "features": "minecraft:trees_birch_and_oak",
-  "steps": "vegetal_decoration"
-}

@@ -31,7 +31,7 @@ public class NetherColdRegionSourceRules
                                 SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, vitalium)),
                         SurfaceRules.ifTrue(SurfaceRules.ON_CEILING,
                                 SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.NETHERRACK, -0.075, 0.075),
-                                        GLOWSTONE)),
-                        SurfaceRules.ifTrue(SurfaceRules.DEEP_UNDER_FLOOR, SOUL_SOIL), SMOOTH_BASALT))));
+                                        SMOOTH_BASALT)),
+                        SurfaceRules.ifTrue(SurfaceRules.DEEP_UNDER_FLOOR, SOUL_SOIL), LIMBIPETRA))));
     }
 }

@@ -10,7 +10,9 @@
     "spiromodneo:iron_ore_nether_large",
     "spiromodneo:lead_ore_nether",
     "spiromodneo:lead_ore_nether_large",
-    "spiromodneo:copper_ore_nether"
+    "spiromodneo:copper_ore_nether",
+    "spiromodneo:trace_crimsonite_ore",
+    "spiromodneo:trace_stravimite_ore"
   ],
   "step": "underground_ores"
 }

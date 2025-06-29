@@ -35,6 +35,9 @@ public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling
     public static OreCollection registerCollection(OreMaterial material, MinMax minMax)
     { return registerCollection(material, 0, minMax, FuelOreData.nonFuel()); }
 
+    public static OreCollection registerCollection(OreMaterial material, MinMax minMax, int li)
+    { return registerCollection(material, li, minMax, FuelOreData.nonFuel()); }
+
     public static OreCollection registerCollection(OreMaterial material, MinMax minMax, FuelOreData fuel)
     { return registerCollection(material, 0, minMax, fuel); }
 
@@ -49,6 +52,9 @@ public record OreCollection(OreMaterial material, Map<StoneMaterial, OreCoupling
 
         for(StoneMaterial s : StoneMaterial.values())
         {
+            // Light level should never surpass 15, and should be the higher between the base stone and ore light levels
+            li = Math.max(li, s.getOreBase().getLightLevel());
+
             switch(s)
             {
                 case STONE, DEEPSLATE ->

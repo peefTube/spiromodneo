@@ -32,8 +32,14 @@ public class BiomeTagDataProv extends BiomeTagsProvider
                 .addTags(SpiroTags.Biomes.LIMBO_GARDEN);
         tag(SpiroTags.Biomes.IS_CUSTOM_NETHER)
                 .addTags(SpiroTags.Biomes.getColdNetherTag());
+        tag(SpiroTags.Biomes.IS_CRIMSON_NETHER)
+                .add(Biomes.CRIMSON_FOREST);
+        tag(SpiroTags.Biomes.IS_WARPED_NETHER)
+                .add(Biomes.WARPED_FOREST);
         tag(BiomeTags.IS_NETHER)
-                .addTags(SpiroTags.Biomes.IS_CUSTOM_NETHER);
+                .addTags(SpiroTags.Biomes.IS_CUSTOM_NETHER)
+                .addTags(SpiroTags.Biomes.IS_CRIMSON_NETHER)
+                .addTags(SpiroTags.Biomes.IS_WARPED_NETHER);
 
         tag(SpiroTags.Biomes.IS_VANILLA_AND_CAN_HAVE_MAPLE)
                 .add(Biomes.FOREST)

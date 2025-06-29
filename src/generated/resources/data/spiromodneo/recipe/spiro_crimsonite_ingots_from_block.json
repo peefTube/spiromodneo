@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "spiromodneo:crimsonite_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "spiromodneo:crimsonite_ingot"
+  }
+}

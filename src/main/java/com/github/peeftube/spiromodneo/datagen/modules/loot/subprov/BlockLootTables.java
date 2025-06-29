@@ -154,8 +154,8 @@ public class BlockLootTables extends BlockLootSubProvider
                                         {
                                             switch (type2)
                                             {
-                                                case DEFAULT -> stoneDropTable01(
-                                                        set.getBaseStone().get(), set.getCobble().get());
+                                                case DEFAULT -> add(set.getBaseStone().get(), stoneDropTable01(
+                                                        set.getBaseStone().get(), set.getCobble().get()));
 
                                                 default -> dropSelf(set.bulkData()
                                                        .getCouplingForKeys(type0, type1, type2).getBlock().get());
@@ -290,8 +290,8 @@ public class BlockLootTables extends BlockLootSubProvider
         builder.withPool(
                 LootPool.lootPool()
                         .add(LootItem.lootTableItem(b1))
-                        .setRolls(UniformGenerator.between(0, 1)))
-                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)));
+                        .setRolls(UniformGenerator.between(0, 1))
+                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1))));
 
         return builder;
     }

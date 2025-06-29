@@ -1,0 +1,18 @@
+{
+  "values": [
+    "minecraft:crafting_table",
+    "spiromodneo:birch_crafting_table",
+    "spiromodneo:spruce_crafting_table",
+    "spiromodneo:jungle_crafting_table",
+    "spiromodneo:acacia_crafting_table",
+    "spiromodneo:dark_oak_crafting_table",
+    "spiromodneo:cherry_crafting_table",
+    "spiromodneo:crimson_crafting_table",
+    "spiromodneo:warped_crafting_table",
+    "spiromodneo:mangrove_crafting_table",
+    "spiromodneo:ashen_oak_crafting_table",
+    "spiromodneo:ashen_birch_crafting_table",
+    "spiromodneo:rubberwood_crafting_table",
+    "spiromodneo:maple_crafting_table"
+  ]
+}

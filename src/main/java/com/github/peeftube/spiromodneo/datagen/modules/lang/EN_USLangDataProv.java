@@ -6,6 +6,10 @@ import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
+import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
+import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -38,6 +42,9 @@ public class EN_USLangDataProv extends LanguageProvider
         // Stone collections
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneParser(stone); }
 
+        // Wood collections
+        for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodParser(wood); }
+
         // Equipment
         for (EquipmentCollection equip : EquipmentCollection.EQUIP_COLLECTIONS) { equipParser(equip); }
 
@@ -53,11 +60,108 @@ public class EN_USLangDataProv extends LanguageProvider
         add(Registrar.WEAK_STEEL_MIXTURE.get(), "Steel Mixture CI");
         add(Registrar.CRUSHED_CARBON.get(), "Carbon Dust");
 
+        add(Registrar.CAOUTCHOUC.get(), "Raw Caoutchouc");
+        add(Registrar.MAPLE_SAP.get(), "Raw Maple Sap");
+
         add(Registrar.MANUAL_CRUSHER.get(), "Manual Crusher");
         add(Registrar.TAPPER.get(), "Tapper");
 
         // Creative tabs
         add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
+    }
+
+    private void woodParser(WoodCollection set)
+    {
+        boolean isNetherFungus = set.type().isLikeNetherFungus();
+
+        String setName = set.type().getName().replace("_fungus", "");
+        String[] soilSubs = setName.split("_");
+        setName = "";
+        int stIndex = 0;
+        for (String st : soilSubs)
+        {
+            setName = setName + (stIndex > 0 ? " " : "") +
+                    st.substring(0, 1).toUpperCase() + st.substring(1);
+            stIndex++;
+        }
+
+        for (LivingWoodBlockType t : LivingWoodBlockType.values())
+        {
+            if (set.bulkData().livingWood().get(t) != null)
+            {
+                boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().livingWood().get(t).getBlock().get())
+                                                           .getNamespace().equalsIgnoreCase("minecraft");
+
+                if (!isVanilla)
+                {
+                    String wood = setName.contains("wood") ? setName : setName + (isNetherFungus ? " Hyphae" : " Wood");
+
+                    switch (t)
+                    {
+                        case LOG -> add(set.bulkData().livingWood().get(t).getBlock().get(),
+                                setName + (isNetherFungus ? " Stem" : " Log"));
+                        case STRIPPED_LOG -> add(set.bulkData().livingWood().get(t).getBlock().get(),
+                                "Stripped " + setName + (isNetherFungus ? " Stem" : " Log"));
+                        case WOOD -> add(set.bulkData().livingWood().get(t).getBlock().get(), wood);
+                        case STRIPPED_WOOD -> add(set.bulkData().livingWood().get(t).getBlock().get(),
+                                "Stripped" + wood);
+                        case SAPLING -> add(set.bulkData().livingWood().get(t).getBlock().get(),
+                                setName + (isNetherFungus ? " Fungus" : " Sapling"));
+                        case LEAVES -> add(set.bulkData().livingWood().get(t).getBlock().get(),
+                                setName + (isNetherFungus ? " Wart Block" : " Leaves"));
+                        case ROOTS -> add(set.bulkData().livingWood().get(t).getBlock().get(),
+                                setName + " Roots");
+                        case ROOTS_WITH_MUD -> add(set.bulkData().livingWood().get(t).getBlock().get(),
+                                "Muddy " + setName + " Roots");
+                    }
+                }
+            }
+        }
+
+        for (PlankBlockSubType t : PlankBlockSubType.values())
+        {
+            boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().planks().get(t).getBlock().get())
+                                                       .getNamespace().equalsIgnoreCase("minecraft");
+
+            if (!isVanilla)
+            {
+                switch(t)
+                {
+                    case BLOCK -> add(set.bulkData().planks().get(t).getBlock().get(), setName + " Planks");
+                    case SLAB -> add(set.bulkData().planks().get(t).getBlock().get(), setName + " Slab");
+                    case STAIRS -> add(set.bulkData().planks().get(t).getBlock().get(), setName + " Stairs");
+                    case BUTTON -> add(set.bulkData().planks().get(t).getBlock().get(), setName + " Button");
+                    case PRESSURE_PLATE -> add(set.bulkData().planks().get(t).getBlock().get(),
+                            setName + " Pressure Plate");
+                    case FENCE -> add(set.bulkData().planks().get(t).getBlock().get(), setName + " Fence");
+                    case FENCE_GATE -> add(set.bulkData().planks().get(t).getBlock().get(),
+                            setName + " Fence Gate");
+                }
+            }
+        }
+
+        for (ManufacturedWoodType t : ManufacturedWoodType.values())
+        {
+            switch (t)
+            {
+                case CRAFTING_TABLE -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        "Crafting Table (" + setName + ")");
+                case DOOR -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        setName + " Door");
+                case TRAPDOOR -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        setName + " Trapdoor");
+                case BARREL -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        "Barrel (" + setName + ")");
+                case CHEST -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        "Chest (" + setName + ")");
+                case TRAPPED_CHEST -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        "Trapped Chest (" + setName +")");
+                case SIGN -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        setName + " Sign");
+                case HANGING_SIGN -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                        "Hanging " + setName + " Sign");
+            }
+        }
     }
 
     private void grassParser(GrassLikeCollection set)
@@ -321,6 +425,7 @@ public class EN_USLangDataProv extends LanguageProvider
         genFormulae.put(BaseStone.NETHERRACK, "Nether " + readable);
         genFormulae.put(BaseStone.BASALT, readable + " (Basalt)");
         genFormulae.put(BaseStone.ENDSTONE, "Ender " + readable);
+        genFormulae.put(BaseStone.LIMBIPETRA, "Limbo " + readable);
 
         return genFormulae.getOrDefault(s, readable);
     }

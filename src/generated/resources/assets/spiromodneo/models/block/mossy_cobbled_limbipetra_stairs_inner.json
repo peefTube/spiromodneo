@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "spiromodneo:block/mossy_cobbled_limbipetra",
+    "side": "spiromodneo:block/mossy_cobbled_limbipetra",
+    "top": "spiromodneo:block/mossy_cobbled_limbipetra"
+  }
+}

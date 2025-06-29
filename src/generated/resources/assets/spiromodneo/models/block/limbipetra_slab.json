@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "spiromodneo:block/limbipetra",
+    "side": "spiromodneo:block/limbipetra",
+    "top": "spiromodneo:block/limbipetra"
+  }
+}

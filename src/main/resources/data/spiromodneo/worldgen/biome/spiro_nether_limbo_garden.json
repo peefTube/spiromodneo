@@ -66,19 +66,49 @@
   "spawners": {
     "ambient": [],
     "axolotls": [],
-    "creature": [
+    "creature": [],
+    "misc": [
       {
-        "type": "minecraft:skeleton_horse",
-        "maxCount": 3,
+        "type": "minecraft:sheep",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:pig",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:cow",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:chicken",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:wolf",
+        "maxCount": 2,
         "minCount": 1,
-        "weight": 5
+        "weight": 2
       }
     ],
-    "misc": [],
     "monster": [
       {
         "type": "minecraft:hoglin",
-        "maxCount": 2,
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:skeleton",
+        "maxCount": 1,
         "minCount": 1,
         "weight": 10
       }

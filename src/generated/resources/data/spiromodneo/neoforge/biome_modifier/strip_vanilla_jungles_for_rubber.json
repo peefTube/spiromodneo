@@ -1,6 +1,0 @@
-{
-  "type": "neoforge:remove_features",
-  "biomes": "#spiromodneo:is_vanilla_and_can_have_rubber_01",
-  "features": "minecraft:trees_jungle",
-  "steps": "vegetal_decoration"
-}

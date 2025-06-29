@@ -73,6 +73,16 @@ public class PlacedFeaturesData
     public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_NETHER = registerKey("methane_ore_nether");
     public static final ResourceKey<PlacedFeature> METHANE_ICE_ORE_MEGA_NETHER = registerKey("methane_ore_mega_nether");
 
+    public static final ResourceKey<PlacedFeature> TRACE_CRIMSONITE = registerKey("trace_crimsonite_ore");
+    public static final ResourceKey<PlacedFeature> TRACE_OVERWORLD_CRIMSONITE = registerKey("deep_crimsonite_ore");
+    public static final ResourceKey<PlacedFeature> CRIMSONITE = registerKey("crimsonite_ore");
+    public static final ResourceKey<PlacedFeature> MEGA_CRIMSONITE = registerKey("mega_crimsonite_ore");
+
+    public static final ResourceKey<PlacedFeature> TRACE_STRAVIMITE = registerKey("trace_stravimite_ore");
+    public static final ResourceKey<PlacedFeature> TRACE_OVERWORLD_STRAVIMITE = registerKey("deep_stravimite_ore");
+    public static final ResourceKey<PlacedFeature> STRAVIMITE = registerKey("stravimite_ore");
+    public static final ResourceKey<PlacedFeature> MEGA_STRAVIMITE = registerKey("mega_stravimite_ore");
+
     public static final ResourceKey<PlacedFeature> NETHER_WATER_LAKE      = registerKey("nether_water_lake");
     public static final ResourceKey<PlacedFeature> ASHEN_TREES            = registerKey("ashen_trees");
 
@@ -331,11 +341,61 @@ public class PlacedFeaturesData
                 CountPlacement.of(4)
         ));
 
+        register(context, TRACE_CRIMSONITE, configuredFeatures.getOrThrow(ConfigFeaturesData.TRACE_CRIMSONITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(60)
+        ));
+        register(context, TRACE_OVERWORLD_CRIMSONITE, configuredFeatures.getOrThrow(ConfigFeaturesData.TRACE_CRIMSONITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.bottom(), VerticalAnchor.absolute(-160))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(10)
+        ));
+        register(context, CRIMSONITE, configuredFeatures.getOrThrow(ConfigFeaturesData.CRIMSONITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(30)
+        ));
+        register(context, MEGA_CRIMSONITE, configuredFeatures.getOrThrow(ConfigFeaturesData.MEGA_CRIMSONITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(4)
+        ));
+
+        register(context, TRACE_STRAVIMITE, configuredFeatures.getOrThrow(ConfigFeaturesData.TRACE_STRAVIMITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(60)
+        ));
+        register(context, TRACE_OVERWORLD_STRAVIMITE, configuredFeatures.getOrThrow(ConfigFeaturesData.TRACE_STRAVIMITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.bottom(), VerticalAnchor.absolute(-160))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(10)
+        ));
+        register(context, STRAVIMITE, configuredFeatures.getOrThrow(ConfigFeaturesData.STRAVIMITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(30)
+        ));
+        register(context, MEGA_STRAVIMITE, configuredFeatures.getOrThrow(ConfigFeaturesData.MEGA_STRAVIMITE), List.of(
+                HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.aboveBottom(5), VerticalAnchor.belowTop(5))),
+                BiomeFilter.biome(),
+                InSquarePlacement.spread(),
+                CountPlacement.of(4)
+        ));
+
         register(context, NETHER_WATER_LAKE,
                 configuredFeatures.getOrThrow(ConfigFeaturesData.NETHER_WATER_LAKE),
                 List.of(BiomeFilter.biome(),
-                        RarityFilter.onAverageOnceEvery(70),
-                        CountOnEveryLayerPlacement.of(UniformInt.of(0, 3))));
+                        RarityFilter.onAverageOnceEvery(12),
+                        CountOnEveryLayerPlacement.of(UniformInt.of(0, 2))));
 
         register(context, ASHEN_OAK,
                 configuredFeatures.getOrThrow(ConfigFeaturesData.ASHEN_OAK),

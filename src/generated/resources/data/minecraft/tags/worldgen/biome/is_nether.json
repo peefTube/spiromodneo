@@ -1,5 +1,7 @@
 {
   "values": [
-    "#spiromodneo:is_custom_nether_biome"
+    "#spiromodneo:is_custom_nether_biome",
+    "#spiromodneo:is_crimson_nether_biome",
+    "#spiromodneo:is_warped_nether_biome"
   ]
 }

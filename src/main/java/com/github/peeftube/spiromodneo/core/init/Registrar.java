@@ -115,6 +115,7 @@ public class Registrar
     public static final StoneCollection NETHERRACK_SET = StoneCollection.registerCollection(StoneMaterial.NETHERRACK);
     public static final StoneCollection TUFF_SET = StoneCollection.registerCollection(StoneMaterial.TUFF);
     public static final StoneCollection ENDSTONE_SET = StoneCollection.registerCollection(StoneMaterial.ENDSTONE);
+    public static final StoneCollection LIMBIPETRA_SET = StoneCollection.registerCollection(StoneMaterial.LIMBIPETRA);
 
     // Features go above all else (that isn't stone collections)!!!
     // -- placeholder -- //
@@ -186,6 +187,8 @@ public class Registrar
     // Metal collections need to go first since some data sets will reference their contents
     public static final MetalCollection LEAD_METAL = MetalCollection.registerCollection(MetalMaterial.LEAD);
     public static final MetalCollection STEEL_METAL = MetalCollection.registerCollection(MetalMaterial.STEEL);
+    public static final MetalCollection CRIMSONITE_METAL = MetalCollection.registerCollection(MetalMaterial.CRIMSONITE);
+    public static final MetalCollection STRAVIMITE_METAL = MetalCollection.registerCollection(MetalMaterial.STRAVIMITE);
 
     // Custom tiers and armor materials go here; each of these should correspond to an equipment collection
     /** Tool tier for copper. TODO: Add appropriate tag */
@@ -246,6 +249,10 @@ public class Registrar
             new MinMax(1, 3));
     public static final OreCollection METHANE_ICE_ORES = OreCollection.registerCollection(OreMaterial.METHANE_ICE,
             new MinMax(1, 3), FuelOreData.asFuel(120.0f)); // 120s = 2400t, 150% of coal/charcoal
+    public static final OreCollection CRIMSONITE_ORES = OreCollection.registerCollection(OreMaterial.CRIMSONITE,
+            new MinMax(2, 5));
+    public static final OreCollection STRAVIMITE_ORES = OreCollection.registerCollection(OreMaterial.STRAVIMITE,
+            new MinMax(2, 5), 10);
 
     public static final GrassLikeCollection GRASS_TYPE =
             GrassLikeCollection.registerCollection(GrassLike.GRASS);

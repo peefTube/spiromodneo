@@ -90,6 +90,15 @@
           "Name": "spiromodneo:basalt_iron_ore"
         },
         "target": {
+          "block": "spiromodneo:limbipetra",
+          "predicate_type": "minecraft:block_match"
+        }
+      },
+      {
+        "state": {
+          "Name": "spiromodneo:basalt_iron_ore"
+        },
+        "target": {
           "predicate_type": "minecraft:tag_match",
           "tag": "spiromodneo:basalt_ore_replaceables"
         }

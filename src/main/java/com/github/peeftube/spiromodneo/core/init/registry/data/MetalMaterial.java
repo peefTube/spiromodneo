@@ -6,8 +6,12 @@ public enum MetalMaterial
     COPPER("copper"),
     GOLD("gold"),
     NETHERITE("netherite"),
+
+    // Modded.
     LEAD("lead"),
-    STEEL("steel");
+    STEEL("steel"),
+    CRIMSONITE("crimsonite"),
+    STRAVIMITE("stravimite");
 
     private final String name;
 

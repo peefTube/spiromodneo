@@ -29,6 +29,7 @@ public class TargetRuleData
         public static final RuleTest BLOCK_TUFF = new BlockMatchTest(Blocks.TUFF);
         public static final RuleTest BLOCK_DRIPSTONE = new BlockMatchTest(Blocks.DRIPSTONE_BLOCK);
         public static final RuleTest BLOCK_NETHERRACK = new BlockMatchTest(Blocks.NETHERRACK);
+        public static final RuleTest BLOCK_LIMBIPETRA = new BlockMatchTest(Registrar.LIMBIPETRA_SET.getBaseStone().get());
 
         public static final RuleTest TAG_SANDSTONE = new TagMatchTest(SpiroTags.Blocks.SANDSTONE_ORE_REPLACEABLES);
         public static final RuleTest TAG_RED_SANDSTONE = new TagMatchTest(SpiroTags.Blocks.RED_SANDSTONE_ORE_REPLACEABLES);
@@ -52,6 +53,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.COAL_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.COAL_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.COAL_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.COAL_ORES, StoneMaterial.LIMBIPETRA)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.COAL_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.COAL_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.COAL_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -69,6 +71,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.IRON_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.IRON_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.IRON_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.IRON_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.IRON_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.IRON_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.IRON_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -86,6 +89,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.COPPER_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.COPPER_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.COPPER_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.COPPER_ORES, StoneMaterial.LIMBIPETRA)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.COPPER_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.COPPER_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.COPPER_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -103,6 +107,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.GOLD_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.GOLD_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, Blocks.NETHER_GOLD_ORE.defaultBlockState()),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.GOLD_ORES, StoneMaterial.LIMBIPETRA)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.GOLD_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.GOLD_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.GOLD_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -120,6 +125,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.DIAMOND_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.DIAMOND_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.DIAMOND_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.DIAMOND_ORES, StoneMaterial.LIMBIPETRA)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.DIAMOND_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.DIAMOND_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.DIAMOND_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -137,6 +143,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.REDSTONE_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.REDSTONE_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.REDSTONE_ORES, StoneMaterial.BASALT)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.REDSTONE_ORES, StoneMaterial.LIMBIPETRA)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.REDSTONE_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.REDSTONE_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.REDSTONE_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -154,6 +161,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.EMERALD_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.EMERALD_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.EMERALD_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.EMERALD_ORES, StoneMaterial.LIMBIPETRA)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.EMERALD_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.EMERALD_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.EMERALD_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -171,6 +179,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, Blocks.NETHER_QUARTZ_ORE.defaultBlockState()),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.QUARTZ_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -188,6 +197,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.LAPIS_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.LAPIS_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.LAPIS_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.LAPIS_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.LAPIS_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.LAPIS_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.LAPIS_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -205,6 +215,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.LEAD_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.LEAD_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.LEAD_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.LEAD_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.LEAD_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.LEAD_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.LEAD_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -222,6 +233,7 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.RUBY_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.RUBY_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.RUBY_ORES, StoneMaterial.CALCITE)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.RUBY_ORES, StoneMaterial.LIMBIPETRA)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.RUBY_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.RUBY_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.RUBY_ORES, StoneMaterial.RED_SANDSTONE)),
@@ -239,10 +251,47 @@ public class TargetRuleData
                 OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.TUFF)),
                 OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.DRIPSTONE)),
                 OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.BASALT)),
                 OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.RED_SANDSTONE)),
                 OreConfiguration.target(TargetRules.TAG_TERRACOTTA, rDBS(Registrar.METHANE_ICE_ORES, StoneMaterial.BASALT))
+        ));
+
+        public static final Supplier<List<OreConfiguration.TargetBlockState>> CRIMSONITE_ORE_TARGETS
+                = Suppliers.memoize(() -> List.of(
+                OreConfiguration.target(TargetRules.BLOCK_STONE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.STONE)),
+                OreConfiguration.target(TargetRules.BLOCK_DEEPSLATE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.DEEPSLATE)),
+                OreConfiguration.target(TargetRules.BLOCK_ANDESITE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.ANDESITE)),
+                OreConfiguration.target(TargetRules.BLOCK_GRANITE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.GRANITE)),
+                OreConfiguration.target(TargetRules.BLOCK_DIORITE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.DIORITE)),
+                OreConfiguration.target(TargetRules.BLOCK_CALCITE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.CALCITE)),
+                OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.TUFF)),
+                OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.DRIPSTONE)),
+                OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.CALCITE)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.LIMBIPETRA)),
+                OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.CALCITE)),
+                OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.SANDSTONE)),
+                OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.CALCITE)),
+                OreConfiguration.target(TargetRules.TAG_TERRACOTTA, rDBS(Registrar.CRIMSONITE_ORES, StoneMaterial.CALCITE))
+        ));
+
+        public static final Supplier<List<OreConfiguration.TargetBlockState>> STRAVIMITE_ORE_TARGETS
+                = Suppliers.memoize(() -> List.of(
+                OreConfiguration.target(TargetRules.BLOCK_STONE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.STONE)),
+                OreConfiguration.target(TargetRules.BLOCK_DEEPSLATE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.DEEPSLATE)),
+                OreConfiguration.target(TargetRules.BLOCK_ANDESITE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.ANDESITE)),
+                OreConfiguration.target(TargetRules.BLOCK_GRANITE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.GRANITE)),
+                OreConfiguration.target(TargetRules.BLOCK_DIORITE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.DIORITE)),
+                OreConfiguration.target(TargetRules.BLOCK_CALCITE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.BASALT)),
+                OreConfiguration.target(TargetRules.BLOCK_TUFF, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.TUFF)),
+                OreConfiguration.target(TargetRules.BLOCK_DRIPSTONE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.DRIPSTONE)),
+                OreConfiguration.target(TargetRules.BLOCK_NETHERRACK, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.NETHERRACK)),
+                OreConfiguration.target(TargetRules.BLOCK_LIMBIPETRA, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.BASALT)),
+                OreConfiguration.target(TargetRules.TAG_BASALT, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.BASALT)),
+                OreConfiguration.target(TargetRules.TAG_SANDSTONE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.SANDSTONE)),
+                OreConfiguration.target(TargetRules.TAG_RED_SANDSTONE, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.RED_SANDSTONE)),
+                OreConfiguration.target(TargetRules.TAG_TERRACOTTA, rDBS(Registrar.STRAVIMITE_ORES, StoneMaterial.BASALT))
         ));
     }
 

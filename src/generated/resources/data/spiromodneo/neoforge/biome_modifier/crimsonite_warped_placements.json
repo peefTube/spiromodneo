@@ -1,0 +1,9 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spiromodneo:is_warped_nether_biome",
+  "features": [
+    "spiromodneo:crimsonite_ore",
+    "spiromodneo:mega_crimsonite_ore"
+  ],
+  "step": "underground_ores"
+}
