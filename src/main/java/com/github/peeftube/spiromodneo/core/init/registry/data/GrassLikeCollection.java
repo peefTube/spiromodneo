@@ -73,21 +73,21 @@ public record GrassLikeCollection(GrassLike type, Map<Soil, GenericBlockItemCoup
         {
             case WARPED_NYLIUM, CRIMSON_NYLIUM ->
             {
-                bSup = () -> new NyliumBlock(BlockBehaviour.Properties.of()
+                bSup = () -> new NyliumBlock(BlockBehaviour.Properties.ofFullCopy(s.getSoil().get())
                         .lightLevel(state -> li).sound(SoundType.NYLIUM));
                 bSup = Registrar.regBlock(blockName, bSup);
                 iSup = Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) bSup);
             }
             case MYCELIUM ->
             {
-                bSup = () -> new MyceliumBlock(BlockBehaviour.Properties.of()
+                bSup = () -> new MyceliumBlock(BlockBehaviour.Properties.ofFullCopy(s.getSoil().get())
                         .lightLevel(state -> li).sound(SoundType.GRASS));
                 bSup = Registrar.regBlock(blockName, bSup);
                 iSup = Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) bSup);
             }
             default ->
             {
-                bSup = () -> new GrassBlock(BlockBehaviour.Properties.of()
+                bSup = () -> new GrassBlock(BlockBehaviour.Properties.ofFullCopy(s.getSoil().get())
                         .lightLevel(state -> li).sound(SoundType.GRASS));
                 bSup = Registrar.regBlock(blockName, bSup);
                 iSup = Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) bSup);
