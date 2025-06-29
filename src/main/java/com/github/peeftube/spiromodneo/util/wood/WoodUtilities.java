@@ -74,13 +74,15 @@ public interface WoodUtilities
                             {
                                 b = Registrar.regBlock(nameParse + "_log",
                                         () -> new WoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
                             {
                                 b = Registrar.regBlock(nameParse + "_log",
                                         () -> new TappableWoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li),
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li),
                                                 isTappable.get(true)));
                             }
 
@@ -125,13 +127,15 @@ public interface WoodUtilities
                             {
                                 b = Registrar.regBlock("stripped_" + nameParse + "_log",
                                         () -> new WoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
                             {
                                 b = Registrar.regBlock("stripped_" + nameParse + "_log",
                                         () -> new TappableWoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li),
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li),
                                                 isTappable.get(true)));
                             }
 
@@ -176,13 +180,15 @@ public interface WoodUtilities
                             {
                                 b = Registrar.regBlock(nameParse + "_wood",
                                         () -> new WoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
                             {
                                 b = Registrar.regBlock(nameParse + "_wood",
                                         () -> new TappableWoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li),
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li),
                                                 isTappable.get(true)));
                             }
 
@@ -227,13 +233,15 @@ public interface WoodUtilities
                             {
                                 b = Registrar.regBlock("stripped_" + nameParse + "_wood",
                                         () -> new WoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             }
                             else
                             {
                                 b = Registrar.regBlock("stripped_" + nameParse + "_wood",
                                         () -> new TappableWoodBlock(
-                                    BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li),
+                                    BlockBehaviour.Properties.of().strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li),
                                                 isTappable.get(true)));
                             }
 
@@ -405,7 +413,8 @@ public interface WoodUtilities
                         default ->
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_planks",
-                                    () -> new Block(BlockBehaviour.Properties.of().sound(baseWoodSound)
+                                    () -> new Block(BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
                                             .lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
@@ -443,7 +452,8 @@ public interface WoodUtilities
                         default ->
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_slab",
-                                    () -> new SlabBlock(BlockBehaviour.Properties.of().sound(baseWoodSound)
+                                    () -> new SlabBlock(BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
                                             .lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
@@ -484,7 +494,8 @@ public interface WoodUtilities
                                     () -> new StairBlock(Objects.requireNonNull(
                                             plankDataContent.get(PlankBlockSubType.BLOCK).getBlock()
                                                             .get().defaultBlockState()),
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound)
+                                            BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
                                             .lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
@@ -522,7 +533,8 @@ public interface WoodUtilities
                         default ->
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_fence",
-                                    () -> new FenceBlock(BlockBehaviour.Properties.of().sound(baseWoodSound)
+                                    () -> new FenceBlock(BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
                                             .lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
@@ -560,7 +572,8 @@ public interface WoodUtilities
                         default ->
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_fence_gate",
-                                    () -> new FenceGateBlock(BlockBehaviour.Properties.of().sound(baseWoodSound)
+                                    () -> new FenceGateBlock(BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
                                             .lightLevel(s -> li), SoundEvents.FENCE_GATE_OPEN,
                                             SoundEvents.FENCE_GATE_CLOSE)); // TODO: Create handler for sound events
                             Supplier<? extends Item> i =
@@ -638,7 +651,9 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_pressure_plate",
                                     () -> new PressurePlateBlock(BlockSetType.OAK,
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                            BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
+                                            .lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -687,7 +702,9 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_door",
                                     () -> new DoorBlock(BlockSetType.OAK,
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                            BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
+                                            .lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -725,7 +742,9 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_trapdoor",
                                     () -> new TrapDoorBlock(BlockSetType.OAK,
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                            BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -744,7 +763,8 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(
                                     nameParse + "_crafting_table",
-                                    () -> new CraftingTableBlock(BlockBehaviour.Properties.of().sound(baseWoodSound)
+                                    () -> new CraftingTableBlock(BlockBehaviour.Properties.of()
+                                            .strength(2F, 3F).sound(baseWoodSound)
                                             .lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
@@ -842,7 +862,8 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_sign",
                                     () -> new StandingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                            BlockBehaviour.Properties.of().strength(1F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -880,9 +901,10 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_wall_sign",
                                     () -> new WallSignBlock(WoodType.OAK,
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                            BlockBehaviour.Properties.of().strength(1F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             Supplier<? extends Item> i =
-                                    Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
+                                    manufacturableContent.get(ManufacturedWoodType.SIGN).getItem();
 
                             manufacturableContent.put(t, new GenericBlockItemCoupling(b, i));
                         }
@@ -918,7 +940,8 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_hanging_sign",
                                     () -> new CeilingHangingSignBlock(WoodType.OAK,
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                            BlockBehaviour.Properties.of().strength(1F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             Supplier<? extends Item> i =
                                     Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
 
@@ -956,9 +979,10 @@ public interface WoodUtilities
                         {
                             Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_wall_hanging_sign",
                                     () -> new WallHangingSignBlock(WoodType.OAK,
-                                            BlockBehaviour.Properties.of().sound(baseWoodSound).lightLevel(s -> li)));
+                                            BlockBehaviour.Properties.of().strength(1F)
+                                            .sound(baseWoodSound).lightLevel(s -> li)));
                             Supplier<? extends Item> i =
-                                    Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
+                                    manufacturableContent.get(ManufacturedWoodType.HANGING_SIGN).getItem();
 
                             manufacturableContent.put(t, new GenericBlockItemCoupling(b, i));
                         }
