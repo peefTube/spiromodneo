@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo.core.init.content.blocks;
 
-import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.StorageBET;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.Registrar.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
@@ -21,7 +22,7 @@ public class ExtensibleChestBlock extends ChestBlock
     { super(Properties.ofFullCopy(Blocks.CHEST), blockEntityType); this.setName = setName; }
 
     public ExtensibleChestBlock(String setName)
-    { this(StorageBET.CHEST::get, setName); }
+    { this(Registrar.CHEST_ENTITYTYPE::get, setName); }
 
     public String getSetName() { return setName; }
 

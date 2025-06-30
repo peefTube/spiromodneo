@@ -889,11 +889,11 @@ public interface WoodUtilities
                         default ->
                         {
                             Supplier<? extends Block> s = Registrar.regBlock(nameParse + "_sign",
-                                    () -> new StandingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
+                                    () -> new ExtensibleStandingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
                                             BlockBehaviour.Properties.of().strength(1F)
                                             .sound(baseWoodSound).lightLevel(st -> li)));
                             Supplier<? extends Block> w = Registrar.regBlock(nameParse + "_wall_sign",
-                                    () -> new WallSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
+                                    () -> new ExtensibleWallSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
                                             BlockBehaviour.Properties.of().strength(1F)
                                             .sound(baseWoodSound).lightLevel(st -> li)));
                             Supplier<? extends Item> i = Registrar.ITEMS.register(nameParse + "_sign",
@@ -953,11 +953,11 @@ public interface WoodUtilities
                         default ->
                         {
                             Supplier<? extends Block> s = Registrar.regBlock(nameParse + "_hanging_sign",
-                                    () -> new CeilingHangingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
+                                    () -> new ExtensibleHangingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
                                             BlockBehaviour.Properties.of().strength(1F)
                                             .sound(baseWoodSound).lightLevel(st -> li)));
                             Supplier<? extends Block> w = Registrar.regBlock(nameParse + "_wall_hanging_sign",
-                                    () -> new WallHangingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
+                                    () -> new ExtensibleWallHangingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
                                             BlockBehaviour.Properties.of().strength(1F)
                                             .sound(baseWoodSound).lightLevel(st -> li)));
                             Supplier<? extends Item> i = Registrar.ITEMS.register(nameParse + "_hanging_sign",

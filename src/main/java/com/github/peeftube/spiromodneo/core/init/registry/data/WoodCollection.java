@@ -1,10 +1,7 @@
 package com.github.peeftube.spiromodneo.core.init.registry.data;
 
 import com.github.peeftube.spiromodneo.core.init.content.blocks.WoodBlock;
-import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
-import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
-import com.github.peeftube.spiromodneo.util.wood.WoodData;
-import com.github.peeftube.spiromodneo.util.wood.WoodUtilities;
+import com.github.peeftube.spiromodneo.util.wood.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -70,4 +67,13 @@ public record WoodCollection(WoodMaterial type, WoodData bulkData) implements Wo
 
         return toStrip;
     }
+
+    public Block getSignAsBlock()
+    { return this.bulkData.signs().get(SignType.BASIC).getSign().get(); }
+    public Block getWallSignAsBlock()
+    { return this.bulkData.signs().get(SignType.BASIC).getWallSign().get(); }
+    public Block getHangingSignAsBlock()
+    { return this.bulkData.signs().get(SignType.HANGING).getSign().get(); }
+    public Block getWallHangingSignAsBlock()
+    { return this.bulkData.signs().get(SignType.HANGING).getWallSign().get(); }
 }

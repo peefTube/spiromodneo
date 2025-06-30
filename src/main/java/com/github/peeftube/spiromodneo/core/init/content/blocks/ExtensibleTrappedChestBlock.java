@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo.core.init.content.blocks;
 
-import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.StorageBET;
+import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.Registrar.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +19,7 @@ import java.util.function.Supplier;
 public class ExtensibleTrappedChestBlock extends ExtensibleChestBlock
 {
     public ExtensibleTrappedChestBlock(String setName)
-    { super(StorageBET.TRAPPED_CHEST::get, setName); }
+    { super(Registrar.TRAPPED_CHEST_ENTITYTYPE::get, setName); }
 
     // Copied from WoodWe'veGot
     @Override

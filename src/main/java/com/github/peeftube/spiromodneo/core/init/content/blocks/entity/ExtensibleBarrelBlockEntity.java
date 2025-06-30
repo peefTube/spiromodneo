@@ -1,5 +1,7 @@
 package com.github.peeftube.spiromodneo.core.init.content.blocks.entity;
 
+import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.Registrar.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -13,7 +15,7 @@ public class ExtensibleBarrelBlockEntity extends BarrelBlockEntity
 
     // Copied from WoodWe'veGot
     @Override
-    public @NotNull BlockEntityType<?> getType() { return StorageBET.BARREL.get(); }
+    public @NotNull BlockEntityType<?> getType() { return Registrar.BARREL_ENTITYTYPE.get(); }
 
     // Copied from WoodWe'veGot
     @Override
