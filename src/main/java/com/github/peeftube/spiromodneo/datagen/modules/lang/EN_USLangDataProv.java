@@ -9,6 +9,7 @@ import com.github.peeftube.spiromodneo.util.stone.*;
 import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
 import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
 import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
+import com.github.peeftube.spiromodneo.util.wood.SignType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -156,9 +157,16 @@ public class EN_USLangDataProv extends LanguageProvider
                         "Chest (" + setName + ")");
                 case TRAPPED_CHEST -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
                         "Trapped Chest (" + setName +")");
-                case SIGN -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+            }
+        }
+
+        for (SignType t : SignType.values())
+        {
+            switch (t)
+            {
+                case BASIC -> add(set.bulkData().signs().get(t).getItem().get(),
                         setName + " Sign");
-                case HANGING_SIGN -> add(set.bulkData().manufacturables().get(t).getBlock().get(),
+                case HANGING -> add(set.bulkData().signs().get(t).getItem().get(),
                         "Hanging " + setName + " Sign");
             }
         }

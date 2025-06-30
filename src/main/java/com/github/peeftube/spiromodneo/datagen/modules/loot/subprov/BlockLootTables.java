@@ -8,6 +8,7 @@ import com.github.peeftube.spiromodneo.util.stone.*;
 import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
 import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
 import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
+import com.github.peeftube.spiromodneo.util.wood.SignType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -85,30 +86,25 @@ public class BlockLootTables extends BlockLootSubProvider
             boolean isGenericCraftingTableOrChest = mat == WoodMaterial.OAK;
             boolean isGenericBarrel = mat == WoodMaterial.SPRUCE;
 
-            boolean isNormalSignType = t == ManufacturedWoodType.SIGN || t == ManufacturedWoodType.WALL_SIGN;
-            boolean isNotWallSign = (!(t == ManufacturedWoodType.WALL_SIGN
-                    || t == ManufacturedWoodType.WALL_HANGING_SIGN));
-
             switch(t)
             {
-                case SIGN, WALL_SIGN, HANGING_SIGN, WALL_HANGING_SIGN ->
-                {
-                    if (!isVanillaWood)
-                    { if (isNotWallSign)
-                    { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); }
-                    else
-                    { dropOther(set.bulkData().manufacturables().get(t).getBlock().get(),
-                       isNormalSignType ?
-                        set.bulkData().manufacturables().get(ManufacturedWoodType.WALL_SIGN).getBlock().get() :
-                        set.bulkData().manufacturables().get(ManufacturedWoodType.WALL_HANGING_SIGN).getBlock().get()); }
-                    }
-                }
                 case BARREL ->
                 { if (!isGenericBarrel) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
                 case CRAFTING_TABLE, CHEST, TRAPPED_CHEST ->
                 { if (!isGenericCraftingTableOrChest) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
                 default ->
                 { if (!isVanillaWood) { dropSelf(set.bulkData().manufacturables().get(t).getBlock().get()); } }
+            }
+        }
+
+        for (SignType t : SignType.values())
+        {
+            if (!isVanillaWood)
+            {
+                dropOther(set.bulkData().signs().get(t).getSign().get(),
+                        set.bulkData().signs().get(t).getItem().get());
+                dropOther(set.bulkData().signs().get(t).getWallSign().get(),
+                        set.bulkData().signs().get(t).getItem().get());
             }
         }
     }

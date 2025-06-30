@@ -8,9 +8,7 @@ import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.ore.OreCoupling;
 import com.github.peeftube.spiromodneo.util.stone.*;
-import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
-import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
-import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
+import com.github.peeftube.spiromodneo.util.wood.*;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -443,6 +441,29 @@ public class BlockstateDataProv extends BlockStateProvider
                                 safeGetTopTex(blockTexture(b), eFH));
                         default -> {} // Do nothing for specific types of blocks which have their own renderers
                     }
+                }
+            }
+        }
+
+        for (SignType t : SignType.values())
+        {
+            boolean isVanilla = BuiltInRegistries.BLOCK.getKey(set.bulkData().signs().get(t).getSign().get())
+                                                       .getNamespace().equalsIgnoreCase("minecraft");
+
+            if (!isVanilla)
+            {
+                SignBlockItemTriad triad = set.bulkData().signs().get(t);
+
+                switch (t)
+                {
+                    case BASIC ->
+                        signBlock((StandingSignBlock) triad.getSign().get(), (WallSignBlock) triad.getWallSign().get(),
+                                blockTexture(set.bulkData().planks().get(PlankBlockSubType.BLOCK).getBlock().get()));
+                    case HANGING ->
+                        hangingSignBlock((CeilingHangingSignBlock) triad.getSign().get(),
+                                (WallHangingSignBlock) triad.getWallSign().get(),
+                                blockTexture(set.bulkData().livingWood()
+                                                .get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get()));
                 }
             }
         }

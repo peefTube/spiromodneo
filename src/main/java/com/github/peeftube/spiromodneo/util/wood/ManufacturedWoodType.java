@@ -10,9 +10,5 @@ public enum ManufacturedWoodType
     CRAFTING_TABLE(),
     CHEST(),
     TRAPPED_CHEST(),
-    BARREL(),
-    SIGN(),
-    WALL_SIGN(),
-    HANGING_SIGN(),
-    WALL_HANGING_SIGN()
+    BARREL()
 }

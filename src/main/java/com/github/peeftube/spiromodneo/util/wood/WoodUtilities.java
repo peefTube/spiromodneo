@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -31,6 +32,7 @@ public interface WoodUtilities
         Map<LivingWoodBlockType, GenericBlockItemCoupling> livingDataContent = new HashMap<>();
         Map<PlankBlockSubType, GenericBlockItemCoupling>    plankDataContent  = new HashMap<>();
         Map<ManufacturedWoodType, GenericBlockItemCoupling> manufacturableContent = new HashMap<>();
+        Map<SignType, SignBlockItemTriad> signContent = new HashMap<>();
 
         SoundType baseWoodSound = mat == WoodMaterial.CHERRY ? SoundType.CHERRY_WOOD :
                 mat.isLikeNetherFungus() ? SoundType.NETHER_WOOD : SoundType.WOOD;
@@ -832,159 +834,137 @@ public interface WoodUtilities
                         }
                     }
                 }
-                
-                case SIGN ->
+            }
+        }
+
+        for (SignType t : SignType.values())
+        {
+            switch(t)
+            {
+                case BASIC ->
                 {
                     switch(mat)
                     {
-                        case OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.OAK_SIGN, () -> Items.OAK_SIGN));
-                        case BIRCH -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.BIRCH_SIGN, () -> Items.BIRCH_SIGN));
-                        case SPRUCE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.SPRUCE_SIGN, () -> Items.SPRUCE_SIGN));
-                        case JUNGLE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.JUNGLE_SIGN, () -> Items.JUNGLE_SIGN));
-                        case ACACIA -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.ACACIA_SIGN, () -> Items.ACACIA_SIGN));
-                        case DARK_OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.DARK_OAK_SIGN, () -> Items.DARK_OAK_SIGN));
-                        case CHERRY -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CHERRY_SIGN, () -> Items.CHERRY_SIGN));
-                        case CRIMSON_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CRIMSON_SIGN, () -> Items.CRIMSON_SIGN));
-                        case WARPED_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.WARPED_SIGN, () -> Items.WARPED_SIGN));
-                        case MANGROVE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.MANGROVE_SIGN, () -> Items.MANGROVE_SIGN));
+                        case OAK -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.OAK_SIGN, () -> Blocks.OAK_WALL_SIGN,
+                                        () -> Items.OAK_SIGN));
+                        case BIRCH -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.BIRCH_SIGN, () -> Blocks.BIRCH_WALL_SIGN,
+                                        () -> Items.BIRCH_SIGN));
+                        case SPRUCE -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.SPRUCE_SIGN, () -> Blocks.SPRUCE_WALL_SIGN,
+                                        () -> Items.SPRUCE_SIGN));
+                        case JUNGLE -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.JUNGLE_SIGN, () -> Blocks.JUNGLE_WALL_SIGN,
+                                        () -> Items.JUNGLE_SIGN));
+                        case ACACIA -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.ACACIA_SIGN, () -> Blocks.ACACIA_WALL_SIGN,
+                                        () -> Items.ACACIA_SIGN));
+                        case DARK_OAK -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.DARK_OAK_SIGN, () -> Blocks.DARK_OAK_WALL_SIGN,
+                                        () -> Items.DARK_OAK_SIGN));
+                        case CHERRY -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.CHERRY_SIGN, () -> Blocks.CHERRY_WALL_SIGN,
+                                        () -> Items.CHERRY_SIGN));
+                        case CRIMSON_FUNGUS -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.CRIMSON_SIGN, () -> Blocks.CRIMSON_WALL_SIGN,
+                                        () -> Items.CRIMSON_SIGN));
+                        case WARPED_FUNGUS -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.WARPED_SIGN, () -> Blocks.WARPED_WALL_SIGN,
+                                        () -> Items.WARPED_SIGN));
+                        case MANGROVE -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.MANGROVE_SIGN, () -> Blocks.MANGROVE_WALL_SIGN,
+                                        () -> Items.MANGROVE_SIGN));
 
                         default ->
                         {
-                            Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_sign",
+                            Supplier<? extends Block> s = Registrar.regBlock(nameParse + "_sign",
                                     () -> new StandingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
                                             BlockBehaviour.Properties.of().strength(1F)
-                                            .sound(baseWoodSound).lightLevel(s -> li)));
-                            Supplier<? extends Item> i =
-                                    Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
+                                            .sound(baseWoodSound).lightLevel(st -> li)));
+                            Supplier<? extends Block> w = Registrar.regBlock(nameParse + "_wall_sign",
+                                    () -> new WallSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
+                                            BlockBehaviour.Properties.of().strength(1F)
+                                            .sound(baseWoodSound).lightLevel(st -> li)));
+                            Supplier<? extends Item> i = Registrar.ITEMS.register(nameParse + "_sign",
+                                    () -> new SignItem(new Item.Properties().stacksTo(16),
+                                            s.get(), w.get()));
 
-                            manufacturableContent.put(t, new GenericBlockItemCoupling(b, i));
+                            signContent.put(t, new SignBlockItemTriad(s, w, i));
                         }
                     }
                 }
 
-                case WALL_SIGN ->
+                case HANGING ->
                 {
                     switch(mat)
                     {
-                        case OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.OAK_WALL_SIGN, () -> Items.OAK_SIGN));
-                        case BIRCH -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.BIRCH_WALL_SIGN, () -> Items.BIRCH_SIGN));
-                        case SPRUCE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.SPRUCE_WALL_SIGN, () -> Items.SPRUCE_SIGN));
-                        case JUNGLE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.JUNGLE_WALL_SIGN, () -> Items.JUNGLE_SIGN));
-                        case ACACIA -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.ACACIA_WALL_SIGN, () -> Items.ACACIA_SIGN));
-                        case DARK_OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.DARK_OAK_WALL_SIGN, () -> Items.DARK_OAK_SIGN));
-                        case CHERRY -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CHERRY_WALL_SIGN, () -> Items.CHERRY_SIGN));
-                        case CRIMSON_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CRIMSON_WALL_SIGN, () -> Items.CRIMSON_SIGN));
-                        case WARPED_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.WARPED_WALL_SIGN, () -> Items.WARPED_SIGN));
-                        case MANGROVE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.MANGROVE_WALL_SIGN, () -> Items.MANGROVE_SIGN));
+                        case OAK -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.OAK_HANGING_SIGN, () -> Blocks.OAK_WALL_HANGING_SIGN,
+                                        () -> Items.OAK_HANGING_SIGN));
+                        case BIRCH -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.BIRCH_HANGING_SIGN, () -> Blocks.BIRCH_WALL_HANGING_SIGN,
+                                        () -> Items.BIRCH_HANGING_SIGN));
+                        case SPRUCE -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.SPRUCE_HANGING_SIGN, () -> Blocks.SPRUCE_WALL_HANGING_SIGN,
+                                        () -> Items.SPRUCE_HANGING_SIGN));
+                        case JUNGLE -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.JUNGLE_HANGING_SIGN, () -> Blocks.JUNGLE_WALL_HANGING_SIGN,
+                                        () -> Items.JUNGLE_HANGING_SIGN));
+                        case ACACIA -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.ACACIA_HANGING_SIGN, () -> Blocks.ACACIA_WALL_HANGING_SIGN,
+                                        () -> Items.ACACIA_HANGING_SIGN));
+                        case DARK_OAK -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.DARK_OAK_HANGING_SIGN, () -> Blocks.DARK_OAK_WALL_HANGING_SIGN,
+                                        () -> Items.DARK_OAK_HANGING_SIGN));
+                        case CHERRY -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.CHERRY_HANGING_SIGN, () -> Blocks.CHERRY_WALL_HANGING_SIGN,
+                                        () -> Items.CHERRY_HANGING_SIGN));
+                        case CRIMSON_FUNGUS -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.CRIMSON_HANGING_SIGN, () -> Blocks.CRIMSON_WALL_HANGING_SIGN,
+                                        () -> Items.CRIMSON_HANGING_SIGN));
+                        case WARPED_FUNGUS -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.WARPED_HANGING_SIGN, () -> Blocks.WARPED_WALL_HANGING_SIGN,
+                                        () -> Items.WARPED_HANGING_SIGN));
+                        case MANGROVE -> signContent.put(t,
+                                new SignBlockItemTriad(
+                                        () -> Blocks.MANGROVE_HANGING_SIGN, () -> Blocks.MANGROVE_WALL_HANGING_SIGN,
+                                        () -> Items.MANGROVE_HANGING_SIGN));
 
                         default ->
                         {
-                            Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_wall_sign",
-                                    () -> new WallSignBlock(WoodType.OAK,
+                            Supplier<? extends Block> s = Registrar.regBlock(nameParse + "_hanging_sign",
+                                    () -> new CeilingHangingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
                                             BlockBehaviour.Properties.of().strength(1F)
-                                            .sound(baseWoodSound).lightLevel(s -> li)));
-                            Supplier<? extends Item> i =
-                                    manufacturableContent.get(ManufacturedWoodType.SIGN).getItem();
-
-                            manufacturableContent.put(t, new GenericBlockItemCoupling(b, i));
-                        }
-                    }
-                }
-
-                case HANGING_SIGN ->
-                {
-                    switch(mat)
-                    {
-                        case OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.OAK_HANGING_SIGN, () -> Items.OAK_HANGING_SIGN));
-                        case BIRCH -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.BIRCH_HANGING_SIGN, () -> Items.BIRCH_HANGING_SIGN));
-                        case SPRUCE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.SPRUCE_HANGING_SIGN, () -> Items.SPRUCE_HANGING_SIGN));
-                        case JUNGLE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.JUNGLE_HANGING_SIGN, () -> Items.JUNGLE_HANGING_SIGN));
-                        case ACACIA -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.ACACIA_HANGING_SIGN, () -> Items.ACACIA_HANGING_SIGN));
-                        case DARK_OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.DARK_OAK_HANGING_SIGN, () -> Items.DARK_OAK_HANGING_SIGN));
-                        case CHERRY -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CHERRY_HANGING_SIGN, () -> Items.CHERRY_HANGING_SIGN));
-                        case CRIMSON_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CRIMSON_HANGING_SIGN, () -> Items.CRIMSON_HANGING_SIGN));
-                        case WARPED_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.WARPED_HANGING_SIGN, () -> Items.WARPED_HANGING_SIGN));
-                        case MANGROVE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.MANGROVE_HANGING_SIGN, () -> Items.MANGROVE_HANGING_SIGN));
-
-                        default ->
-                        {
-                            Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_hanging_sign",
-                                    () -> new CeilingHangingSignBlock(WoodType.OAK,
+                                            .sound(baseWoodSound).lightLevel(st -> li)));
+                            Supplier<? extends Block> w = Registrar.regBlock(nameParse + "_wall_hanging_sign",
+                                    () -> new WallHangingSignBlock(WoodType.OAK, // TODO: Add handler for WoodType
                                             BlockBehaviour.Properties.of().strength(1F)
-                                            .sound(baseWoodSound).lightLevel(s -> li)));
-                            Supplier<? extends Item> i =
-                                    Registrar.regSimpleBlockItem((DeferredBlock<? extends Block>) b);
+                                            .sound(baseWoodSound).lightLevel(st -> li)));
+                            Supplier<? extends Item> i = Registrar.ITEMS.register(nameParse + "_hanging_sign",
+                                    () -> new SignItem(new Item.Properties().stacksTo(16),
+                                            s.get(), w.get()));
 
-                            manufacturableContent.put(t, new GenericBlockItemCoupling(b, i));
-                        }
-                    }
-                }
-
-                case WALL_HANGING_SIGN ->
-                {
-                    switch(mat)
-                    {
-                        case OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.OAK_WALL_HANGING_SIGN, () -> Items.OAK_HANGING_SIGN));
-                        case BIRCH -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.BIRCH_WALL_HANGING_SIGN, () -> Items.BIRCH_HANGING_SIGN));
-                        case SPRUCE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.SPRUCE_WALL_HANGING_SIGN, () -> Items.SPRUCE_HANGING_SIGN));
-                        case JUNGLE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.JUNGLE_WALL_HANGING_SIGN, () -> Items.JUNGLE_HANGING_SIGN));
-                        case ACACIA -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.ACACIA_WALL_HANGING_SIGN, () -> Items.ACACIA_HANGING_SIGN));
-                        case DARK_OAK -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.DARK_OAK_WALL_HANGING_SIGN, () -> Items.DARK_OAK_HANGING_SIGN));
-                        case CHERRY -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CHERRY_WALL_HANGING_SIGN, () -> Items.CHERRY_HANGING_SIGN));
-                        case CRIMSON_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.CRIMSON_WALL_HANGING_SIGN, () -> Items.CRIMSON_HANGING_SIGN));
-                        case WARPED_FUNGUS -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.WARPED_WALL_HANGING_SIGN, () -> Items.WARPED_HANGING_SIGN));
-                        case MANGROVE -> manufacturableContent.put(t,
-                                new GenericBlockItemCoupling(() -> Blocks.MANGROVE_WALL_HANGING_SIGN, () -> Items.MANGROVE_HANGING_SIGN));
-
-                        default ->
-                        {
-                            Supplier<? extends Block> b = Registrar.regBlock(nameParse + "_wall_hanging_sign",
-                                    () -> new WallHangingSignBlock(WoodType.OAK,
-                                            BlockBehaviour.Properties.of().strength(1F)
-                                            .sound(baseWoodSound).lightLevel(s -> li)));
-                            Supplier<? extends Item> i =
-                                    manufacturableContent.get(ManufacturedWoodType.HANGING_SIGN).getItem();
-
-                            manufacturableContent.put(t, new GenericBlockItemCoupling(b, i));
+                            signContent.put(t, new SignBlockItemTriad(s, w, i));
                         }
                     }
                 }
@@ -992,7 +972,6 @@ public interface WoodUtilities
         }
 
         return new WoodData(mat.getName(), livingDataContent, logTags, leafTags, aliveTags,
-                plankDataContent, plankTags,
-                manufacturableContent);
+                plankDataContent, plankTags, manufacturableContent, signContent);
     }
 }
