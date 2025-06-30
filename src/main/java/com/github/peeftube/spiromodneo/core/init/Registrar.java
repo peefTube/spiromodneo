@@ -13,6 +13,8 @@ import com.github.peeftube.spiromodneo.core.screens.ManualCrusherMenu;
 import com.github.peeftube.spiromodneo.util.MinMax;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.equipment.CustomArmorMaterial;
+import com.github.peeftube.spiromodneo.util.loot.SwapLootStackModifier;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -35,10 +37,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.registries.*;
 
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -67,10 +67,18 @@ public class Registrar
         MENUS.register(bus);
         ARMOR_MATERIALS.register(bus);
         FEATURES.register(bus);
+        LOOTMOD_SERIALIZERS.register(bus);
         RECIPE_SERIALIZERS.register(bus);
         RECIPE_TYPES.register(bus);
         CREATIVE_MODE_TABS.register(bus);
     }
+
+    // Loot modifier serializers are being put up here just for ease of access.
+    public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOTMOD_SERIALIZERS =
+            DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, SpiroMod.MOD_ID);
+
+    public static final Supplier<MapCodec<SwapLootStackModifier>> SWAP_LOOT_STACKS =
+            LOOTMOD_SERIALIZERS.register("swap_loot_stacks", () -> SwapLootStackModifier.CODEC);
 
     public static final BlockBehaviour.Properties STONE_BASED_ORE     =
             BlockBehaviour.Properties.of().strength(BlockToughnessLevel.NORMAL.get()).sound(SoundType.STONE);
@@ -89,21 +97,21 @@ public class Registrar
     public static final BlockBehaviour.Properties RAW_ORE =
             BlockBehaviour.Properties.of().strength(BlockToughnessLevel.NORMAL.get()).sound(SoundType.METAL);
 
-    public static final DeferredRegister.Blocks BLOCKS          = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
-    public static final DeferredRegister.Items            ITEMS              = DeferredRegister.createItems(SpiroMod.MOD_ID);
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SpiroMod.MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, SpiroMod.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(BuiltInRegistries.MENU, SpiroMod.MOD_ID);
-    public static final DeferredRegister<ArmorMaterial>   ARMOR_MATERIALS    =
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS =
             DeferredRegister.create(Registries.ARMOR_MATERIAL, SpiroMod.MOD_ID);
     public static final DeferredRegister<Feature<?>> FEATURES =
             DeferredRegister.create(BuiltInRegistries.FEATURE, SpiroMod.MOD_ID);
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS  =
             DeferredRegister.create(Registries.RECIPE_SERIALIZER, SpiroMod.MOD_ID);
-    public static final DeferredRegister<RecipeType<?>>       RECIPE_TYPES =
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
             DeferredRegister.create(Registries.RECIPE_TYPE, SpiroMod.MOD_ID);
-    public static final DeferredRegister<CreativeModeTab>     CREATIVE_MODE_TABS =
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
     // Stone collections should go first to avoid long-term problems.

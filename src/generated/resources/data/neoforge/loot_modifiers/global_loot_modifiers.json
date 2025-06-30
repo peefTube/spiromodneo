@@ -16,7 +16,18 @@
     "spiromodneo:sheep/lime_sheep_drops",
     "spiromodneo:sheep/purple_sheep_drops",
     "spiromodneo:sheep/magenta_sheep_drops",
-    "spiromodneo:cow_drops"
+    "spiromodneo:cow_drops",
+    "spiromodneo:modify_andesite_drops",
+    "spiromodneo:modify_granite_drops",
+    "spiromodneo:modify_diorite_drops",
+    "spiromodneo:modify_calcite_drops",
+    "spiromodneo:modify_dripstone_drops",
+    "spiromodneo:modify_sandstone_drops",
+    "spiromodneo:modify_red_sandstone_drops",
+    "spiromodneo:modify_basalt_drops",
+    "spiromodneo:modify_netherrack_drops",
+    "spiromodneo:modify_tuff_drops",
+    "spiromodneo:modify_endstone_drops"
   ],
   "replace": false
 }

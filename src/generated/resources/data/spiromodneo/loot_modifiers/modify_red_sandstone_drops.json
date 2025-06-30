@@ -1,0 +1,29 @@
+{
+  "type": "spiromodneo:swap_loot_stacks",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:blocks/red_sandstone"
+    },
+    {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "minecraft:match_tool",
+        "predicate": {
+          "predicates": {
+            "minecraft:enchantments": [
+              {
+                "enchantments": "minecraft:silk_touch",
+                "levels": {
+                  "min": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "from": "minecraft:red_sandstone",
+  "to": "spiromodneo:cobbled_red_sandstone"
+}
