@@ -1,5 +1,7 @@
 package com.github.peeftube.spiromodneo.core.init.content.blocks.entity;
 
+import com.github.peeftube.spiromodneo.core.init.Registrar;
+import com.github.peeftube.spiromodneo.core.init.Registrar.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -10,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public class ExtensibleTrappedChestBlockEntity extends ExtensibleChestBlockEntity
 {
     public ExtensibleTrappedChestBlockEntity(BlockPos pos, BlockState blockState)
-    { super(StorageBET.TRAPPED_CHEST.get(), pos, blockState); }
+    { super(Registrar.TRAPPED_CHEST_ENTITYTYPE.get(), pos, blockState); }
 
     // Copied from WoodWe'veGot
     @Override

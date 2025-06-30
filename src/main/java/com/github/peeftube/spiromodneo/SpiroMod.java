@@ -3,24 +3,19 @@ package com.github.peeftube.spiromodneo;
 import com.github.peeftube.spiromodneo.client.renderer.blockentity.ExtensibleChestRenderer;
 import com.github.peeftube.spiromodneo.core.init.InitializeBlockRenderTypes;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
-import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.StorageBET;
 import com.github.peeftube.spiromodneo.core.init.content.worldgen.region.NetherColdRegion;
 import com.github.peeftube.spiromodneo.core.init.registry.data.Soil;
 import com.github.peeftube.spiromodneo.core.screens.ManualCrusherScreen;
 import com.github.peeftube.spiromodneo.datagen.modules.world.util.helpers.custombiome.NetherColdRegionSourceRules;
 import com.github.peeftube.spiromodneo.util.RLUtility;
-import net.minecraft.client.color.block.BlockColor;
-import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -171,8 +166,11 @@ public class SpiroMod
         @SubscribeEvent
         public static void onRegisterBERs(EntityRenderersEvent.RegisterRenderers event)
         {
-            event.registerBlockEntityRenderer(StorageBET.CHEST.get(), ExtensibleChestRenderer::new);
-            event.registerBlockEntityRenderer(StorageBET.TRAPPED_CHEST.get(), ExtensibleChestRenderer::new);
+            event.registerBlockEntityRenderer(Registrar.CHEST_ENTITYTYPE.get(), ExtensibleChestRenderer::new);
+            event.registerBlockEntityRenderer(Registrar.TRAPPED_CHEST_ENTITYTYPE.get(), ExtensibleChestRenderer::new);
+
+            event.registerBlockEntityRenderer(Registrar.SIGN_ENTITYTYPE.get(), SignRenderer::new);
+            event.registerBlockEntityRenderer(Registrar.HANGING_SIGN_ENTITYTYPE.get(), HangingSignRenderer::new);
         }
     }
 }

@@ -3,28 +3,32 @@ package com.github.peeftube.spiromodneo.core.init;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.ManualCrusherBlock;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.TapperBlock;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ExtensibleChestBlockEntity;
+import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ExtensibleTrappedChestBlockEntity;
 import com.github.peeftube.spiromodneo.core.init.content.blocks.entity.ManualCrusherBlockEntity;
 import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipe;
 import com.github.peeftube.spiromodneo.core.init.creative.CTProcessor;
 import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.core.screens.ManualCrusherMenu;
-import com.github.peeftube.spiromodneo.util.GenericBlockItemCoupling;
 import com.github.peeftube.spiromodneo.util.MinMax;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.equipment.CustomArmorMaterial;
+import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
@@ -37,6 +41,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class Registrar
 {
@@ -294,4 +299,43 @@ public class Registrar
 
     public static final Item getIngotFromMetal(MetalCollection metal)
     { return metal.ingotData().getIngot().get(); }
+
+    public static final Supplier<BlockEntityType<SignBlockEntity>> SIGN_ENTITYTYPE =
+            Registrar.BLOCK_ENTITIES.register("sign",
+                    () -> BlockEntityType.Builder.of(SignBlockEntity::new,
+                            Stream.concat(
+                                WoodCollection.WOOD_COLLECTIONS.stream().map(WoodCollection::getSignAsBlock),
+                                WoodCollection.WOOD_COLLECTIONS.stream().map(WoodCollection::getWallSignAsBlock)
+                            ).toArray(Block[]::new))
+                            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "sign")));
+
+    public static final Supplier<BlockEntityType<SignBlockEntity>> HANGING_SIGN_ENTITYTYPE =
+            Registrar.BLOCK_ENTITIES.register("hanging_sign",
+                    () -> BlockEntityType.Builder.of(SignBlockEntity::new,
+                            Stream.concat(
+                                WoodCollection.WOOD_COLLECTIONS.stream().map(WoodCollection::getHangingSignAsBlock),
+                                WoodCollection.WOOD_COLLECTIONS.stream().map(WoodCollection::getWallHangingSignAsBlock)
+                            ).toArray(Block[]::new))
+                            .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "hanging_sign")));
+
+    public static final Supplier<BlockEntityType<BarrelBlockEntity>> BARREL_ENTITYTYPE =
+            Registrar.BLOCK_ENTITIES.register("barrel",
+                    () -> BlockEntityType.Builder.of(BarrelBlockEntity::new,
+                    WoodCollection.WOOD_COLLECTIONS.stream().map(WoodCollection::getBarrelAsBlock)
+                                           .toArray(Block[]::new))
+                     .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "barrel")));
+
+    public static final Supplier<BlockEntityType<ExtensibleChestBlockEntity>> CHEST_ENTITYTYPE =
+            Registrar.BLOCK_ENTITIES.register("chest",
+                    () -> BlockEntityType.Builder.of(ExtensibleChestBlockEntity::new,
+                    WoodCollection.WOOD_COLLECTIONS.stream().map(WoodCollection::getChestAsBlock)
+                                           .toArray(Block[]::new))
+                     .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "chest")));
+
+    public static final Supplier<BlockEntityType<ExtensibleTrappedChestBlockEntity>> TRAPPED_CHEST_ENTITYTYPE =
+            Registrar.BLOCK_ENTITIES.register("trapped_chest",
+                    () -> BlockEntityType.Builder.of(ExtensibleTrappedChestBlockEntity::new,
+                    WoodCollection.WOOD_COLLECTIONS.stream().map(WoodCollection::getTrappedChestAsBlock)
+                                           .toArray(Block[]::new))
+                     .build(Util.fetchChoiceType(References.BLOCK_ENTITY, "trapped_chest")));
 }
