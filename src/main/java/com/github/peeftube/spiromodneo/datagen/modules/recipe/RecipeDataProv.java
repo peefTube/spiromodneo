@@ -3,21 +3,26 @@ package com.github.peeftube.spiromodneo.datagen.modules.recipe;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.core.init.content.recipe.ManualCrusherRecipeBuilder;
-import com.github.peeftube.spiromodneo.core.init.registry.data.EquipmentCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.EquipmentMaterial;
-import com.github.peeftube.spiromodneo.core.init.registry.data.MetalCollection;
-import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
+import com.github.peeftube.spiromodneo.core.init.registry.data.*;
 import com.github.peeftube.spiromodneo.util.RLUtility;
 import com.github.peeftube.spiromodneo.util.SpiroTags;
 import com.github.peeftube.spiromodneo.util.equipment.EquipmentData;
+import com.github.peeftube.spiromodneo.util.stone.StoneBlockType;
+import com.github.peeftube.spiromodneo.util.stone.StoneSubBlockType;
+import com.github.peeftube.spiromodneo.util.stone.StoneVariantType;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
@@ -41,6 +46,9 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         // Alloying handlers
         steelAlloyHandler(output);
 
+        // Stone crafting handler
+        for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneCraftingHandler(stone, output); }
+
         // Automatic ore smelting handler, this will later handle ore-to-ingot conversions when that's implemented
         // NOTE: The ore-to-ingot conversion mentioned is not block-to-ingot smelting, but item-to-ingot, which will
         //       need to be handled later when new non-gems are added
@@ -50,6 +58,86 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         stringLikeHandler(output);
         manualCrusherCraftingHandler(output);
         tapperRecipe(output);
+    }
+
+    /**
+     * This is a very involved method which performs a lot of operations. If you are reading this,
+     * it is preferable to set aside time to make sure you root through the entire thing.
+     * @param set This is the stone collection parameter being passed in.
+     * @param consumer Accepts the <code>RecipeOutput</code> from the data provider.
+     */
+    private void stoneCraftingHandler(StoneCollection set, RecipeOutput consumer)
+    {
+        String matName = set.material().get();
+
+        boolean cobbleIsVanilla = BuiltInRegistries.BLOCK.getKey(set.getCobble().get())
+                                   .getNamespace().equalsIgnoreCase("minecraft");
+
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(set.getCobble().get()), RecipeCategory.BUILDING_BLOCKS,
+                set.getBaseStone().get(), 0.1F, 200)
+                .unlockedBy("has_cobble", has(set.getCobble().get()))
+                .save(consumer,
+                        cobbleIsVanilla ? ResourceLocation.withDefaultNamespace(matName) :
+                RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_smelt_" + matName
+                + "_cobble_to_base"));
+
+        boolean smoothStoneIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.SMOOTH,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.DEFAULT
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+
+        Block smooth = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.SMOOTH,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.DEFAULT).getBlock().get();
+
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
+                smooth, 0.1F, 200)
+                .unlockedBy("has_base", has(set.getBaseStone().get()))
+                .save(consumer,
+                        smoothStoneIsVanilla ? ResourceLocation.withDefaultNamespace("smooth_" + matName) :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_smelt_" + matName
+                + "_base_to_smooth"));
+
+        boolean cutStoneIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.CUT,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.DEFAULT
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+
+        Block cut = set.bulkData().getCouplingForKeys(
+                StoneBlockType.CUT,
+                StoneVariantType.DEFAULT,
+                StoneSubBlockType.DEFAULT).getBlock().get();
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, cut, 4)
+                .pattern("XX")
+                .pattern("XX")
+                .define('X', smooth)
+                .unlockedBy("has_smooth_stone", has(smooth))
+                .save(consumer,
+                        cutStoneIsVanilla ? ResourceLocation.withDefaultNamespace("cut_" + matName) :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_craft_cut_" + matName));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(smooth), RecipeCategory.BUILDING_BLOCKS,
+                cut).unlockedBy("has_smooth_stone", has(smooth))
+               .save(consumer,
+                cutStoneIsVanilla ?
+                        ResourceLocation.withDefaultNamespace(
+                                "cut_" + matName + "_from_" + matName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_smooth_into_cut_" + matName));
+
+        Block column = set.bulkData().getCouplingForKeys(
+                StoneBlockType.COLUMN,
+                StoneVariantType.DEFAULT,
+                StoneSubBlockType.DEFAULT).getBlock().get();
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
+                column).unlockedBy("has_base", has(set.getBaseStone().get()))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_cut_into_" + matName + "_column"));
     }
 
     private void tapperRecipe(RecipeOutput consumer)
