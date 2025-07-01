@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "spiromodneo:cracked_limbipetra_tiles"
+  },
+  "result": {
+    "count": 2,
+    "id": "spiromodneo:cracked_limbipetra_tile_stairs"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "spiromodneo:basalt_tiles"
+  },
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:basalt_tile_wall"
+  }
+}

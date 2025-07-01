@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "spiromodneo:spiro_dripstone_tiles_craft_dripstone_tile_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tile": {
+      "conditions": {
+        "items": [
+          {
+            "items": "spiromodneo:dripstone_block_tiles"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tile"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spiromodneo:spiro_dripstone_tiles_craft_dripstone_tile_stairs"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "spiromodneo:polished_calcite"
+  },
+  "result": {
+    "count": 2,
+    "id": "spiromodneo:polished_calcite_slab"
+  }
+}

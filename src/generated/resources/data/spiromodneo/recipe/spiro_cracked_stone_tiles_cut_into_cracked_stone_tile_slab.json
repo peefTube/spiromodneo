@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "spiromodneo:cracked_stone_tiles"
+  },
+  "result": {
+    "count": 2,
+    "id": "spiromodneo:cracked_stone_tile_slab"
+  }
+}

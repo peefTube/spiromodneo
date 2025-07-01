@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "spiromodneo:spiro_cracked_andesite_tiles_cut_into_cracked_andesite_tile_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tile": {
+      "conditions": {
+        "items": [
+          {
+            "items": "spiromodneo:cracked_andesite_tiles"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tile"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spiromodneo:spiro_cracked_andesite_tiles_cut_into_cracked_andesite_tile_slab"
+    ]
+  }
+}

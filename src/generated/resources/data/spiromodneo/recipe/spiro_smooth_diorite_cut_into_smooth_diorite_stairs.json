@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "spiromodneo:smooth_diorite"
+  },
+  "result": {
+    "count": 2,
+    "id": "spiromodneo:smooth_diorite_stairs"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "spiromodneo:cracked_dripstone_tiles"
+  },
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:cracked_dripstone_tile_wall"
+  }
+}
