@@ -915,18 +915,18 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, tile, 4)
                 .pattern("XX")
                 .pattern("XX")
-                .define('X', Ingredient.of(set.getBaseStone().get()))
-                .unlockedBy("has_stone", has(set.getBaseStone().get()))
+                .define('X', Ingredient.of(smooth))
+                .unlockedBy("has_smooth_stone", has(smooth))
                 .save(consumer,
                         tileIsVanilla ? ResourceLocation.withDefaultNamespace(tileBaseName) :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + tileBaseName));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_smooth_" + matName + "_craft_" + tileBaseName));
 
-        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
-                tile).unlockedBy("has_stone", has(set.getBaseStone().get()))
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(smooth), RecipeCategory.BUILDING_BLOCKS,
+                tile).unlockedBy("has_smooth_stone", has(smooth))
                 .save(consumer,
                         tileIsVanilla ? ResourceLocation.withDefaultNamespace(
-                                tileBaseName + "_from_" + matName + "_stonecutting") :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + tileBaseName));
+                                tileBaseName + "_from_smooth_" + matName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_smooth_" + matName + "_cut_into_" + tileBaseName));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, tileSlab, 6)
                 .pattern("XXX")
