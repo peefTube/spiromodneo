@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:vine"
+    },
+    {
+      "item": "spiromodneo:dripstone_block_column"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:mossy_dripstone_column"
+  }
+}

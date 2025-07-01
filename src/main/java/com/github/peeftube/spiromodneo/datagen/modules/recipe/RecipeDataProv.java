@@ -24,6 +24,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
 import java.util.concurrent.CompletableFuture;
@@ -88,6 +89,7 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
     private void stoneCraftingHandler(StoneCollection set, RecipeOutput consumer)
     {
         String matName = set.material().get();
+        if (matName.equalsIgnoreCase("endstone")) matName = "end_stone";
 
         boolean cobbleIsVanilla = BuiltInRegistries.BLOCK.getKey(set.getCobble().get())
                                    .getNamespace().equalsIgnoreCase("minecraft");
@@ -97,8 +99,7 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 .unlockedBy("has_cobble", has(set.getCobble().get()))
                 .save(consumer,
                         cobbleIsVanilla ? ResourceLocation.withDefaultNamespace(matName) :
-                RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_smelt_" + matName
-                + "_cobble_to_base"));
+                RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_smelt_cobble_to_base"));
 
         boolean smoothStoneIsVanilla = BuiltInRegistries.BLOCK.getKey(
                 set.bulkData().getCouplingForKeys(
@@ -117,8 +118,7 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 .unlockedBy("has_base", has(set.getBaseStone().get()))
                 .save(consumer,
                         smoothStoneIsVanilla ? ResourceLocation.withDefaultNamespace("smooth_" + matName) :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_smelt_" + matName
-                + "_base_to_smooth"));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_smelt_base_to_smooth"));
 
         boolean cutStoneIsVanilla = BuiltInRegistries.BLOCK.getKey(
                 set.bulkData().getCouplingForKeys(
@@ -139,14 +139,14 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 .unlockedBy("has_smooth_stone", has(smooth))
                 .save(consumer,
                         cutStoneIsVanilla ? ResourceLocation.withDefaultNamespace("cut_" + matName) :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_craft_cut_" + matName));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_cut_" + matName));
 
         SingleItemRecipeBuilder.stonecutting(Ingredient.of(smooth), RecipeCategory.BUILDING_BLOCKS,
                 cut).unlockedBy("has_smooth_stone", has(smooth))
                .save(consumer,
                 cutStoneIsVanilla ? ResourceLocation.withDefaultNamespace(
                                 "cut_" + matName + "_from_" + matName + "_stonecutting") :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_smooth_into_cut_" + matName));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_smooth_into_cut_" + matName));
 
         Block column = set.bulkData().getCouplingForKeys(
                 StoneBlockType.COLUMN,
@@ -155,8 +155,48 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
 
         SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
                 column).unlockedBy("has_base", has(set.getBaseStone().get()))
-                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_cut_into_" + matName + "_column"));
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" +
+                        matName + "_column"));
 
+        Block crackedColumn = set.bulkData().getCouplingForKeys(
+                StoneBlockType.COLUMN,
+                StoneVariantType.CRACKED,
+                StoneSubBlockType.DEFAULT).getBlock().get();
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
+                crackedColumn).unlockedBy("has_base", has(set.getBaseStone().get()))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + matName +
+                        "_cracked_column"));
+
+        Block chiseledColumn = set.bulkData().getCouplingForKeys(
+                StoneBlockType.COLUMN,
+                StoneVariantType.CHISELED,
+                StoneSubBlockType.DEFAULT).getBlock().get();
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
+                chiseledColumn).unlockedBy("has_base", has(set.getBaseStone().get()))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + matName +
+                        "_chiseled_column"));
+
+        Block mossyColumn = set.bulkData().getCouplingForKeys(
+                StoneBlockType.COLUMN,
+                StoneVariantType.MOSSY,
+                StoneSubBlockType.DEFAULT).getBlock().get();
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, mossyColumn)
+                .requires(Ingredient.of(Blocks.VINE)).requires(column)
+                .unlockedBy("has_column", has(column))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_combine_vine_into_" +
+                        matName + "_mossy_column"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, mossyColumn)
+                .requires(Ingredient.of(Blocks.MOSS_BLOCK)).requires(column)
+                .unlockedBy("has_column", has(column))
+                .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_combine_moss_into_" +
+                        matName + "_mossy_column"));
+
+        // Encapsulated for ease of sectioning: BASE
+        {
         boolean baseSlabIsVanilla = BuiltInRegistries.BLOCK.getKey(
                 set.bulkData().getCouplingForKeys(
                 StoneBlockType.BASE,
@@ -181,8 +221,8 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 set.bulkData().getCouplingForKeys(
                 StoneBlockType.BASE,
                 StoneVariantType.DEFAULT,
-                StoneSubBlockType.PRESSURE_PLATE).getBlock().get()).getNamespace()
-                                                            .equalsIgnoreCase("minecraft");
+                StoneSubBlockType.PRESSURE_PLATE).getBlock().get())
+                .getNamespace().equalsIgnoreCase("minecraft");
 
         Block baseSlab = set.bulkData().getCouplingForKeys(
                 StoneBlockType.BASE,
@@ -211,14 +251,14 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 .unlockedBy("has_base_stone", has(set.getBaseStone().get()))
                 .save(consumer,
                         baseSlabIsVanilla ? ResourceLocation.withDefaultNamespace(matName + "_slab") :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_craft_" + matName + "_slab"));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + matName + "_slab"));
 
         SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
                 baseSlab, 2).unlockedBy("has_base_stone", has(set.getBaseStone().get()))
                .save(consumer,
                 baseSlabIsVanilla ? ResourceLocation.withDefaultNamespace(
                                 matName + "_slab_from_" + matName + "_stonecutting") :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_cut_into_" + matName + "_slab"));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + matName + "_slab"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, baseStair, 6)
                 .pattern("X  ")
@@ -228,14 +268,474 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 .unlockedBy("has_base_stone", has(set.getBaseStone().get()))
                 .save(consumer,
                         baseStairIsVanilla ? ResourceLocation.withDefaultNamespace(matName + "_stairs") :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_craft_" + matName + "_stairs"));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + matName + "_stairs"));
 
         SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
                 baseStair, 2).unlockedBy("has_base_stone", has(set.getBaseStone().get()))
                .save(consumer,
                 baseStairIsVanilla ? ResourceLocation.withDefaultNamespace(
                                 matName + "_stairs_from_" + matName + "_stonecutting") :
-                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_stone_cut_into_" + matName + "_stairs"));
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + matName + "_stairs"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, baseWall, 6)
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', set.getBaseStone().get())
+                .unlockedBy("has_base_stone", has(set.getBaseStone().get()))
+                .save(consumer,
+                        baseWallIsVanilla ? ResourceLocation.withDefaultNamespace(matName + "_wall") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + matName + "_wall"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
+                baseWall).unlockedBy("has_base_stone", has(set.getBaseStone().get()))
+               .save(consumer,
+                baseWallIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                matName + "_wall_from_" + matName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + matName + "_wall"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, baseButton)
+                .requires(set.getBaseStone().get())
+                .unlockedBy("has_base_stone", has(set.getBaseStone().get()))
+                .save(consumer,
+                        baseButtonIsVanilla ? ResourceLocation.withDefaultNamespace(matName + "_button") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + matName + "_button"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, basePlate)
+                .pattern("XX")
+                .define('X', set.getBaseStone().get())
+                .unlockedBy("has_base_stone", has(set.getBaseStone().get()))
+                .save(consumer,
+                        basePlateIsVanilla ? ResourceLocation.withDefaultNamespace(matName + "_pressure_plate") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_"
+                                + matName + "_pressure_plate"));
+        }
+
+        // Encapsulated for ease of sectioning: COBBLE
+        {
+        boolean isDefaultStone = set.material() == StoneMaterial.STONE;
+        String cobbleName = isDefaultStone ? "cobblestone" : "cobbled_" + matName;
+
+        boolean cobbleSlabIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.SLAB
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean cobbleStairIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.STAIRS
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean cobbleWallIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.WALL
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+
+        Block cobbleSlab = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.SLAB).getBlock().get();
+        Block cobbleStair = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.STAIRS).getBlock().get();
+        Block cobbleWall = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.WALL).getBlock().get();
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, cobbleSlab, 6)
+                .pattern("XXX")
+                .define('X', set.getCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getCobble().get()))
+                .save(consumer,
+                        cobbleSlabIsVanilla ? ResourceLocation.withDefaultNamespace(cobbleName + "_slab") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + cobbleName + "_slab"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getCobble().get()), RecipeCategory.BUILDING_BLOCKS,
+                cobbleSlab, 2).unlockedBy("has_cobblestone", has(set.getCobble().get()))
+               .save(consumer,
+                cobbleSlabIsVanilla ? ResourceLocation.withDefaultNamespace(
+                        cobbleName + "_slab_from_" + cobbleName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + cobbleName + "_slab"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, cobbleStair, 6)
+                .pattern("X  ")
+                .pattern("XX ")
+                .pattern("XXX")
+                .define('X', set.getCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getCobble().get()))
+                .save(consumer,
+                        cobbleStairIsVanilla ? ResourceLocation.withDefaultNamespace(cobbleName + "_stairs") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + cobbleName + "_stairs"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getCobble().get()), RecipeCategory.BUILDING_BLOCKS,
+                cobbleStair, 2).unlockedBy("has_cobblestone", has(set.getCobble().get()))
+               .save(consumer,
+                cobbleStairIsVanilla ? ResourceLocation.withDefaultNamespace(
+                        cobbleName + "_stairs_from_" + cobbleName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_"
+                                + cobbleName + "_stairs"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, cobbleWall, 6)
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', set.getCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getCobble().get()))
+                .save(consumer,
+                        cobbleWallIsVanilla ? ResourceLocation.withDefaultNamespace(cobbleName + "_wall") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + cobbleName + "_wall"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getCobble().get()), RecipeCategory.BUILDING_BLOCKS,
+                cobbleWall).unlockedBy("has_cobblestone", has(set.getCobble().get()))
+               .save(consumer,
+                cobbleWallIsVanilla ? ResourceLocation.withDefaultNamespace(
+                        cobbleName + "_wall_from_" + cobbleName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + cobbleName + "_cut_into_"
+                                + cobbleName + "_wall"));
+
+        boolean mossyCobbleIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.getMossyCobble().get()).getNamespace().equalsIgnoreCase("minecraft");
+        String mossCobbleName = "mossy_" + cobbleName;
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, set.getMossyCobble().get())
+                .requires(Ingredient.of(Blocks.VINE)).requires(set.getCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getCobble().get()))
+                .save(consumer,
+                        mossyCobbleIsVanilla ?
+                        ResourceLocation.withDefaultNamespace(mossCobbleName + "_from_vine") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + cobbleName + "_combine_vine_into_"
+                        + mossCobbleName));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, set.getMossyCobble().get())
+                .requires(Ingredient.of(Blocks.MOSS_BLOCK)).requires(set.getCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getCobble().get()))
+                .save(consumer,
+                        mossyCobbleIsVanilla ?
+                        ResourceLocation.withDefaultNamespace(mossCobbleName + "_from_moss_block") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + cobbleName + "_combine_moss_into_"
+                        + mossCobbleName));
+
+        boolean mossyCobbleSlabIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.SLAB
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean mossyCobbleStairIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.STAIRS
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean mossyCobbleWallIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.WALL
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+
+        Block mossyCobbleSlab = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.SLAB).getBlock().get();
+        Block mossyCobbleStair = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.STAIRS).getBlock().get();
+        Block mossyCobbleWall = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.COBBLE,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.WALL).getBlock().get();
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, mossyCobbleSlab, 6)
+                .pattern("XXX")
+                .define('X', set.getMossyCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getMossyCobble().get()))
+                .save(consumer,
+                        cobbleSlabIsVanilla ? ResourceLocation.withDefaultNamespace(mossCobbleName + "_slab") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + mossCobbleName + "_slab"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getMossyCobble().get()), RecipeCategory.BUILDING_BLOCKS,
+                mossyCobbleSlab, 2).unlockedBy("has_cobblestone", has(set.getMossyCobble().get()))
+               .save(consumer,
+                mossyCobbleSlabIsVanilla ? ResourceLocation.withDefaultNamespace(
+                        mossCobbleName + "_slab_from_" + mossCobbleName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + mossCobbleName + "_slab"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, mossyCobbleStair, 6)
+                .pattern("X  ")
+                .pattern("XX ")
+                .pattern("XXX")
+                .define('X', set.getMossyCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getMossyCobble().get()))
+                .save(consumer,
+                        mossyCobbleStairIsVanilla ?
+                                ResourceLocation.withDefaultNamespace(mossCobbleName + "_stairs") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + mossCobbleName + "_stairs"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getMossyCobble().get()), RecipeCategory.BUILDING_BLOCKS,
+                mossyCobbleStair, 2).unlockedBy("has_cobblestone", has(set.getMossyCobble().get()))
+               .save(consumer,
+                mossyCobbleStairIsVanilla ? ResourceLocation.withDefaultNamespace(
+                        mossCobbleName + "_stairs_from_" + mossCobbleName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + mossCobbleName + "_stairs"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, mossyCobbleWall, 6)
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', set.getMossyCobble().get())
+                .unlockedBy("has_cobblestone", has(set.getMossyCobble().get()))
+                .save(consumer,
+                        mossyCobbleWallIsVanilla ?
+                                ResourceLocation.withDefaultNamespace(mossCobbleName + "_wall") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + mossCobbleName + "_wall"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getMossyCobble().get()), RecipeCategory.BUILDING_BLOCKS,
+                mossyCobbleWall).unlockedBy("has_cobblestone", has(set.getMossyCobble().get()))
+               .save(consumer,
+                mossyCobbleWallIsVanilla ? ResourceLocation.withDefaultNamespace(
+                        mossCobbleName + "_wall_from_" + mossCobbleName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mossCobbleName + "_cut_into_"
+                                + mossCobbleName + "_wall"));
+        }
+
+        // Encapsulated for ease of sectioning: BRICKS
+        {
+        String brickName = matName + "_brick"; String brickBaseName = brickName + "s";
+
+        boolean brickIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.DEFAULT
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean brickSlabIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.SLAB
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean brickStairIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.STAIRS
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean brickWallIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.WALL
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+
+        Block brick = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.DEFAULT).getBlock().get();
+        Block brickSlab = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.SLAB).getBlock().get();
+        Block brickStair = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.STAIRS).getBlock().get();
+        Block brickWall = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.DEFAULT,
+                        StoneSubBlockType.WALL).getBlock().get();
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, brick, 4)
+                .pattern("XX")
+                .pattern("XX")
+                .define('X', Ingredient.of(set.getBaseStone().get()))
+                .unlockedBy("has_stone", has(set.getBaseStone().get()))
+                .save(consumer,
+                        brickIsVanilla ? ResourceLocation.withDefaultNamespace(brickBaseName) :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_craft_" + brickBaseName));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(set.getBaseStone().get()), RecipeCategory.BUILDING_BLOCKS,
+                brick).unlockedBy("has_stone", has(set.getBaseStone().get()))
+                .save(consumer,
+                        brickIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                brickBaseName + "_from_" + matName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + matName + "_cut_into_" + brickBaseName));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, brickSlab, 6)
+                .pattern("XXX")
+                .define('X', Ingredient.of(brick))
+                .unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        brickSlabIsVanilla ? ResourceLocation.withDefaultNamespace(brickName + "_slab") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID,
+                                "spiro_" + brickBaseName + "_craft_" + brickName + "_slab"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(brick), RecipeCategory.BUILDING_BLOCKS,
+                brickSlab, 2).unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        brickSlabIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                brickName + "_slab_from_" + brickBaseName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + brickBaseName
+                                + "_cut_into_" + brickName + "_slab"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, brickStair, 6)
+                .pattern("X  ")
+                .pattern("XX ")
+                .pattern("XXX")
+                .define('X', Ingredient.of(brick))
+                .unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        brickStairIsVanilla ? ResourceLocation.withDefaultNamespace(brickName + "_stairs") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID,
+                                "spiro_" + brickBaseName + "_craft_" + brickName + "_stairs"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(brick), RecipeCategory.BUILDING_BLOCKS,
+                brickStair, 2).unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        brickStairIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                brickName + "_stairs_from_" + brickBaseName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + brickBaseName
+                                + "_cut_into_" + brickName + "_stairs"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, brickWall, 6)
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', Ingredient.of(brick))
+                .unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        brickWallIsVanilla ? ResourceLocation.withDefaultNamespace(brickName + "_wall") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID,
+                                "spiro_" + brickBaseName + "_craft_" + brickName + "_wall"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(brick), RecipeCategory.BUILDING_BLOCKS,
+                brickWall).unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        brickWallIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                brickName + "_wall_from_" + brickBaseName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + brickBaseName
+                                + "_cut_into_" + brickName + "_wall"));
+
+        boolean mossBrickIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.DEFAULT
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean mossBrickSlabIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.SLAB
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean mossBrickStairIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.STAIRS
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+        boolean mossBrickWallIsVanilla = BuiltInRegistries.BLOCK.getKey(
+                set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.WALL
+                ).getBlock().get()).getNamespace().equalsIgnoreCase("minecraft");
+
+        Block mossBrick = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.DEFAULT).getBlock().get();
+        Block mossBrickSlab = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.SLAB).getBlock().get();
+        Block mossBrickStair = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.STAIRS).getBlock().get();
+        Block mossBrickWall = set.bulkData().getCouplingForKeys(
+                        StoneBlockType.BRICKS,
+                        StoneVariantType.MOSSY,
+                        StoneSubBlockType.WALL).getBlock().get();
+
+        String mossBrickName = "mossy_" + brickName; String mossBrickBaseName = mossBrickName + "s";
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, set.getMossyCobble().get())
+                .requires(Ingredient.of(Blocks.VINE)).requires(brick)
+                .unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        mossBrickIsVanilla ?
+                        ResourceLocation.withDefaultNamespace(mossBrickBaseName + "_from_vine") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + brickBaseName + "_combine_vine_into_"
+                        + mossBrickBaseName));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, set.getMossyCobble().get())
+                .requires(Ingredient.of(Blocks.MOSS_BLOCK)).requires(brick)
+                .unlockedBy("has_brick", has(brick))
+                .save(consumer,
+                        mossBrickIsVanilla ?
+                        ResourceLocation.withDefaultNamespace(mossBrickBaseName + "_from_moss_block") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + brickBaseName + "_combine_moss_into_"
+                        + mossBrickBaseName));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, mossBrickSlab, 6)
+                .pattern("XXX")
+                .define('X', Ingredient.of(mossBrick))
+                .unlockedBy("has_brick", has(mossBrick))
+                .save(consumer,
+                        mossBrickSlabIsVanilla ? ResourceLocation.withDefaultNamespace(mossBrickName + "_slab") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID,
+                                "spiro_" + mossBrickBaseName + "_craft_" + mossBrickName + "_slab"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(mossBrick), RecipeCategory.BUILDING_BLOCKS,
+                mossBrickSlab, 2).unlockedBy("has_brick", has(mossBrick))
+                .save(consumer,
+                        mossBrickSlabIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                mossBrickName + "_slab_from_" + mossBrickBaseName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mossBrickBaseName
+                                + "_cut_into_" + mossBrickName + "_slab"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, mossBrickStair, 6)
+                .pattern("X  ")
+                .pattern("XX ")
+                .pattern("XXX")
+                .define('X', Ingredient.of(mossBrick))
+                .unlockedBy("has_brick", has(mossBrick))
+                .save(consumer,
+                        mossBrickStairIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                mossBrickName + "_stairs") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID,
+                                "spiro_" + mossBrickBaseName + "_craft_" + mossBrickName + "_stairs"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(mossBrick), RecipeCategory.BUILDING_BLOCKS,
+                mossBrickStair, 2).unlockedBy("has_brick", has(mossBrick))
+                .save(consumer,
+                        mossBrickStairIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                mossBrickName + "_stairs_from_" + mossBrickBaseName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mossBrickBaseName
+                                + "_cut_into_" + mossBrickName + "_stairs"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, mossBrickWall, 6)
+                .pattern("XXX")
+                .pattern("XXX")
+                .define('X', Ingredient.of(mossBrick))
+                .unlockedBy("has_brick", has(mossBrick))
+                .save(consumer,
+                        mossBrickWallIsVanilla ? ResourceLocation.withDefaultNamespace(mossBrickName + "_wall") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID,
+                                "spiro_" + mossBrickBaseName + "_craft_" + mossBrickName + "_wall"));
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(mossBrick), RecipeCategory.BUILDING_BLOCKS,
+                mossBrickWall).unlockedBy("has_brick", has(mossBrick))
+                .save(consumer,
+                        mossBrickWallIsVanilla ? ResourceLocation.withDefaultNamespace(
+                                mossBrickName + "_wall_from_" + mossBrickBaseName + "_stonecutting") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mossBrickBaseName
+                                + "_cut_into_" + mossBrickName + "_wall"));
+        }
     }
 
     private void tapperRecipe(RecipeOutput consumer)
