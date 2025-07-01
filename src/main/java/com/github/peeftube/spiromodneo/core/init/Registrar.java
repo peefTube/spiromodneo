@@ -182,6 +182,8 @@ public class Registrar
             public String toString() { return "manual_crusher"; }
         });
 
+    public static final DeferredItem<Item> NETHER_CLAY = ITEMS.registerSimpleItem("nether_clay");
+
     public static final DeferredItem<Item> CAOUTCHOUC = ITEMS.registerSimpleItem("caoutchouc");
     public static final DeferredItem<Item> MAPLE_SAP = ITEMS.registerSimpleItem("maple_sap");
 

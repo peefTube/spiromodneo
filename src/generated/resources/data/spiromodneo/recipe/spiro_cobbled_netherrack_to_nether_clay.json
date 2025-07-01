@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "spiromodneo:cobbled_netherrack"
+    },
+    {
+      "item": "spiromodneo:cobbled_netherrack"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "spiromodneo:nether_clay"
+  }
+}
