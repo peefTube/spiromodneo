@@ -11,7 +11,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 public enum EquipmentMaterial
 {
     LEATHER("leather", SpiroTags.Items.LEATHER_MATERIAL, null, ArmorMaterials.LEATHER),
-    WOOD("wood", SpiroTags.Items.WOOD_MATERIAL, Tiers.WOOD, null),
+    WOOD("wooden", SpiroTags.Items.WOOD_MATERIAL, Tiers.WOOD, null),
+    SHARPWOOD("sharp_wooden", SpiroTags.Items.SHARPWOOD_MATERIAL, Registrar.T_SHARPWOOD, null),
+    FLINT("flint", SpiroTags.Items.FLINT_MATERIAL, Registrar.T_FLINT, null),
     STONE("stone", SpiroTags.Items.STONE_MATERIAL, Tiers.STONE, null),
     CHAIN("chainmail", SpiroTags.Items.CHAINMAIL_MATERIAL, null, ArmorMaterials.CHAIN), // Chainmail doesn't have a crafting recipe iirc
     COPPER("copper", SpiroTags.Items.COPPER_MATERIAL, Registrar.T_COPPER, Registrar.A_COPPER),

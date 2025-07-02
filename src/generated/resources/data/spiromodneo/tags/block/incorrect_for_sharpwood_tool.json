@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#spiromodneo:needs_flint_tool",
+    "#minecraft:needs_stone_tool",
+    "#minecraft:needs_iron_tool",
+    "#spiromodneo:needs_gold_tool",
+    "#spiromodneo:needs_steel_tool",
+    "#minecraft:needs_diamond_tool"
+  ]
+}

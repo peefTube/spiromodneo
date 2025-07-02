@@ -50,7 +50,7 @@ public interface EquipmentUtilities
                     () -> Items.NETHERITE_HOE, () -> Items.NETHERITE_AXE, () -> Items.NETHERITE_PICKAXE); }
 
             // Modded cases run through another method.
-            case LEAD, COPPER, STEEL -> { return createNewToolSet(mat); }
+            case LEAD, COPPER, STEEL, SHARPWOOD, FLINT -> { return createNewToolSet(mat); }
 
             // Fallback case
             default -> { return null; }

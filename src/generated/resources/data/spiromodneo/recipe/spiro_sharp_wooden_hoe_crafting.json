@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:wooden_hoe"
+    },
+    {
+      "item": "spiromodneo:wooden_tool_grafting_kit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:sharp_wooden_hoe"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "spiromodneo:bundle_of_sharp_sticks"
+    },
+    {
+      "item": "spiromodneo:small_stone"
+    },
+    {
+      "tag": "spiromodneo:string_like"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:wooden_tool_grafting_kit"
+  }
+}

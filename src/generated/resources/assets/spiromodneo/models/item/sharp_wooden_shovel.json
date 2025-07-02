@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "spiromodneo:item/sharp_wooden_shovel"
+  }
+}

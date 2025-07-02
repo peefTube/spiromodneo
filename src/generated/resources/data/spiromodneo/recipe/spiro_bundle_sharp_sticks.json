@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "spiromodneo:sharpened_stick"
+    },
+    {
+      "item": "spiromodneo:sharpened_stick"
+    },
+    {
+      "item": "spiromodneo:sharpened_stick"
+    },
+    {
+      "tag": "spiromodneo:string_like"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:bundle_of_sharp_sticks"
+  }
+}

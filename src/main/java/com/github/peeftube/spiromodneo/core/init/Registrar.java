@@ -135,6 +135,14 @@ public class Registrar
 
     public static final DeferredItem<Item> SINEW = ITEMS.registerSimpleItem("sinew");
 
+    public static final DeferredItem<Item> SMALL_STONE = ITEMS.registerSimpleItem("small_stone");
+
+    public static final DeferredItem<Item> SHARPENED_STICK = ITEMS.registerSimpleItem("sharpened_stick");
+    public static final DeferredItem<Item> BUNDLE_OF_SHARP_STICKS =
+            ITEMS.registerSimpleItem("bundle_of_sharp_sticks");
+    public static final DeferredItem<Item> WOODEN_TOOL_GRAFTING_KIT =
+            ITEMS.registerSimpleItem("wooden_tool_grafting_kit");
+
     // Special steel alloying items
     /** Cast iron mixture is made using one coal or charcoal item with 4 iron ingot items. It is the only form of steel
      * precursor which can be made using vanilla techniques.
@@ -206,6 +214,13 @@ public class Registrar
     public static final MetalCollection STRAVIMITE_METAL = MetalCollection.registerCollection(MetalMaterial.STRAVIMITE);
 
     // Custom tiers and armor materials go here; each of these should correspond to an equipment collection
+    /** Tool tier for sharpened wood. TODO: Add appropriate tag */
+    public static final SimpleTier T_SHARPWOOD = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_SHARPWOOD,
+            59, 6.2F, 1.2F, 12,
+            () -> Ingredient.of(Registrar.BUNDLE_OF_SHARP_STICKS.get()));
+    /** Tool tier for flint. TODO: Add appropriate tag */
+    public static final SimpleTier T_FLINT = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_FLINT,
+            88, 6.2F, 1.2F, 12, () -> Ingredient.of(Items.FLINT));
     /** Tool tier for copper. TODO: Add appropriate tag */
     public static final SimpleTier T_COPPER = new SimpleTier(SpiroTags.Blocks.INCORRECT_FOR_COPPER,
             240, 6.2F, 1.2F, 12, () -> Ingredient.of(Items.COPPER_INGOT));
@@ -230,12 +245,12 @@ public class Registrar
             new int[]{3, 5, 3, 2, 7}, SoundEvents.ARMOR_EQUIP_IRON, 4, 2.0F, 1.5F,
             () -> getIngotFromMetal(STEEL_METAL));
 
-    // TODO: Remove this comment, this actually has a good reason
-    // Unfortunately, I can't do the equipment collection parsing by organizing it with its respective
-    // tier and armor material, because this breaks everything (has something to do with the material
-    // enum being unable to get the tier, super strange behavior).
-    // If there were a better way to deal with this problem I'd take it in a heartbeat, but my knowledge
-    // of Java so far tells me this is the best I've got. Oh well :P
+    /** Copper equipment collection. */
+    public static final EquipmentCollection SHARPWOOD_EQUIPMENT =
+            EquipmentCollection.registerCollection(EquipmentMaterial.SHARPWOOD);
+    /** Copper equipment collection. */
+    public static final EquipmentCollection FLINT_EQUIPMENT =
+            EquipmentCollection.registerCollection(EquipmentMaterial.FLINT);
     /** Copper equipment collection. */
     public static final EquipmentCollection COPPER_EQUIPMENT =
             EquipmentCollection.registerCollection(EquipmentMaterial.COPPER);

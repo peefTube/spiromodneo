@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spiromodneo:item/wooden_tool_grafting_kit"
+  }
+}

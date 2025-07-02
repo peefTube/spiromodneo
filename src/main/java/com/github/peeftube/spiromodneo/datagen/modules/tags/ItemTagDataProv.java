@@ -85,6 +85,11 @@ public class ItemTagDataProv extends ItemTagsProvider
                 .add(Items.LEATHER);
         tag(SpiroTags.Items.WOOD_MATERIAL)
                 .addTag(ItemTags.PLANKS);
+        tag(SpiroTags.Items.SHARPWOOD_MATERIAL)
+                .add(Registrar.SHARPENED_STICK.get())
+                .add(Registrar.BUNDLE_OF_SHARP_STICKS.get());
+        tag(SpiroTags.Items.FLINT_MATERIAL)
+                .add(Items.FLINT);
         tag(SpiroTags.Items.STONE_MATERIAL)
                 .addTag(ItemTags.STONE_CRAFTING_MATERIALS);
         tag(SpiroTags.Items.COPPER_MATERIAL)

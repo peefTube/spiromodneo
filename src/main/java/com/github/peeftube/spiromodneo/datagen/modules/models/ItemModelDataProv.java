@@ -42,6 +42,10 @@ public class ItemModelDataProv extends ItemModelProvider
         // ============================================================================================================
         // Normal items
         itemParser(Registrar.SINEW);
+        itemParser(Registrar.SMALL_STONE);
+        itemParser(Registrar.SHARPENED_STICK);
+        itemParser(Registrar.BUNDLE_OF_SHARP_STICKS);
+        itemParser(Registrar.WOODEN_TOOL_GRAFTING_KIT);
         itemParser(Registrar.CAST_IRON_MIXTURE);
         itemParser(Registrar.CAST_IRON);
         itemParser(Registrar.STEEL_MIXTURE);

@@ -1649,7 +1649,9 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
                 material == EquipmentMaterial.DIAMOND || material == EquipmentMaterial.NETHERITE )
         { isStock = true; }
 
-        if (!isStock)
+        boolean isSharpWood = material == EquipmentMaterial.SHARPWOOD;
+
+        if (!isStock && !isSharpWood)
         {
             String mat = material.getName();
             EquipmentData bulkData = set.bulkData();
@@ -1731,6 +1733,58 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
             if (set.checkIfNullThenPass(bulkData.getHorseArmor()).getResult())
             {
                 // This is potentially a special case, so I'm holding off on putting anything here for now
+            }
+        }
+        if (isSharpWood)
+        {
+            String mat = material.getName();
+            EquipmentData bulkData = set.bulkData();
+
+            // There's special crafting recipes involved here.
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, Registrar.SHARPENED_STICK.get(), 4)
+                    .requires(Ingredient.of(Items.STICK), 4)
+                    .requires(Ingredient.of(Registrar.SMALL_STONE.get()))
+                    .unlockedBy("has_stick", has(Items.STICK))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_sharpen_stick"));
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, Registrar.BUNDLE_OF_SHARP_STICKS.get())
+                    .requires(Ingredient.of(Registrar.SHARPENED_STICK.get()), 3)
+                    .requires(Ingredient.of(SpiroTags.Items.STRING_LIKE))
+                    .unlockedBy("has_stick", has(Registrar.SHARPENED_STICK.get()))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_bundle_sharp_sticks"));
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, Registrar.WOODEN_TOOL_GRAFTING_KIT.get())
+                    .requires(Ingredient.of(Registrar.BUNDLE_OF_SHARP_STICKS.get()))
+                    .requires(Ingredient.of(Registrar.SMALL_STONE.get()))
+                    .requires(Ingredient.of(SpiroTags.Items.STRING_LIKE))
+                    .unlockedBy("has_stick", has(Registrar.BUNDLE_OF_SHARP_STICKS.get()))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_grafting_kit"));
+
+            if (set.checkIfNullThenPass(bulkData.getTools()).getResult())
+            {
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, bulkData.getTools().getSword().get())
+                        .requires(Ingredient.of(Items.WOODEN_SWORD))
+                        .requires(Ingredient.of(Registrar.WOODEN_TOOL_GRAFTING_KIT.get()), 2)
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_sword_crafting"));
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, bulkData.getTools().getShovel().get())
+                        .requires(Ingredient.of(Items.WOODEN_SHOVEL))
+                        .requires(Ingredient.of(Registrar.WOODEN_TOOL_GRAFTING_KIT.get()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_shovel_crafting"));
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, bulkData.getTools().getHoe().get())
+                        .requires(Ingredient.of(Items.WOODEN_HOE))
+                        .requires(Ingredient.of(Registrar.WOODEN_TOOL_GRAFTING_KIT.get()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_hoe_crafting"));
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, bulkData.getTools().getAxe().get())
+                        .requires(Ingredient.of(Items.WOODEN_AXE))
+                        .requires(Ingredient.of(Registrar.WOODEN_TOOL_GRAFTING_KIT.get()))
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_axe_crafting"));
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, bulkData.getTools().getPickaxe().get())
+                        .requires(Ingredient.of(Items.WOODEN_PICKAXE))
+                        .requires(Ingredient.of(Registrar.WOODEN_TOOL_GRAFTING_KIT.get()), 2)
+                                   .unlockedBy("has_material", has(material.getAssociatedTag()))
+                                   .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_" + mat + "_pickaxe_crafting"));
             }
         }
     }

@@ -69,6 +69,27 @@ public class BlockTagDataProv extends BlockTagsProvider
         for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodTags(wood); }
 
         // Tool level setup
+        tag(BlockTags.INCORRECT_FOR_WOODEN_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_SHARPWOOD_TOOL);
+
+        tag(SpiroTags.Blocks.NEEDS_SHARPWOOD_TOOL)
+                .add(Blocks.GRAVEL); // Gravel should not be mined until sharp wood is reached.
+
+        tag(SpiroTags.Blocks.INCORRECT_FOR_SHARPWOOD)
+                .addTag(SpiroTags.Blocks.NEEDS_FLINT_TOOL)
+                .addTag(BlockTags.NEEDS_STONE_TOOL)
+                .addTag(BlockTags.NEEDS_IRON_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_GOLD_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_STEEL_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+        tag(SpiroTags.Blocks.INCORRECT_FOR_FLINT)
+                .addTag(BlockTags.NEEDS_STONE_TOOL)
+                .addTag(BlockTags.NEEDS_IRON_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_GOLD_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_STEEL_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+        tag(BlockTags.INCORRECT_FOR_STONE_TOOL)
+                .addTag(SpiroTags.Blocks.NEEDS_COPPER_TOOL);
         tag(SpiroTags.Blocks.INCORRECT_FOR_COPPER)
                 .addTag(BlockTags.NEEDS_IRON_TOOL)
                 .addTag(SpiroTags.Blocks.NEEDS_GOLD_TOOL)
@@ -160,10 +181,19 @@ public class BlockTagDataProv extends BlockTagsProvider
                         if (k2 == StoneSubBlockType.WALL)
                         { tag(BlockTags.WALLS).add(knownCouplingReadBlockFromKeys(data, k0, k1, k2)); }
                     }
+
+                    if (available)
+                    {
+                        tag(SpiroTags.Blocks.NEEDS_FLINT_TOOL)
+                            .add(data.getCouplingForKeys(k0, k1, k2).getBlock().get());
+                        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                            .add(data.getCouplingForKeys(k0, k1, k2).getBlock().get());
+                    }
                 }
             }
         }
     }
+
     private Block knownCouplingReadBlockFromKeys(StoneData d,
             StoneBlockType k0, StoneVariantType k1, StoneSubBlockType k2)
     { return d.getCouplingForKeys(k0, k1, k2).getBlock().get(); }
@@ -183,7 +213,12 @@ public class BlockTagDataProv extends BlockTagsProvider
 
             switch(m)
             {
-                case COPPER, IRON, LEAD, LAPIS -> { tag(BlockTags.NEEDS_STONE_TOOL).add(o); }
+                case COPPER -> { tag(BlockTags.NEEDS_STONE_TOOL).add(o); }
+                case IRON, LEAD, LAPIS ->
+                {
+                    tag(BlockTags.NEEDS_STONE_TOOL).remove(o);
+                    tag(SpiroTags.Blocks.NEEDS_COPPER_TOOL).add(o);
+                }
                 case GOLD, REDSTONE, CRIMSONITE -> { tag(BlockTags.NEEDS_IRON_TOOL).add(o); }
                 case RUBY, EMERALD ->
                 {
@@ -208,7 +243,12 @@ public class BlockTagDataProv extends BlockTagsProvider
 
         switch(m)
         {
-            case LEAD -> { tag(BlockTags.NEEDS_STONE_TOOL).add(b); }
+            case IRON ->
+            {
+                tag(BlockTags.NEEDS_STONE_TOOL).remove(b);
+                tag(SpiroTags.Blocks.NEEDS_COPPER_TOOL).add(b);
+            }
+            case LEAD -> { tag(SpiroTags.Blocks.NEEDS_COPPER_TOOL).add(b); }
             case CRIMSONITE -> { tag(BlockTags.NEEDS_IRON_TOOL).add(b); }
             case RUBY, EMERALD ->
             {

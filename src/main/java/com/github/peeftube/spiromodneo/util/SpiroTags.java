@@ -12,10 +12,14 @@ public class SpiroTags
 {
     public static class Blocks
     {
+        public static TagKey<Block> INCORRECT_FOR_SHARPWOOD = tag("incorrect_for_sharpwood_tool");
+        public static TagKey<Block> INCORRECT_FOR_FLINT = tag("incorrect_for_flint_tool");
         public static TagKey<Block> INCORRECT_FOR_COPPER = tag("incorrect_for_copper_tool");
         public static TagKey<Block> INCORRECT_FOR_LEAD = tag("incorrect_for_lead_tool");
         public static TagKey<Block> INCORRECT_FOR_STEEL = tag("incorrect_for_steel_tool");
 
+        public static TagKey<Block> NEEDS_SHARPWOOD_TOOL = tag("needs_sharpwood_tool");
+        public static TagKey<Block> NEEDS_FLINT_TOOL = tag("needs_flint_tool");
         public static TagKey<Block> NEEDS_COPPER_TOOL = tag("needs_copper_tool");
         public static TagKey<Block> NEEDS_LEAD_TOOL = tag("needs_lead_tool");
         public static TagKey<Block> NEEDS_GOLD_TOOL = tag("needs_gold_tool");
@@ -33,12 +37,14 @@ public class SpiroTags
 
     public static class Items
     {
-        public static TagKey<Item> STRING_LIKE = tag("string_like");
+        public static TagKey<Item>       STRING_LIKE    = tag("string_like");
 
         public static TagKey<Item> STEEL_MIXTURES = tag("steel_mixtures");
 
         public static TagKey<Item> LEATHER_MATERIAL = tag("mat_leather");
         public static TagKey<Item> WOOD_MATERIAL = tag("mat_wooden");
+        public static TagKey<Item> SHARPWOOD_MATERIAL = tag("mat_sharp_wooden");
+        public static TagKey<Item> FLINT_MATERIAL = tag("mat_flint");
         public static TagKey<Item> STONE_MATERIAL = tag("mat_stone");
         public static TagKey<Item> CHAINMAIL_MATERIAL = tag("mat_chainmail");
         public static TagKey<Item> COPPER_MATERIAL = tag("mat_copper");

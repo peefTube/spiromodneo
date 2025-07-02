@@ -55,11 +55,19 @@ public class EN_USLangDataProv extends LanguageProvider
         // Other / Loose
         add(Registrar.SINEW.get(), "Animal Sinew");
 
+        add(Registrar.SMALL_STONE.get(), "Small Stone");
+
+        add(Registrar.SHARPENED_STICK.get(), "Sharpened Stick");
+        add(Registrar.BUNDLE_OF_SHARP_STICKS.get(), "Bundled Sharp Sticks");
+        add(Registrar.WOODEN_TOOL_GRAFTING_KIT.get(), "Wooden Tool Grafting Kit");
+
         add(Registrar.CAST_IRON_MIXTURE.get(), "Cast Iron Mixture");
         add(Registrar.CAST_IRON.get(), "Cast Iron Ingot");
         add(Registrar.STEEL_MIXTURE.get(), "Steel Mixture");
         add(Registrar.WEAK_STEEL_MIXTURE.get(), "Steel Mixture CI");
         add(Registrar.CRUSHED_CARBON.get(), "Carbon Dust");
+
+        add(Registrar.NETHER_CLAY.get(), "\"Nether Clay\"");
 
         add(Registrar.CAOUTCHOUC.get(), "Raw Caoutchouc");
         add(Registrar.MAPLE_SAP.get(), "Raw Maple Sap");
@@ -224,27 +232,35 @@ public class EN_USLangDataProv extends LanguageProvider
 
         if (!isStock)
         {
-            String mat = material.getName().substring(0, 1).toUpperCase() + material.getName().substring(1);
+            String matName = "";
+            String[] typeSubs = material.getName().split("_");
+            int stIndex = 0;
+            for (String st : typeSubs)
+            {
+                matName = matName + (stIndex > 0 ? " " : "") +
+                        st.substring(0, 1).toUpperCase() + st.substring(1);
+                stIndex++;
+            }
 
             if (set.checkIfNullThenPass(set.bulkData().getTools()).getResult())
             {
-                add(set.bulkData().getTools().getSword().get(), mat + " Sword");
-                add(set.bulkData().getTools().getShovel().get(), mat + " Shovel");
-                add(set.bulkData().getTools().getHoe().get(), mat + " Hoe");
-                add(set.bulkData().getTools().getAxe().get(), mat + " Axe");
-                add(set.bulkData().getTools().getPickaxe().get(), mat + " Pickaxe");
+                add(set.bulkData().getTools().getSword().get(), matName + " Sword");
+                add(set.bulkData().getTools().getShovel().get(), matName + " Shovel");
+                add(set.bulkData().getTools().getHoe().get(), matName + " Hoe");
+                add(set.bulkData().getTools().getAxe().get(), matName + " Axe");
+                add(set.bulkData().getTools().getPickaxe().get(), matName + " Pickaxe");
             }
 
             if (set.checkIfNullThenPass(set.bulkData().getArmor()).getResult())
             {
-                add(set.bulkData().getArmor().getHelmet().get(), mat + " Helmet");
-                add(set.bulkData().getArmor().getChestplate().get(), mat + " Chestplate");
-                add(set.bulkData().getArmor().getLeggings().get(), mat + " Leggings");
-                add(set.bulkData().getArmor().getBoots().get(), mat + " Boots");
+                add(set.bulkData().getArmor().getHelmet().get(), matName + " Helmet");
+                add(set.bulkData().getArmor().getChestplate().get(), matName + " Chestplate");
+                add(set.bulkData().getArmor().getLeggings().get(), matName + " Leggings");
+                add(set.bulkData().getArmor().getBoots().get(), matName + " Boots");
             }
 
             if (set.checkIfNullThenPass(set.bulkData().getHorseArmor()).getResult())
-            { add(set.bulkData().getHorseArmor().get(), mat + " Horse Armor"); }
+            { add(set.bulkData().getHorseArmor().get(), matName + " Horse Armor"); }
         }
     }
 
@@ -340,7 +356,7 @@ public class EN_USLangDataProv extends LanguageProvider
                         st.substring(0, 1).toUpperCase() + st.substring(1);
                 stIndex++;
             }
-            readableMat = readableMat + " Ore";
+            readableMat = readableMat + (material.isGem() ? "" : " Ore");
             String readableBlockMat = "Block of " + readableMat;
             add(b, rawMineral + readableBlockMat);
 
