@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:chain"
+    },
+    "X": {
+      "item": "spiromodneo:stripped_ashen_birch_log"
+    }
+  },
+  "pattern": [
+    "# #",
+    "XXX",
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "id": "spiromodneo:ashen_birch_hanging_sign"
+  }
+}

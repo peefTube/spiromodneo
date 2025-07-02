@@ -10,6 +10,10 @@ import com.github.peeftube.spiromodneo.util.equipment.EquipmentData;
 import com.github.peeftube.spiromodneo.util.stone.StoneBlockType;
 import com.github.peeftube.spiromodneo.util.stone.StoneSubBlockType;
 import com.github.peeftube.spiromodneo.util.stone.StoneVariantType;
+import com.github.peeftube.spiromodneo.util.wood.LivingWoodBlockType;
+import com.github.peeftube.spiromodneo.util.wood.ManufacturedWoodType;
+import com.github.peeftube.spiromodneo.util.wood.PlankBlockSubType;
+import com.github.peeftube.spiromodneo.util.wood.SignType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -51,6 +55,9 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { stoneCraftingHandler(stone, output); }
         netherBrickOverwrite(output);
 
+        // Wood crafting handler
+        for (WoodCollection wood : WoodCollection.WOOD_COLLECTIONS) { woodCraftingHandler(wood, output); }
+
         // Automatic ore smelting handler, this will later handle ore-to-ingot conversions when that's implemented
         // NOTE: The ore-to-ingot conversion mentioned is not block-to-ingot smelting, but item-to-ingot, which will
         //       need to be handled later when new non-gems are added
@@ -60,6 +67,247 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         stringLikeHandler(output);
         manualCrusherCraftingHandler(output);
         tapperRecipe(output);
+    }
+
+    private void woodCraftingHandler(WoodCollection set, RecipeOutput consumer)
+    {
+        String setName = set.type().getName().replace("_fungus", "");
+        Block planks = set.bulkData().planks().get(PlankBlockSubType.BLOCK).getBlock().get();
+
+        boolean planksAreVanilla = BuiltInRegistries.BLOCK.getKey(planks)
+              .getNamespace().equalsIgnoreCase("minecraft");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, planks, 4)
+                .requires(set.bulkData().logTags().getItemTag())
+                .unlockedBy("has_wood", has(set.bulkData().logTags().getItemTag()))
+                .save(consumer,
+                        planksAreVanilla ? ResourceLocation.withDefaultNamespace(setName + "_planks") :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_planks"));
+
+        // Chest and crafting table handler
+        if (set.type() == WoodMaterial.OAK)
+        {
+            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Blocks.CRAFTING_TABLE)
+                    .pattern("XX")
+                    .pattern("XX")
+                    .define('X', Blocks.OAK_PLANKS)
+                    .unlockedBy("has_planks", has(Blocks.OAK_PLANKS))
+                    .save(consumer, ResourceLocation.withDefaultNamespace("crafting_table"));
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Blocks.CHEST)
+                    .pattern("XXX")
+                    .pattern("X X")
+                    .pattern("XXX")
+                    .define('X', Blocks.OAK_PLANKS)
+                    .unlockedBy("has_planks", has(Blocks.OAK_PLANKS))
+                    .save(consumer, ResourceLocation.withDefaultNamespace("chest"));
+        }
+        else
+        {
+            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,
+                   set.bulkData().manufacturables().get(ManufacturedWoodType.CRAFTING_TABLE).getBlock().get())
+                    .pattern("XX")
+                    .pattern("XX")
+                    .define('X', planks)
+                    .unlockedBy("has_planks", has(planks))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID,
+                            "spiro_craft_" + setName + "_crafting_table"));
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,
+                   set.bulkData().manufacturables().get(ManufacturedWoodType.CHEST).getBlock().get())
+                    .pattern("XXX")
+                    .pattern("X X")
+                    .pattern("XXX")
+                    .define('X', planks)
+                    .unlockedBy("has_planks", has(planks))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID,
+                            "spiro_craft_" + setName + "_chest"));
+        }
+
+        // Barrel handler
+        if (set.type() == WoodMaterial.SPRUCE)
+        {
+            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Blocks.BARREL)
+                    .pattern("XxX")
+                    .pattern("X X")
+                    .pattern("XxX")
+                    .define('X', Blocks.SPRUCE_PLANKS)
+                    .define('x', Blocks.SPRUCE_SLAB)
+                    .unlockedBy("has_planks", has(Blocks.SPRUCE_PLANKS))
+                    .save(consumer, ResourceLocation.withDefaultNamespace("barrel"));
+        }
+        else
+        {
+            ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,
+                   set.bulkData().manufacturables().get(ManufacturedWoodType.BARREL).getBlock().get())
+                    .pattern("XxX")
+                    .pattern("X X")
+                    .pattern("XxX")
+                    .define('X', planks)
+                    .define('x', set.bulkData().planks().get(PlankBlockSubType.SLAB).getBlock().get())
+                    .unlockedBy("has_planks", has(planks))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID,
+                            "spiro_craft_" + setName + "_barrel"));
+        }
+
+        Block log = set.getBaseLog().get();
+        Block stripLog = set.bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get();
+        Block wood = set.bulkData().livingWood().get(LivingWoodBlockType.WOOD).getBlock().get();
+        Block stripWood = set.bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_WOOD).getBlock().get();
+
+        boolean logIsVanilla = BuiltInRegistries.BLOCK.getKey(log)
+              .getNamespace().equalsIgnoreCase("minecraft");
+
+        String woodSuffix = set.type().isLikeNetherFungus() ? "_hyphae" : "_wood";
+
+        // Rebalancing to 4 as I always thought 4-to-3 was unfair
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, wood, 4)
+                .pattern("##")
+                .pattern("##")
+                .define('#', Ingredient.of(log))
+                .unlockedBy("has_wood", has(log))
+                .save(consumer,
+                        logIsVanilla ? ResourceLocation.withDefaultNamespace(setName + woodSuffix) :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + woodSuffix));
+
+        // Rebalancing to 4 as I always thought 4-to-3 was unfair
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, stripWood, 4)
+                .pattern("##")
+                .pattern("##")
+                .define('#', Ingredient.of(stripLog))
+                .unlockedBy("has_wood", has(stripLog))
+                .save(consumer,
+                        logIsVanilla ? ResourceLocation.withDefaultNamespace("stripped_" + setName + woodSuffix) :
+                        RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_stripped_" + setName + woodSuffix));
+
+        // Sectioned off for plank recipes and manufacturables
+        {
+            // Vanilla recipes are irrelevant here, no need to override them.
+            // However, we will want to add cutting recipes for all planks so this is kept as a
+            // cordoned-off section for non-vanilla planks apart from the general additions.
+            // Doors and other manufacturables should not be added for vanilla blocks, either.
+            // Barrels, chests and crafting tables have already been added above.
+            if (!planksAreVanilla)
+            {
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        set.bulkData().planks().get(PlankBlockSubType.SLAB).getBlock().get(), 6)
+                        .pattern("XXX")
+                        .define('X', planks)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_slab"));
+
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        set.bulkData().planks().get(PlankBlockSubType.STAIRS).getBlock().get(), 6)
+                        .pattern("X  ")
+                        .pattern("XX ")
+                        .pattern("XXX")
+                        .define('X', planks)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_stairs"));
+
+                // Rebalanced to 6 instead of 3
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        set.bulkData().planks().get(PlankBlockSubType.FENCE).getBlock().get(), 6)
+                        .pattern("XIX")
+                        .pattern("XIX")
+                        .define('X', planks)
+                        .define('I', Items.STICK)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_fence"));
+
+                // Rebalanced to 2 instead of 1
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        set.bulkData().planks().get(PlankBlockSubType.FENCE_GATE).getBlock().get(), 2)
+                        .pattern("IXI")
+                        .pattern("IXI")
+                        .define('X', planks)
+                        .define('I', Items.STICK)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_fence_gate"));
+
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE,
+                        set.bulkData().planks().get(PlankBlockSubType.BUTTON).getBlock().get())
+                        .requires(Ingredient.of(planks))
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_button"));
+
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        set.bulkData().planks().get(PlankBlockSubType.PRESSURE_PLATE).getBlock().get())
+                        .pattern("XX")
+                        .define('X', planks)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_pressure_plate"));
+
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        set.bulkData().manufacturables().get(ManufacturedWoodType.DOOR).getBlock().get(), 3)
+                        .pattern("XX")
+                        .pattern("XX")
+                        .pattern("XX")
+                        .define('X', planks)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_door"));
+
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS,
+                        set.bulkData().manufacturables().get(ManufacturedWoodType.TRAPDOOR).getBlock().get(), 2)
+                        .pattern("XXX")
+                        .pattern("XXX")
+                        .define('X', planks)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_trapdoor"));
+
+                ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
+                        set.bulkData().signs().get(SignType.BASIC).getItem().get(), 3)
+                        .pattern("XXX")
+                        .pattern("XXX")
+                        .pattern(" I ")
+                        .define('X', planks)
+                        .define('I', Items.STICK)
+                        .unlockedBy("has_planks", has(planks))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_craft_" + setName + "_sign"));
+
+                ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,
+                        set.bulkData().signs().get(SignType.HANGING).getItem().get(), 6)
+                        .pattern("# #")
+                        .pattern("XXX")
+                        .pattern("XXX")
+                        .define('X',
+                                set.bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get())
+                        .define('#', Items.CHAIN)
+                        .unlockedBy("has_stripped_log",
+                                has(set.bulkData().livingWood().get(LivingWoodBlockType.STRIPPED_LOG).getBlock().get()))
+                        .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID,
+                                "spiro_craft_" + setName + "_hanging_sign"));
+            }
+
+            SingleItemRecipeBuilder.stonecutting(Ingredient.of(planks), RecipeCategory.BUILDING_BLOCKS,
+                    set.bulkData().planks().get(PlankBlockSubType.SLAB).getBlock().get(), 2)
+                    .unlockedBy("has_planks", has(planks))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_saw_"
+                            + setName + "_planks_into_" + setName + "_slab"));
+
+            SingleItemRecipeBuilder.stonecutting(Ingredient.of(planks), RecipeCategory.BUILDING_BLOCKS,
+                    set.bulkData().planks().get(PlankBlockSubType.STAIRS).getBlock().get(), 2)
+                    .unlockedBy("has_planks", has(planks))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_saw_"
+                            + setName + "_planks_into_" + setName + "_stairs"));
+
+            // Doubly efficient compared to normal crafting.
+            // This may prove OP, but I don't care :)
+            SingleItemRecipeBuilder.stonecutting(
+                    Ingredient.of(set.bulkData().logTags().getItemTag()), RecipeCategory.BUILDING_BLOCKS,
+                    set.bulkData().planks().get(PlankBlockSubType.BLOCK).getBlock().get(), 8)
+                    .unlockedBy("has_logs", has(set.bulkData().logTags().getItemTag()))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_saw_"
+                            + setName + woodSuffix + "_into_" + setName + "_planks"));
+
+            // This is also probably OP.
+            // I still don't care :)
+            SingleItemRecipeBuilder.stonecutting(Ingredient.of(planks), RecipeCategory.BUILDING_BLOCKS,
+                    set.bulkData().planks().get(PlankBlockSubType.FENCE).getBlock().get(), 2)
+                    .unlockedBy("has_planks", has(planks))
+                    .save(consumer, RLUtility.makeRL(SpiroMod.MOD_ID, "spiro_saw_"
+                            + setName + "_planks_into_" + setName + "_fence"));
+        }
     }
 
     /**

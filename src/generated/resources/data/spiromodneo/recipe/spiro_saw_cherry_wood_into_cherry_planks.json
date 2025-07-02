@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "spiromodneo:cherry_logs"
+  },
+  "result": {
+    "count": 8,
+    "id": "minecraft:cherry_planks"
+  }
+}

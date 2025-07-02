@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "spiromodneo:acacia_logs"
+  },
+  "result": {
+    "count": 8,
+    "id": "minecraft:acacia_planks"
+  }
+}

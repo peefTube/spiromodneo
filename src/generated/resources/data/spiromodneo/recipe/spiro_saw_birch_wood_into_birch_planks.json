@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "spiromodneo:birch_logs"
+  },
+  "result": {
+    "count": 8,
+    "id": "minecraft:birch_planks"
+  }
+}

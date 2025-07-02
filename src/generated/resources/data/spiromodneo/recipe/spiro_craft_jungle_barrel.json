@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:jungle_planks"
+    },
+    "x": {
+      "item": "minecraft:jungle_slab"
+    }
+  },
+  "pattern": [
+    "XxX",
+    "X X",
+    "XxX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:jungle_barrel"
+  }
+}

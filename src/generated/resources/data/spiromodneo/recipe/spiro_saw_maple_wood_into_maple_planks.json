@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "spiromodneo:maple_logs"
+  },
+  "result": {
+    "count": 8,
+    "id": "spiromodneo:maple_planks"
+  }
+}

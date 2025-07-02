@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "spiromodneo:ashen_birch_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "spiromodneo:ashen_birch_planks"
+  }
+}

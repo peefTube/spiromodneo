@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "spiromodneo:dark_oak_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "minecraft:dark_oak_planks"
+  }
+}

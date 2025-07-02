@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:birch_planks"
+    },
+    "x": {
+      "item": "minecraft:birch_slab"
+    }
+  },
+  "pattern": [
+    "XxX",
+    "X X",
+    "XxX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:birch_barrel"
+  }
+}

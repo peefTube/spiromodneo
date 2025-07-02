@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "x": {
+      "item": "minecraft:dark_oak_slab"
+    }
+  },
+  "pattern": [
+    "XxX",
+    "X X",
+    "XxX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:dark_oak_barrel"
+  }
+}

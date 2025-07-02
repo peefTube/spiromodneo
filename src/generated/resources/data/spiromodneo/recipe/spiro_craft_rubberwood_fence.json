@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "I": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "spiromodneo:rubberwood_planks"
+    }
+  },
+  "pattern": [
+    "XIX",
+    "XIX"
+  ],
+  "result": {
+    "count": 6,
+    "id": "spiromodneo:rubberwood_fence"
+  }
+}

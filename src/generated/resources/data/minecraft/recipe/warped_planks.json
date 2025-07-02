@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "spiromodneo:warped_stems"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "minecraft:warped_planks"
+  }
+}

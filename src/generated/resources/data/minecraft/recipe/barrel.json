@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "minecraft:spruce_planks"
+    },
+    "x": {
+      "item": "minecraft:spruce_slab"
+    }
+  },
+  "pattern": [
+    "XxX",
+    "X X",
+    "XxX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:barrel"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "X": {
+      "item": "spiromodneo:rubberwood_planks"
+    }
+  },
+  "pattern": [
+    "XX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "spiromodneo:rubberwood_pressure_plate"
+  }
+}
