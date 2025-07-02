@@ -1,4 +1,4 @@
-package com.github.peeftube.spiromodneo.datagen.modules;
+package com.github.peeftube.spiromodneo.datagen.modules.models;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
@@ -13,17 +13,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.*;
 import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import static com.github.peeftube.spiromodneo.util.stone.StoneSetPresets.getPresets;
 
@@ -381,7 +378,7 @@ public class BlockstateDataProv extends BlockStateProvider
                                     getSideTex(blockTexture(b)), getBottomTex(blockTexture(b)),
                                     getTopTex(blockTexture(b)));
 
-                            BlockModelBuilder modelOpen = models().cubeBottomTop(name(b),
+                            BlockModelBuilder modelOpen = models().cubeBottomTop(name(b) + "_opened",
                                     getSideTex(blockTexture(b)), getBottomTex(blockTexture(b)),
                                     RLUtility.makeRL(getTopTex(blockTexture(b)).getPath() + "_open"));
 

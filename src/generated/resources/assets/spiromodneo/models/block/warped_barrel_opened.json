@@ -3,6 +3,6 @@
   "textures": {
     "bottom": "spiromodneo:block/warped_barrel_bottom",
     "side": "spiromodneo:block/warped_barrel_side",
-    "top": "spiromodneo:block/warped_barrel_top"
+    "top": "spiromodneo:block/warped_barrel_top_open"
   }
 }

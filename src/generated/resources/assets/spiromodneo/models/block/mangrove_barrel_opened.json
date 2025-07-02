@@ -3,6 +3,6 @@
   "textures": {
     "bottom": "spiromodneo:block/mangrove_barrel_bottom",
     "side": "spiromodneo:block/mangrove_barrel_side",
-    "top": "spiromodneo:block/mangrove_barrel_top"
+    "top": "spiromodneo:block/mangrove_barrel_top_open"
   }
 }

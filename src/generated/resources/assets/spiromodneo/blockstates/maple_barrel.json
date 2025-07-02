@@ -5,7 +5,7 @@
       "x": 180
     },
     "facing=down,open=true": {
-      "model": "spiromodneo:block/maple_barrel",
+      "model": "spiromodneo:block/maple_barrel_opened",
       "x": 180
     },
     "facing=east,open=false": {
@@ -14,7 +14,7 @@
       "y": 90
     },
     "facing=east,open=true": {
-      "model": "spiromodneo:block/maple_barrel",
+      "model": "spiromodneo:block/maple_barrel_opened",
       "x": 90,
       "y": 90
     },
@@ -23,7 +23,7 @@
       "x": 90
     },
     "facing=north,open=true": {
-      "model": "spiromodneo:block/maple_barrel",
+      "model": "spiromodneo:block/maple_barrel_opened",
       "x": 90
     },
     "facing=south,open=false": {
@@ -32,7 +32,7 @@
       "y": 180
     },
     "facing=south,open=true": {
-      "model": "spiromodneo:block/maple_barrel",
+      "model": "spiromodneo:block/maple_barrel_opened",
       "x": 90,
       "y": 180
     },
@@ -40,7 +40,7 @@
       "model": "spiromodneo:block/maple_barrel"
     },
     "facing=up,open=true": {
-      "model": "spiromodneo:block/maple_barrel"
+      "model": "spiromodneo:block/maple_barrel_opened"
     },
     "facing=west,open=false": {
       "model": "spiromodneo:block/maple_barrel",
@@ -48,7 +48,7 @@
       "y": 270
     },
     "facing=west,open=true": {
-      "model": "spiromodneo:block/maple_barrel",
+      "model": "spiromodneo:block/maple_barrel_opened",
       "x": 90,
       "y": 270
     }

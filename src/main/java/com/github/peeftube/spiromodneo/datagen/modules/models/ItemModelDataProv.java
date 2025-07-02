@@ -1,4 +1,4 @@
-package com.github.peeftube.spiromodneo.datagen.modules;
+package com.github.peeftube.spiromodneo.datagen.modules.models;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;

@@ -1,8 +1,8 @@
 package com.github.peeftube.spiromodneo.datagen;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
-import com.github.peeftube.spiromodneo.datagen.modules.BlockstateDataProv;
-import com.github.peeftube.spiromodneo.datagen.modules.ItemModelDataProv;
+import com.github.peeftube.spiromodneo.datagen.modules.models.BlockstateDataProv;
+import com.github.peeftube.spiromodneo.datagen.modules.models.ItemModelDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.lang.EN_USLangDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.loot.LootModDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.loot.LootTableDataProv;
@@ -12,16 +12,12 @@ import com.github.peeftube.spiromodneo.datagen.modules.tags.BlockTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.tags.ItemTagDataProv;
 import com.github.peeftube.spiromodneo.datagen.modules.world.CustomDataMapProv;
 import com.github.peeftube.spiromodneo.datagen.modules.world.WorldgenDataProv;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 
 import java.util.Set;
 
