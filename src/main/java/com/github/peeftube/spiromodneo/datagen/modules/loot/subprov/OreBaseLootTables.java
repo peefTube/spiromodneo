@@ -3,6 +3,7 @@ package com.github.peeftube.spiromodneo.datagen.modules.loot.subprov;
 import com.github.peeftube.spiromodneo.SpiroMod;
 import com.github.peeftube.spiromodneo.core.init.Registrar;
 import com.github.peeftube.spiromodneo.util.RLUtility;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
@@ -24,6 +25,9 @@ public class OreBaseLootTables implements LootTableSubProvider
             ResourceKey.create(Registries.LOOT_TABLE, RLUtility.makeRL("ore_drops_cobbled_deepslate"));
     public static final ResourceKey<LootTable> COBBLE_NETHERRACK =
             ResourceKey.create(Registries.LOOT_TABLE, RLUtility.makeRL("ore_drops_cobbled_netherrack"));
+
+    public OreBaseLootTables(HolderLookup.Provider reg)
+    { super(); }
 
     @Override
     public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer)

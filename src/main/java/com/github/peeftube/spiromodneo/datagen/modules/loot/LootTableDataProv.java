@@ -1,6 +1,7 @@
 package com.github.peeftube.spiromodneo.datagen.modules.loot;
 
 import com.github.peeftube.spiromodneo.datagen.modules.loot.subprov.BlockLootTables;
+import com.github.peeftube.spiromodneo.datagen.modules.loot.subprov.OreBaseLootTables;
 import com.github.peeftube.spiromodneo.datagen.modules.loot.subprov.OtherLootTables;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -17,6 +18,8 @@ public class LootTableDataProv extends LootTableProvider
     {
         super(output, Set.of(), List.of(new LootTableProvider
                 .SubProviderEntry(BlockLootTables::new, LootContextParamSets.BLOCK),
+                                        new LootTableProvider
+                .SubProviderEntry(OreBaseLootTables::new, LootContextParamSets.ALL_PARAMS),
                                         new LootTableProvider
                 .SubProviderEntry(OtherLootTables::new, LootContextParamSets.ALL_PARAMS)), reg);
     }
