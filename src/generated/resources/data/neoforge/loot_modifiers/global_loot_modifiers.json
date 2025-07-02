@@ -27,7 +27,25 @@
     "spiromodneo:modify_basalt_drops",
     "spiromodneo:modify_netherrack_drops",
     "spiromodneo:modify_tuff_drops",
-    "spiromodneo:modify_endstone_drops"
+    "spiromodneo:modify_endstone_drops",
+    "spiromodneo:modify_coal_drops_for_stone",
+    "spiromodneo:modify_coal_drops_for_deepslate",
+    "spiromodneo:modify_iron_drops_for_stone",
+    "spiromodneo:modify_iron_drops_for_deepslate",
+    "spiromodneo:modify_copper_drops_for_stone",
+    "spiromodneo:modify_copper_drops_for_deepslate",
+    "spiromodneo:modify_gold_drops_for_stone",
+    "spiromodneo:modify_gold_drops_for_deepslate",
+    "spiromodneo:modify_gold_drops_for_netherrack",
+    "spiromodneo:modify_lapis_drops_for_stone",
+    "spiromodneo:modify_lapis_drops_for_deepslate",
+    "spiromodneo:modify_redstone_drops_for_stone",
+    "spiromodneo:modify_redstone_drops_for_deepslate",
+    "spiromodneo:modify_diamond_drops_for_stone",
+    "spiromodneo:modify_diamond_drops_for_deepslate",
+    "spiromodneo:modify_emerald_drops_for_stone",
+    "spiromodneo:modify_emerald_drops_for_deepslate",
+    "spiromodneo:modify_quartz_drops_for_netherrack"
   ],
   "replace": false
 }

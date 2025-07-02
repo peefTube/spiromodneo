@@ -1,9 +1,13 @@
 package com.github.peeftube.spiromodneo.datagen.modules.loot;
 
 import com.github.peeftube.spiromodneo.SpiroMod;
+import com.github.peeftube.spiromodneo.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodneo.core.init.registry.data.StoneCollection;
+import com.github.peeftube.spiromodneo.core.init.registry.data.StoneMaterial;
+import com.github.peeftube.spiromodneo.datagen.modules.loot.subprov.OreBaseLootTables;
 import com.github.peeftube.spiromodneo.datagen.modules.loot.subprov.OtherLootTables;
 import com.github.peeftube.spiromodneo.util.loot.SwapLootStackModifier;
+import com.github.peeftube.spiromodneo.util.ore.BaseStone;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,6 +16,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -34,6 +39,26 @@ public class LootModDataProv extends GlobalLootModifierProvider
     {
         mobDrops();
         for (StoneCollection stone : StoneCollection.STONE_COLLECTIONS) { baseStoneDrops(stone); }
+        for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreDrops(ore); }
+    }
+
+    private void oreDrops(OreCollection set)
+    {
+        for (StoneMaterial s : StoneMaterial.values())
+        {
+            Block o = set.getBulkData().get(s).getBlock().get();
+            if (BuiltInRegistries.BLOCK.getKey(o).getNamespace().equalsIgnoreCase("minecraft")
+            && (s == StoneMaterial.STONE || s == StoneMaterial.DEEPSLATE || s == StoneMaterial.NETHERRACK))
+            {
+                this.add("modify_" + set.material().get() + "_drops_for_" + s.get(),
+                        new AddTableLootModifier(new LootItemCondition[]{
+                                new LootTableIdCondition.Builder(BuiltInRegistries.BLOCK.getKey(o)).build(),
+                                new InvertedLootItemCondition(this.hasSilkTouch().build())
+                        }, s == StoneMaterial.STONE ? OreBaseLootTables.COBBLE :
+                        s == StoneMaterial.DEEPSLATE ? OreBaseLootTables.COBBLE_DEEPSLATE :
+                        OreBaseLootTables.COBBLE_NETHERRACK));
+            }
+        }
     }
 
     private void baseStoneDrops(StoneCollection set)

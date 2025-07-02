@@ -1,0 +1,28 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:emerald_ore"
+    },
+    {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "minecraft:match_tool",
+        "predicate": {
+          "predicates": {
+            "minecraft:enchantments": [
+              {
+                "enchantments": "minecraft:silk_touch",
+                "levels": {
+                  "min": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "table": "spiromodneo:ore_drops_cobble"
+}
