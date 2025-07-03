@@ -3,7 +3,7 @@
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:lapis_ore"
+      "loot_table_id": "minecraft:blocks/lapis_ore"
     },
     {
       "condition": "minecraft:inverted",

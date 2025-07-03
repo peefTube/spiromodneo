@@ -52,7 +52,9 @@ public class LootModDataProv extends GlobalLootModifierProvider
             {
                 this.add("modify_" + set.material().get() + "_drops_for_" + s.get(),
                         new AddTableLootModifier(new LootItemCondition[]{
-                                new LootTableIdCondition.Builder(BuiltInRegistries.BLOCK.getKey(o)).build(),
+                                new LootTableIdCondition.Builder(
+                                        ResourceLocation.withDefaultNamespace("blocks/" +
+                                                BuiltInRegistries.BLOCK.getKey(o).getPath())).build(),
                                 new InvertedLootItemCondition(this.hasSilkTouch().build())
                         }, s == StoneMaterial.STONE ? OreBaseLootTables.COBBLE :
                         s == StoneMaterial.DEEPSLATE ? OreBaseLootTables.COBBLE_DEEPSLATE :
